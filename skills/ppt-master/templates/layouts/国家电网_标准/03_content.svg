@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="1280" height="720" viewBox="0 0 1280 720">
+  <!-- Page background: white -->
+  <rect x="0" y="0" width="1280" height="720" fill="#FFFFFF"/>
+
+  <!-- Header bar: deep navy -->
+  <rect x="0" y="0" width="1280" height="80" fill="#1A2B52"/>
+
+  <!-- Left accent bar on header -->
+  <rect x="0" y="0" width="6" height="80" fill="#4874CB"/>
+
+  <!-- Page title in header -->
+  <text x="32" y="52" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="26" font-weight="bold" fill="#FFFFFF" letter-spacing="1">{{PAGE_TITLE}}</text>
+
+  <!-- Brand emblem top-right -->
+  <image x="1147" y="17" width="117" height="45" xlink:href="./brand_emblem.png" preserveAspectRatio="xMidYMid meet"/>
+
+  <!-- Section name bar: blue gradient overlay -->
+  <image x="0" y="80" width="1280" height="60" xlink:href="./content_header_overlay.png" preserveAspectRatio="xMidYMid slice"/>
+  <!-- Section bar text overlay for legibility -->
+  <rect x="0" y="80" width="1280" height="60" fill="#1A2B52" fill-opacity="0.55"/>
+
+  <!-- Left section indicator triangle/accent -->
+  <polygon points="6,80 6,140 20,110" fill="#4874CB"/>
+
+  <!-- Section name -->
+  <text x="32" y="118" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="18" font-weight="bold" fill="#FFFFFF" letter-spacing="1">{{SECTION_NAME}}</text>
+
+  <!-- Content area: white rounded rectangle -->
+  <rect x="32" y="152" width="1216" height="528" fill="#FFFFFF" rx="4" ry="4" stroke="#E8EDF5" stroke-width="1"/>
+
+  <!-- Content area placeholder text -->
+  <text x="640" y="430" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="16" fill="#C0CDD8" text-anchor="middle">{{CONTENT_AREA}}</text>
+
+  <!-- Footer: page number -->
+  <text x="1240" y="710" font-family="Calibri, Arial, sans-serif" font-size="14" fill="#8A9BB0" text-anchor="end">{{PAGE_NUM}}</text>
+
+  <!-- Footer accent line -->
+  <rect x="32" y="700" width="1200" height="1" fill="#D0D7E8"/>
+</svg>

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="1280" height="720" viewBox="0 0 1280 720">
+  <!-- Ending background: same dark atmospheric image as cover -->
+  <image x="0" y="0" width="1280" height="720" xlink:href="./cover_bg.jpg" preserveAspectRatio="xMidYMid slice"/>
+
+  <!-- Dark overlay -->
+  <rect x="0" y="0" width="1280" height="720" fill="#0F1423" fill-opacity="0.50"/>
+
+  <!-- Left accent bar -->
+  <rect x="0" y="0" width="6" height="720" fill="#4874CB"/>
+
+  <!-- Brand logo top-left -->
+  <image x="79" y="57" width="170" height="57" xlink:href="./brand_logo.png" preserveAspectRatio="xMinYMid meet"/>
+
+  <!-- Decorative horizontal band (center area) -->
+  <rect x="76" y="295" width="640" height="3" fill="#4874CB" fill-opacity="0.6"/>
+
+  <!-- Thank-you main message -->
+  <text x="76" y="370" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="52" font-weight="bold" fill="#FFFFFF" letter-spacing="4">{{THANK_YOU}}</text>
+
+  <!-- Decorative line below thank-you -->
+  <rect x="76" y="395" width="400" height="2" fill="#4874CB" fill-opacity="0.5"/>
+
+  <!-- Contact info / closing message -->
+  <text x="76" y="450" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="18" fill="#B0C4DE" letter-spacing="1">{{CONTACT_INFO}}</text>
+
+  <!-- Bottom-right decorative pattern lines -->
+  <rect x="900" y="600" width="320" height="2" fill="#4874CB" fill-opacity="0.4"/>
+  <rect x="940" y="615" width="280" height="2" fill="#4874CB" fill-opacity="0.3"/>
+  <rect x="980" y="630" width="240" height="2" fill="#4874CB" fill-opacity="0.2"/>
+</svg>
