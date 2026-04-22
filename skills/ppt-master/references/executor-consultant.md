@@ -110,6 +110,8 @@ Insight area: x=780, y=120, w=460, h=480
   - Data source (12px, gray)
 ```
 
+> When `page_rhythm = breathing`, this standard layout can legitimately degenerate to **chart-dominant (2:8)**: one large chart carrying the page, one sentence of takeaway — the rhythm rule is then satisfied without adding patterns foreign to consulting style. See `executor-base.md §2.1` for the universal rhythm discipline.
+
 ---
 
 ## Professional Expression Standards

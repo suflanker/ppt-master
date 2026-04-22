@@ -1,17 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="1280" height="720" viewBox="0 0 1280 720">
-  <!-- Chapter background: full-bleed dark image (same as cover) -->
+  <!-- Chapter page: same green cover background -->
   <image x="0" y="0" width="1280" height="720" xlink:href="./cover_bg.jpg" preserveAspectRatio="xMidYMid slice"/>
 
-  <!-- Brand logo top-left -->
-  <image x="79" y="57" width="170" height="57" xlink:href="./brand_logo.png" preserveAspectRatio="xMinYMid meet"/>
+  <!-- Brand logo top-left — matches cover page position -->
+  <image x="79" y="58" width="170" height="56" xlink:href="./brand_logo.png" preserveAspectRatio="xMinYMid meet"/>
 
+  <!-- Chapter number: large, light green accent -->
+  <text x="76" y="310" font-family="Calibri, Arial, sans-serif" font-size="72" font-weight="bold" fill="#75BD42" fill-opacity="0.9" letter-spacing="2">{{CHAPTER_NUM}}</text>
 
-  <!-- Chapter number label -->
-  <text x="76" y="310" font-family="Calibri, Arial, sans-serif" font-size="56" font-weight="bold"
-    fill="#FFFFFF" letter-spacing="2">{{CHAPTER_NUM}}</text>
+  <!-- Chapter title: white bold -->
+  <text x="76" y="400" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="36" font-weight="bold" fill="#FFFFFF" letter-spacing="2">{{CHAPTER_TITLE}}</text>
 
-  <!-- Chapter title -->
-  <text x="76" y="390" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="36" font-weight="bold" fill="#FFFFFF" letter-spacing="2">{{CHAPTER_TITLE}}</text>
+  <!-- Chapter description (optional): white smaller text -->
+  <text x="76" y="454" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="20" fill="#FFFFFF" fill-opacity="0.85">{{CHAPTER_DESC}}</text>
 
- 
 </svg>

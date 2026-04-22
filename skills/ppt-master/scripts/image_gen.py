@@ -5,18 +5,19 @@ Unified Image Generation Tool
 Dispatches to the appropriate backend based on explicit provider configuration.
 
 Backend selection (`IMAGE_BACKEND` in `.env` or the current process environment):
-  IMAGE_BACKEND=gemini     -> Gemini backend (google-genai SDK)
-  IMAGE_BACKEND=openai     -> OpenAI-compatible backend (openai SDK)
-  IMAGE_BACKEND=minimax    -> MiniMax image backend
-  IMAGE_BACKEND=stability  -> Stability AI backend
-  IMAGE_BACKEND=bfl        -> Black Forest Labs FLUX backend
-  IMAGE_BACKEND=ideogram   -> Ideogram backend
-  IMAGE_BACKEND=qwen       -> Alibaba Qwen image backend
-  IMAGE_BACKEND=zhipu      -> Zhipu GLM-Image backend
-  IMAGE_BACKEND=volcengine -> Volcengine Seedream backend
+  IMAGE_BACKEND=gemini      -> Gemini backend (google-genai SDK)
+  IMAGE_BACKEND=openai      -> OpenAI-compatible backend (openai SDK)
+  IMAGE_BACKEND=minimax     -> MiniMax image backend
+  IMAGE_BACKEND=stability   -> Stability AI backend
+  IMAGE_BACKEND=bfl         -> Black Forest Labs FLUX backend
+  IMAGE_BACKEND=ideogram    -> Ideogram backend
+  IMAGE_BACKEND=qwen        -> Alibaba Qwen image backend
+  IMAGE_BACKEND=zhipu       -> Zhipu GLM-Image backend
+  IMAGE_BACKEND=volcengine  -> Volcengine Seedream backend
   IMAGE_BACKEND=siliconflow -> SiliconFlow backend
-  IMAGE_BACKEND=fal        -> fal.ai backend
-  IMAGE_BACKEND=replicate  -> Replicate backend
+  IMAGE_BACKEND=fal         -> fal.ai backend
+  IMAGE_BACKEND=replicate   -> Replicate backend
+  IMAGE_BACKEND=openrouter  -> OpenRouter backend
 
 Configuration source:
   1. Current process environment variables
@@ -59,6 +60,7 @@ IMAGE_ENV_PREFIXES = (
     "SILICONFLOW_",
     "FAL_",
     "REPLICATE_",
+    "OPENROUTER_",
 )
 DEPRECATED_IMAGE_KEYS = {
     "IMAGE_API_KEY",
@@ -171,6 +173,13 @@ BACKEND_REGISTRY = {
         "default_model": "black-forest-labs/flux-1.1-pro",
         "key_hint": "REPLICATE_API_TOKEN / REPLICATE_API_KEY",
     },
+    "openrouter": {
+        "module": "backend_openrouter",
+        "tier": "experimental",
+        "label": "OpenRouter",
+        "default_model": "google/gemini-3.1-flash-image-preview",
+        "key_hint": "OPENROUTER_API_KEY",
+    },
 }
 
 TIER_ORDER = {"core": 0, "extended": 1, "experimental": 2}
@@ -267,10 +276,26 @@ def _build_backend_aliases() -> dict[str, str]:
 BACKEND_ALIASES = _build_backend_aliases()
 
 
+_BACKEND_PIP_HINTS = {
+    "gemini": "google-genai",
+    "openai": "openai",
+}
+
+
 def _load_backend(canonical_name: str) -> tuple[object, str]:
     """Import and return the configured backend module."""
     module_name = f"image_backends.{BACKEND_REGISTRY[canonical_name]['module']}"
-    module = __import__(module_name, fromlist=["*"])
+    try:
+        module = __import__(module_name, fromlist=["*"])
+    except ImportError as exc:
+        pip_name = _BACKEND_PIP_HINTS.get(canonical_name, exc.name or "<dependency>")
+        print(
+            f"Error: backend '{canonical_name}' needs a package that is not installed.\n"
+            f"Missing: {exc.name}\n"
+            f"Run: pip install {pip_name}",
+            file=sys.stderr,
+        )
+        sys.exit(1)
     return module, canonical_name
 
 

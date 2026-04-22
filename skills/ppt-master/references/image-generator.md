@@ -83,6 +83,12 @@ Every image must be output in the following format:
 | General Versatile | Modern illustration, flat design | `modern`, `flat design`, `gradient`, `vibrant colors` |
 | General Consulting | Clean professional, corporate | `professional`, `clean`, `corporate`, `minimalist` |
 | Top Consulting | Premium minimal, abstract geometric | `premium`, `sophisticated`, `geometric`, `abstract`, `elegant` |
+| Technology / SaaS | Futuristic, digital | `futuristic`, `digital`, `tech grid`, `circuit pattern`, `neon accents`, `dark background` |
+| Education / Training | Friendly, instructional | `friendly`, `instructional`, `whiteboard style`, `pastel colors`, `simple shapes` |
+| Marketing / Branding | Bold, energetic | `bold`, `energetic`, `dynamic composition`, `vivid colors`, `action-oriented` |
+| Healthcare / Medical | Clean, reassuring | `clean`, `clinical`, `soft blue-green palette`, `organic curves`, `reassuring` |
+| Finance / Banking | Conservative, trustworthy | `conservative`, `trustworthy`, `blue-gray palette`, `structured`, `precise` |
+| Creative / Design | Artistic, experimental | `artistic`, `experimental`, `asymmetric`, `textured`, `hand-crafted feel` |
 
 ### 2.4 Color Integration Method
 
@@ -107,6 +113,26 @@ Full directive: "color palette: deep navy blue (#1E3A5F), light gray (#F8F9FA), 
 | Story | 9:16 | 1080x1920 |
 
 > Supported aspect ratios: `1:1`, `2:3`, `3:2`, `3:4`, `4:3`, `4:5`, `5:4`, `9:16`, `16:9`, `21:9` (Gemini also supports `1:4`, `1:8`, `4:1`, `8:1`)
+
+### 2.6 Multi-Image Coherence Strategy
+
+When generating multiple images for a single deck, visual coherence is critical. Use a **Deck Style Anchor** — a shared prefix of 15-25 words prepended to every image prompt.
+
+**Construction**: Combine style keywords (Section 2.3) + color directive (Section 2.4) + quality directive into one reusable prefix.
+
+**Example**:
+```
+Deck Style Anchor:
+"modern flat design illustration, color palette: deep navy (#1E3A5F), light gray (#F8F9FA), gold accent (#D4AF37), clean minimalist, high quality, 4K"
+
+Image 1 prompt: [Deck Style Anchor], abstract technology network showing connected nodes...
+Image 2 prompt: [Deck Style Anchor], team of professionals collaborating at a desk...
+Image 3 prompt: [Deck Style Anchor], growth chart with upward trending line...
+```
+
+**Exception**: Background images may replace style keywords with `background`, `backdrop`, `negative space for text overlay` while keeping the same color directive. This ensures color consistency without compromising background functionality.
+
+**Rule**: Define the Deck Style Anchor once in the prompt document header (Section 5), then reference it in every individual prompt.
 
 ---
 
@@ -239,7 +265,7 @@ python3 scripts/image_gen.py "your prompt" \
 | `--image_size` | - | Size (`1K`/`2K`/`4K`) | `1K` |
 | `--output` | `-o` | Output directory | Current directory |
 | `--filename` | `-f` | Output filename (no extension) | Auto-named |
-| `--backend` | `-b` | Override backend (`gemini`/`openai`/`stability`/`bfl`/`ideogram`/`qwen`/`zhipu`/`volcengine`/`siliconflow`/`fal`/`replicate`) | None |
+| `--backend` | `-b` | Override backend (see `--list-backends` for options) | None |
 | `--model` | `-m` | Model name | Backend default |
 | `--list-backends` | - | Print support tiers and exit | `false` |
 
@@ -253,21 +279,18 @@ Precedence:
 
 | Variable | Required | Description |
 |----------|----------|-------------|
-| `IMAGE_BACKEND` | Required | `gemini` / `openai` / `stability` / `bfl` / `ideogram` / `qwen` / `zhipu` / `volcengine` / `siliconflow` / `fal` / `replicate` |
+| `IMAGE_BACKEND` | Required | Backend identifier; run `image_gen.py --list-backends` for the current set |
 | `{PROVIDER}_API_KEY` | Required | Provider-specific API key, e.g. `GEMINI_API_KEY`, `ZHIPU_API_KEY` |
 | `{PROVIDER}_BASE_URL` | Optional | Provider-specific custom endpoint |
 | `{PROVIDER}_MODEL` | Optional | Provider-specific model override |
 
-> Use provider-specific names only: `GEMINI_API_KEY`, `OPENAI_API_KEY`, `STABILITY_API_KEY`, `BFL_API_KEY`, `IDEOGRAM_API_KEY`, `QWEN_API_KEY` / `DASHSCOPE_API_KEY`, `ZHIPU_API_KEY` / `BIGMODEL_API_KEY`, `VOLCENGINE_API_KEY` / `ARK_API_KEY`, `SILICONFLOW_API_KEY`, `FAL_KEY`, and `REPLICATE_API_TOKEN`.
+> Use provider-specific names only (e.g. `GEMINI_API_KEY`, `OPENAI_API_KEY`). See `.env.example` for the full set per backend.
 
 > `IMAGE_API_KEY`, `IMAGE_MODEL`, and `IMAGE_BASE_URL` are intentionally unsupported.
 
 > If `.env` or the current environment contains multiple provider configs, `IMAGE_BACKEND` explicitly selects the active one.
 
-**Support tiers (recommended usage)**:
-- Core: `gemini`, `openai`, `qwen`, `zhipu`, `volcengine`
-- Extended: `stability`, `bfl`, `ideogram`
-- Experimental: `siliconflow`, `fal`, `replicate`
+**Support tiers (recommended usage)**: Core / Extended / Experimental. Run `image_gen.py --list-backends` for the current assignments.
 
 **Generation pacing (mandatory)**:
 - Execute only one generation command at a time; wait for file confirmation before the next
@@ -380,7 +403,21 @@ Abstract futuristic background with flowing digital waves...
 
 ### When Images Are Unsatisfactory
 
-Provide prompt variants for user selection: Variant A (more abstract), Variant B (more concrete), Variant C (different color tone).
+Diagnose the problem category and apply a targeted prompt fix:
+
+| Problem | Diagnosis | Prompt Adjustment |
+|---------|-----------|-------------------|
+| Wrong style | Image looks photorealistic when flat design was intended | Change style directive: replace `photography` with `flat design illustration` |
+| Wrong colors | Colors don't match the design spec palette | Strengthen color directive: add explicit HEX codes, repeat color names |
+| Wrong composition | Subject is off-center or layout doesn't fit the slide | Adjust composition directive: add `centered composition`, `rule of thirds`, or `wide negative space on left` |
+| Wrong subject | Image depicts something different from what was described | Rewrite subject description with more specificity and concrete details |
+| Low quality | Image is blurry, has artifacts, or lacks detail | Add `highly detailed, sharp focus, professional quality, 8K resolution` |
+
+**Variant workflow**:
+1. Keep the original prompt as "Variant A" in `image_prompts.md`
+2. Create modified prompt as "Variant B" with targeted fixes from the table above
+3. If needed, create "Variant C" with a different stylistic approach
+4. Label all variants clearly so the user can compare results
 
 ---
 

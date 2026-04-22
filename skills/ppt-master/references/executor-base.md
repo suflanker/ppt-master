@@ -38,6 +38,41 @@ Must output confirmation including: canvas dimensions, body font size, color sch
 
 **Why is this step mandatory?** Prevents the "spec says one thing, execution does another" disconnect.
 
+### 2.1 Per-page spec_lock re-read (Mandatory)
+
+> Long decks + streaming generation = attention drift and context compression. By mid-deck, the Executor has often drifted off the color palette or icon inventory declared in `design_spec.md`. `spec_lock.md` is the short form of those decisions and is the Executor's **canonical execution reference** during generation.
+
+**Hard rule**: Before generating **each** SVG page, `read_file <project_path>/spec_lock.md`. Use the values from this file — not values you remember from earlier in the conversation. If the context was auto-compacted, `read_file <project_path>/design_spec.md` too (for the current page's §IX brief).
+
+**If `spec_lock.md` is missing**: Before generating each page, emit the literal line `warning: spec_lock.md missing — generating without execution lock` and proceed using `design_spec.md` narrative values. Do not silently skip. A missing lock is expected only for legacy projects predating this feature; for new projects the Strategist MUST produce it (see [strategist.md](strategist.md) §6, step 4).
+
+**Forbidden — values outside the lock**:
+
+- Color values (fill / stroke / stop-color) MUST come from `colors` in `spec_lock.md`
+- Icons MUST come from the `icons.inventory` list; icon library MUST equal `icons.library`
+- Font family MUST equal `typography.font_family`; font sizes MUST match one of `typography.*` values
+- Images MUST reference files listed under `images`; no invented filenames
+
+If a page genuinely needs a value not in `spec_lock.md`, stop and surface it — do not silently invent one. Either request the user to extend the lock, or revise the page to stay within it.
+
+**Per-page layout rhythm — `page_rhythm` section**:
+
+Before drawing each page, look up its entry in `page_rhythm` (key format `P<NN>` matching the page index in §IX of `design_spec.md`) and apply the corresponding layout discipline:
+
+| Tag | Layout discipline |
+|-----|-------------------|
+| `anchor` | Structural page (cover / chapter / TOC / ending). Follow the matching template verbatim. |
+| `dense` | Information-heavy. Card grids, multi-column layouts, KPI dashboards, tables, and charts are all permitted. This is the baseline behavior. |
+| `breathing` | Low-density impact page. Avoid **multi-card grid layouts** — do not organize content as multiple parallel rounded containers (3-card row, 4-card KPI grid, 2×2 matrix rendered as cards). Use naked text blocks, dividers, whitespace, or full-bleed imagery as the content structure. Single rounded visual elements (hero image corners, callouts, tags, one emphasis block) are fine — the rule is about grid structure, not about the `rx` attribute. Proportions follow information weight (not a preset ratio). Typical forms: hero quote, single large number with one-line interpretation, full-bleed image with floating caption, section transition. |
+
+**Why this matters**: Without rhythm variation, long decks default to "every page is a card grid" — the AI-generated look. The `page_rhythm` tag is the only lever that survives context compression (since Executor re-reads `spec_lock.md` per page); narrative guidance buried in `design_spec.md` does not.
+
+**Missing `page_rhythm` section** → fall back to `dense` for every page (pre-rhythm behavior). Emit the literal line `warning: spec_lock.md missing page_rhythm — defaulting all pages to dense` once, then proceed.
+
+**Tag not found for current page** → fall back to `dense` silently. Do not invent a tag.
+
+**Rationale**: Tool-result re-reads bypass model memory (which compression can corrupt). Every page gets a fresh ground truth pinned to the most recent turn in context.
+
 ---
 
 ## 3. Execution Guidelines

@@ -1,6 +1,8 @@
 # {project_name} - Design Spec
 
-> This document is the unified handoff artifact for design definition and execution constraints. It combines visual specifications, content outline, speaker-notes requirements, and implementation boundaries needed by downstream roles.
+> This document is the human-readable design narrative — rationale, audience, style, color choices, content outline. It is read once by downstream roles for context.
+>
+> The machine-readable execution contract lives in `spec_lock.md` (short form of color / typography / icon / image decisions). Executor re-reads `spec_lock.md` before every SVG page to resist context-compression drift. Keep the two files in sync; if they diverge, `spec_lock.md` wins.
 
 ## I. Project Information
 
@@ -122,31 +124,53 @@
 - **Content area**: [Height and content description]
 - **Footer area**: [Height and content description]
 
-### Common Layout Modes
+### Layout Pattern Library (combine or break as content demands)
 
-| Mode | Suitable Scenarios |
-| ---- | ----------------- |
+> **Principle — proportion follows information weight, not preset ratios.** The table below is a **pattern library**, not a menu. Executor may combine two patterns on one page, break the grid entirely for a `breathing` page, or propose a pattern not listed here when the content calls for it. Defaulting every page to a symmetric grid is what produces the "AI-generated" look — vary intentionally.
+
+| Pattern | Suitable Scenarios |
+| ------- | ----------------- |
 | **Single column centered** | Covers, conclusions, key points |
-| **Left-right split (5:5)** | Comparisons, dual concepts |
-| **Left-right split (4:6)** | Image-text mix |
-| **Top-bottom split** | Processes, timelines |
-| **Three/four column cards** | Feature lists, team introductions |
-| **Matrix grid** | Comparative analysis, classifications |
+| **Symmetric split (5:5)** | Comparisons where two sides carry equal weight |
+| **Asymmetric split (3:7 / 2:8)** | One side dominates — data chart vs. brief takeaway, image vs. caption |
+| **Top-bottom split** | Processes, timelines, ultra-wide image + text |
+| **Three/four column cards** | Feature lists, parallel points, team intros |
+| **Matrix grid (2×2)** | Two-axis classifications, strategic quadrants |
+| **Z-pattern / waterfall** | Storytelling, case studies — content blocks alternate left/right guiding the eye |
+| **Center-radiating** | Core concept + surrounding nodes, ecosystem / stakeholder maps |
+| **Full-bleed + floating text** | `breathing` / feature pages — image fills canvas, text floats with opacity overlay |
+| **Figure-text overlap** | Hero moments — headline / big number sits over or against an image edge instead of beside it |
+| **Negative-space-driven** | A single element in 40-60% whitespace — lets one idea land with weight |
 
 ### Spacing Specification
 
-> Strategist may adjust based on project needs
+> Spacing defaults depend on **container type**. Cards are one option, not the universal default. The tables below split by container type; a page may use only one set (e.g., a `breathing` page with no cards only consults the universal and non-card entries).
+
+**Universal** (any container type):
+
+| Element | Recommended Range | Current Project |
+| ------- | ---------------- | --------------- |
+| Safe margin from canvas edge | 40-60px | [fill in] |
+| Content block gap | 24-40px | [fill in] |
+| Icon-text gap | 8-16px | [fill in] |
+
+**Card-based layouts** (consult only when the page uses cards — typically `dense` pages with parallel containers):
 
 | Element | Recommended Range | Current Project |
 | ------- | ---------------- | --------------- |
 | Card gap | 20-32px | [fill in] |
-| Content block gap | 24-40px | [fill in] |
 | Card padding | 20-32px | [fill in] |
 | Card border radius | 8-16px | [fill in] |
-| Icon-text gap | 8-16px | [fill in] |
 | Single-row card height | 530-600px | [fill in] |
 | Double-row card height | 265-295px each | [fill in] |
 | Three-column card width | 360-380px each | [fill in] |
+
+**Non-card containers** (naked text blocks / full-bleed imagery / divider-separated content — typical for `breathing` pages or minimalist designs):
+
+- Block-to-block vertical rhythm is carried by **whitespace**, not gutters — block gaps tend to run wider than card gaps since there is no container edge to help separate content.
+- **Line-height (leading)**: 1.4-1.6× body font size — standard typographic convention.
+- **Full-bleed text placement**: inset text away from the image's visual focal points; legibility over photographic backgrounds typically requires a gradient or opacity overlay layer.
+- **Content width** is driven by reading comfort and image composition, not by a card grid slot — avoid back-computing "column width" when there is no column.
 
 ---
 
@@ -210,7 +234,7 @@
 
 #### Slide 02 - [Page Name]
 
-- **Layout**: [Choose layout mode]
+- **Layout**: [Choose a pattern from §V, combine two, or break the grid as the content demands]
 - **Title**: [Page title]
 - **Visualization**: [visualization_type] (see VII. Visualization Reference List)
 - **Content**:

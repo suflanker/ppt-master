@@ -1,50 +1,60 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="1280" height="720" viewBox="0 0 1280 720">
-  <!-- White background -->
-  <rect x="0" y="0" width="1280" height="720" fill="#FFFFFF"/>
+  <defs>
+    <clipPath id="clip_item1"><rect x="500" y="83" width="740" height="86" rx="8" ry="8"/></clipPath>
+    <clipPath id="clip_item2"><rect x="500" y="183" width="740" height="86" rx="8" ry="8"/></clipPath>
+    <clipPath id="clip_item3"><rect x="500" y="283" width="740" height="86" rx="8" ry="8"/></clipPath>
+    <clipPath id="clip_item4"><rect x="500" y="383" width="740" height="86" rx="8" ry="8"/></clipPath>
+    <clipPath id="clip_item5"><rect x="500" y="483" width="740" height="86" rx="8" ry="8"/></clipPath>
+    <clipPath id="clip_item6"><rect x="500" y="583" width="740" height="86" rx="8" ry="8"/></clipPath>
+  </defs>
 
-  <!-- Left sidebar background: toc photo -->
-  <image x="0" y="0" width="1280" height="720" xlink:href="./toc_bg.png"
-    preserveAspectRatio="xMidYMid slice" />
+  <!-- Full background: includes dark left sidebar with "目录/CONTENTS" text baked in -->
+  <image x="0" y="0" width="1280" height="720" xlink:href="./toc_bg.png" preserveAspectRatio="xMidYMid slice"/>
 
+  <!-- TOC Item 1 -->
+  <image x="500" y="83" width="500" height="86" xlink:href="./toc_item_bg.png"
+    preserveAspectRatio="none" clip-path="url(#clip_item1)" />
+  <rect x="500" y="83" width="8" height="86" fill="#249087" rx="2"/>
+  <text x="524" y="119" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="13" fill="#249087" font-weight="bold">01</text>
+  <text x="524" y="146" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="21" font-weight="bold" fill="#1a3a38">{{TOC_ITEM_1_TITLE}}</text>
 
-  <!-- Right content area: TOC items -->
+  <!-- TOC Item 2 -->
+  <image x="500" y="183" width="500" height="86" xlink:href="./toc_item_bg.png"
+    preserveAspectRatio="none" clip-path="url(#clip_item2)" />
 
+  <rect x="500" y="183" width="8" height="86" fill="#249087" rx="2"/>
+  <text x="524" y="219" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="13" fill="#249087" font-weight="bold">02</text>
+  <text x="524" y="246" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="21" font-weight="bold" fill="#1a3a38">{{TOC_ITEM_2_TITLE}}</text>
 
-  <!-- TOC item 1 -->
-  <rect x="380" y="80" width="900" height="1" fill="#D0D7E8"/>
-  <rect x="410" y="107" width="4" height="44" fill="#249087" rx="2"/>
-  <text x="430" y="123" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="13" fill="#249087">01</text>
-  <text x="430" y="143" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="18" font-weight="bold" fill="#1A1A2E">{{TOC_ITEM_1_TITLE}}</text>
-  <rect x="410" y="158" width="850" height="1" fill="#D0D7E8" fill-opacity="0.6"/>
+  <!-- TOC Item 3 -->
+  <image x="500" y="283" width="500" height="86" xlink:href="./toc_item_bg.png"
+    preserveAspectRatio="none" clip-path="url(#clip_item3)" />
 
-  <!-- TOC item 2 -->
-  <rect x="410" y="172" width="4" height="44" fill="#249087" rx="2"/>
-  <text x="430" y="188" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="13" fill="#249087">02</text>
-  <text x="430" y="208" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="18" font-weight="bold" fill="#1A1A2E">{{TOC_ITEM_2_TITLE}}</text>
-  <rect x="410" y="223" width="850" height="1" fill="#D0D7E8" fill-opacity="0.6"/>
+  <rect x="500" y="283" width="8" height="86" fill="#249087" rx="2"/>
+  <text x="524" y="319" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="13" fill="#249087" font-weight="bold">03</text>
+  <text x="524" y="346" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="21" font-weight="bold" fill="#1a3a38">{{TOC_ITEM_3_TITLE}}</text>
 
-  <!-- TOC item 3 -->
-  <rect x="410" y="237" width="4" height="44" fill="#249087" rx="2"/>
-  <text x="430" y="253" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="13" fill="#249087">03</text>
-  <text x="430" y="273" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="18" font-weight="bold" fill="#1A1A2E">{{TOC_ITEM_3_TITLE}}</text>
-  <rect x="410" y="288" width="850" height="1" fill="#D0D7E8" fill-opacity="0.6"/>
+  <!-- TOC Item 4 -->
+  <image x="500" y="383" width="500" height="86" xlink:href="./toc_item_bg.png"
+    preserveAspectRatio="none" clip-path="url(#clip_item4)" />
 
-  <!-- TOC item 4 -->
-  <rect x="410" y="302" width="4" height="44" fill="#249087" rx="2"/>
-  <text x="430" y="318" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="13" fill="#249087">04</text>
-  <text x="430" y="338" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="18" font-weight="bold" fill="#1A1A2E">{{TOC_ITEM_4_TITLE}}</text>
-  <rect x="410" y="353" width="850" height="1" fill="#D0D7E8" fill-opacity="0.6"/>
+  <rect x="500" y="383" width="8" height="86" fill="#249087" rx="2"/>
+  <text x="524" y="419" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="13" fill="#249087" font-weight="bold">04</text>
+  <text x="524" y="446" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="21" font-weight="bold" fill="#1a3a38">{{TOC_ITEM_4_TITLE}}</text>
 
-  <!-- TOC item 5 -->
-  <rect x="410" y="367" width="4" height="44" fill="#249087" rx="2"/>
-  <text x="430" y="383" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="13" fill="#249087">05</text>
-  <text x="430" y="403" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="18" font-weight="bold" fill="#1A1A2E">{{TOC_ITEM_5_TITLE}}</text>
-  <rect x="410" y="418" width="850" height="1" fill="#D0D7E8" fill-opacity="0.6"/>
+  <!-- TOC Item 5 -->
+  <image x="500" y="483" width="500" height="86" xlink:href="./toc_item_bg.png"
+    preserveAspectRatio="none" clip-path="url(#clip_item5)" />
 
-  <!-- TOC item 6 -->
-  <rect x="410" y="432" width="4" height="44" fill="#249087" rx="2"/>
-  <text x="430" y="448" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="13" fill="#249087">06</text>
-  <text x="430" y="468" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="18" font-weight="bold" fill="#1A1A2E">{{TOC_ITEM_6_TITLE}}</text>
-  <rect x="410" y="483" width="850" height="1" fill="#D0D7E8" fill-opacity="0.6"/>
+  <rect x="500" y="483" width="8" height="86" fill="#249087" rx="2"/>
+  <text x="524" y="519" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="13" fill="#249087" font-weight="bold">05</text>
+  <text x="524" y="546" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="21" font-weight="bold" fill="#1a3a38">{{TOC_ITEM_5_TITLE}}</text>
 
+  <!-- TOC Item 6 -->
+  <image x="500" y="583" width="500" height="86" xlink:href="./toc_item_bg.png"
+    preserveAspectRatio="none" clip-path="url(#clip_item6)" />
+
+  <rect x="500" y="583" width="8" height="86" fill="#249087" rx="2"/>
+  <text x="524" y="619" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="13" fill="#249087" font-weight="bold">06</text>
+  <text x="524" y="646" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="21" font-weight="bold" fill="#1a3a38">{{TOC_ITEM_6_TITLE}}</text>
 </svg>

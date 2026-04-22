@@ -31,28 +31,37 @@ pip install PyMuPDF
 
 ## `source_to_md/doc_to_md.py`
 
-Pandoc-based converter for office and markup formats.
+Hybrid converter: pure-Python for the common formats, pandoc fallback for the rest.
 
-Supported formats include:
-- `.docx`, `.doc`, `.odt`, `.rtf`
-- `.epub`, `.html`, `.tex`, `.rst`, `.org`, `.ipynb`, `.typ`
+Native path (no external binary required):
+- `.docx` — via `mammoth`
+- `.html` / `.htm` — via `markdownify` + `beautifulsoup4`
+- `.epub` — via `ebooklib` + `markdownify`
+- `.ipynb` — via `nbconvert`
+
+Pandoc fallback (only if you need these):
+- `.doc`, `.odt`, `.rtf`, `.tex`/`.latex`, `.rst`, `.org`, `.typ`
 
 ```bash
 python3 scripts/source_to_md/doc_to_md.py lecture.docx
 python3 scripts/source_to_md/doc_to_md.py lecture.docx -o output.md
 python3 scripts/source_to_md/doc_to_md.py notes.epub
-python3 scripts/source_to_md/doc_to_md.py paper.tex -o paper.md
+python3 scripts/source_to_md/doc_to_md.py paper.tex -o paper.md  # uses pandoc
 ```
 
-Dependency:
+Dependencies:
 
 ```bash
-# macOS
-brew install pandoc
+# Native path — always required
+pip install mammoth markdownify ebooklib nbconvert beautifulsoup4
 
-# Ubuntu
-sudo apt install pandoc
+# Fallback path — only for .doc/.odt/.rtf/.tex/.rst/.org/.typ
+# macOS:   brew install pandoc
+# Ubuntu:  sudo apt install pandoc
+# Windows: https://pandoc.org/installing.html
 ```
+
+All paths produce the same output convention: `<input>.md` plus a sibling `<input>_files/` directory containing extracted images with relative references.
 
 ## `source_to_md/ppt_to_md.py`
 
@@ -89,7 +98,7 @@ Legacy `.ppt` is not parsed directly. Resave it as `.pptx` or export it to PDF f
 
 Convert web pages to Markdown and download images locally.
 
-Python version:
+### Python version (preferred)
 
 ```bash
 python3 scripts/source_to_md/web_to_md.py https://example.com/article
@@ -98,14 +107,24 @@ python3 scripts/source_to_md/web_to_md.py -f urls.txt
 python3 scripts/source_to_md/web_to_md.py https://example.com -o output.md
 ```
 
-Node.js version for WeChat or anti-bot pages:
+When `curl_cffi` is installed (included in `requirements.txt`), this script
+automatically impersonates a modern Chrome TLS fingerprint, which lets it
+fetch WeChat Official Accounts (`mp.weixin.qq.com`) and other sites that
+block Python's default TLS fingerprint. No extra flags needed. If
+`curl_cffi` is not available, it falls back to plain `requests`.
+
+### Node.js version (fallback)
+
+Retained as a backup for rare environments where `curl_cffi` can't be
+installed (e.g., uncommon Python + OS + CPU combinations without prebuilt
+wheels):
 
 ```bash
 node scripts/source_to_md/web_to_md.cjs https://mp.weixin.qq.com/s/xxxx
-node scripts/source_to_md/web_to_md.cjs https://url1.com https://url2.com
 ```
 
-Use the Node.js version first for WeChat Official Accounts and similar high-security sites.
+For most users the Python version is sufficient — Node.js is no longer
+required for WeChat coverage.
 
 ## `rotate_images.py`
 

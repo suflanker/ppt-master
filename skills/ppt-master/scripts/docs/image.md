@@ -14,10 +14,7 @@ python3 scripts/image_gen.py "Beautiful landscape" -n "low quality, blurry, wate
 python3 scripts/image_gen.py --list-backends
 ```
 
-Support tiers:
-- Core: `gemini`, `openai`, `qwen`, `zhipu`, `volcengine`
-- Extended: `stability`, `bfl`, `ideogram`
-- Experimental: `minimax`, `siliconflow`, `fal`, `replicate`
+Backends are grouped into Core / Extended / Experimental tiers. Run `python3 scripts/image_gen.py --list-backends` for the current list.
 
 Backend selection:
 
@@ -55,7 +52,7 @@ export GEMINI_MODEL=gemini-3.1-flash-image-preview
 
 Current process environment wins over `.env`.
 
-Use provider-specific keys only, such as `GEMINI_API_KEY`, `OPENAI_API_KEY`, `MINIMAX_API_KEY`, `QWEN_API_KEY`, `ZHIPU_API_KEY`, `VOLCENGINE_API_KEY`, `FAL_KEY`, or `REPLICATE_API_TOKEN`.
+Use provider-specific keys only (e.g. `GEMINI_API_KEY`, `OPENAI_API_KEY`). See `.env.example` for the full list per backend.
 
 `IMAGE_API_KEY`, `IMAGE_MODEL`, and `IMAGE_BASE_URL` are intentionally unsupported.
 
@@ -65,6 +62,17 @@ Recommendation:
 - Default to the Core tier for routine PPT work
 - Use Extended only when you need a specific model style
 - Treat Experimental backends as opt-in
+
+Example `.env` for MiniMax image backend:
+
+```env
+IMAGE_BACKEND=minimax
+MINIMAX_API_KEY=your-api-key
+# Optional: override base URL (defaults to https://api.minimaxi.com, domestic China endpoint)
+# Use https://api.minimax.io for overseas access
+# MINIMAX_BASE_URL=https://api.minimax.io
+# MINIMAX_MODEL=image-01
+```
 
 ## `analyze_images.py`
 

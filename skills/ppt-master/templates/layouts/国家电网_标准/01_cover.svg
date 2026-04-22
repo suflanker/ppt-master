@@ -1,16 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="1280" height="720" viewBox="0 0 1280 720">
-  <!-- Cover background: full-bleed atmospheric dark image -->
+  <!-- Cover background: full-bleed green image from actual PPTX -->
   <image x="0" y="0" width="1280" height="720" xlink:href="./cover_bg.jpg" preserveAspectRatio="xMidYMid slice"/>
 
-  <!-- Brand logo: top-left area -->
-  <image x="79" y="57" width="170" height="57" xlink:href="./brand_logo.png" preserveAspectRatio="xMinYMid meet"/>
+  <!-- Brand logo: top-left (79, 58), size 170x56 — matches slide position -->
+  <image x="79" y="58" width="170" height="56" xlink:href="./brand_logo.png" preserveAspectRatio="xMinYMid meet"/>
 
   <!-- Main title placeholder -->
-  <text x="76" y="310" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="44" font-weight="bold" fill="#FFFFFF" letter-spacing="2">{{TITLE}}</text>
+  <text x="76" y="305" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="44" font-weight="bold" fill="#FFFFFF" letter-spacing="2">{{TITLE}}</text>
+
+  <!-- Subtitle placeholder -->
+  <text x="76" y="368" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="24" fill="#FFFFFF" letter-spacing="1">{{SUBTITLE}}</text>
 
   <!-- Bottom info area: author / date -->
-  <text x="76" y="615" font-family="SimHei, Microsoft YaHei, sans-serif" font-size="18" fill="#FFFFFF">{{AUTHOR}}</text>
-  <text x="76" y="648" font-family="SimHei, Microsoft YaHei, sans-serif" font-size="18"
-    fill="#FFFFFF">{{DATE}}</text>
-
- </svg>
+  <text x="76" y="605" font-family="SimHei, Microsoft YaHei, sans-serif" font-size="18" fill="#FFFFFF">{{AUTHOR}}</text>
+  <text x="76" y="649" font-family="SimHei, Microsoft YaHei, sans-serif" font-size="18" fill="#FFFFFF">{{DATE}}</text>
+</svg>

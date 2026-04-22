@@ -25,6 +25,7 @@ description: >
 > 5. **NO SPECULATIVE EXECUTION** — "Pre-preparing" content for subsequent Steps is FORBIDDEN (e.g., writing SVG code during the Strategist phase)
 > 6. **NO SUB-AGENT SVG GENERATION** — Executor Step 6 SVG generation is context-dependent and MUST be completed by the current main agent end-to-end. Delegating page SVG generation to sub-agents is FORBIDDEN
 > 7. **SEQUENTIAL PAGE GENERATION ONLY** — In Executor Step 6, after the global design context is confirmed, SVG pages MUST be generated sequentially page by page in one continuous pass. Grouped page batches (for example, 5 pages at a time) are FORBIDDEN
+> 8. **SPEC_LOCK RE-READ PER PAGE** — Before generating each SVG page, Executor MUST `read_file <project_path>/spec_lock.md`. All colors / fonts / icons / images MUST come from this file — no values from memory or invented on the fly. Executor MUST also look up the current page's `page_rhythm` tag and apply the matching layout discipline (`anchor` / `dense` / `breathing` — see executor-base.md §2.1). This rule exists to resist context-compression drift on long decks and to break the uniform "every page is a card grid" default
 
 > [!IMPORTANT]
 > ## 🌐 Language & Communication Rule
@@ -45,10 +46,10 @@ description: >
 | Script | Purpose |
 |--------|---------|
 | `${SKILL_DIR}/scripts/source_to_md/pdf_to_md.py` | PDF to Markdown |
-| `${SKILL_DIR}/scripts/source_to_md/doc_to_md.py` | Documents to Markdown via Pandoc (DOCX, EPUB, HTML, LaTeX, RST, etc.) |
+| `${SKILL_DIR}/scripts/source_to_md/doc_to_md.py` | Documents to Markdown — native Python for DOCX/HTML/EPUB/IPYNB, pandoc fallback for legacy formats (.doc/.odt/.rtf/.tex/.rst/.org/.typ) |
 | `${SKILL_DIR}/scripts/source_to_md/ppt_to_md.py` | PowerPoint to Markdown |
 | `${SKILL_DIR}/scripts/source_to_md/web_to_md.py` | Web page to Markdown |
-| `${SKILL_DIR}/scripts/source_to_md/web_to_md.cjs` | WeChat / high-security sites to Markdown |
+| `${SKILL_DIR}/scripts/source_to_md/web_to_md.cjs` | Node.js fallback for WeChat / TLS-blocked sites (use only if `curl_cffi` is unavailable; `web_to_md.py` now handles WeChat when `curl_cffi` is installed) |
 | `${SKILL_DIR}/scripts/project_manager.py` | Project init / validate / manage |
 | `${SKILL_DIR}/scripts/analyze_images.py` | Image analysis |
 | `${SKILL_DIR}/scripts/image_gen.py` | AI image generation (multi-provider) |
@@ -56,6 +57,7 @@ description: >
 | `${SKILL_DIR}/scripts/total_md_split.py` | Speaker notes splitting |
 | `${SKILL_DIR}/scripts/finalize_svg.py` | SVG post-processing (unified entry) |
 | `${SKILL_DIR}/scripts/svg_to_pptx.py` | Export to PPTX |
+| `${SKILL_DIR}/scripts/update_spec.py` | Propagate a `spec_lock.md` color / font_family change across all generated SVGs |
 
 For complete tool documentation, see `${SKILL_DIR}/scripts/README.md`.
 
@@ -90,7 +92,7 @@ When the user provides non-Markdown content, convert immediately:
 | PPTX / PowerPoint deck | `python3 ${SKILL_DIR}/scripts/source_to_md/ppt_to_md.py <file>` |
 | EPUB / HTML / LaTeX / RST / other | `python3 ${SKILL_DIR}/scripts/source_to_md/doc_to_md.py <file>` |
 | Web link | `python3 ${SKILL_DIR}/scripts/source_to_md/web_to_md.py <URL>` |
-| WeChat / high-security site | `node ${SKILL_DIR}/scripts/source_to_md/web_to_md.cjs <URL>` |
+| WeChat / high-security site | `python3 ${SKILL_DIR}/scripts/source_to_md/web_to_md.py <URL>` (requires `curl_cffi`; falls back to `node web_to_md.cjs <URL>` only if that package is unavailable) |
 | Markdown | Read directly |
 
 **✅ Checkpoint — Confirm source content is ready, proceed to Step 2.**
@@ -133,13 +135,15 @@ Import source content (choose based on the situation):
 
 **Template recommendation flow** (only when the user has NOT yet decided):
 Query `${SKILL_DIR}/templates/layouts/layouts_index.json` to list available templates and their style descriptions.
-**When presenting options, you MUST provide a professional recommendation based on the current PPT topic and content** (recommend a specific template or free design, with reasoning), then ask the user:
+**When presenting options, you MUST provide a professional recommendation based on the current PPT topic and content** (recommend a specific template or free design, with reasoning). By default, **lean toward free design** unless the content clearly benefits from a fixed structural preset (e.g., consulting report, annual report, academic paper). Then ask the user:
 
 > 💡 **AI Recommendation**: Based on your content topic (brief summary), I recommend **[specific template / free design]** because...
 >
+> Note: Both options produce fully-designed output. A template is a validated **"structure + style" preset** (e.g., McKinsey-style, Google-style); free design lets the AI tailor structure and style to your specific content — usually yielding a more content-fitting result.
+>
 > Which approach would you prefer?
-> **A) Use an existing template** (please specify template name or style preference)
-> **B) No template** — free design
+> **A) Use an existing template** — apply a validated structure+style preset (please specify template name or style preference)
+> **B) Free design** (recommended for most cases) — AI tailors structure and style to your content
 
 After the user confirms option A, copy template files to the project directory:
 ```bash
@@ -149,7 +153,7 @@ cp ${SKILL_DIR}/templates/layouts/<template_name>/*.png <project_path>/images/ 2
 cp ${SKILL_DIR}/templates/layouts/<template_name>/*.jpg <project_path>/images/ 2>/dev/null || true
 ```
 
-After the user confirms option B, proceed directly to Step 4.
+After the user confirms option B (free design), proceed directly to Step 4.
 
 > To create a new global template, read `workflows/create-template.md`
 
@@ -188,13 +192,16 @@ python3 ${SKILL_DIR}/scripts/analyze_images.py <project_path>/images
 
 > ⚠️ **Image handling rule**: The AI must NEVER directly read, open, or view image files (`.jpg`, `.png`, etc.). All image information must come from the `analyze_images.py` script output or the Design Specification's Image Resource List.
 
-**Output**: `<project_path>/design_spec.md`
+**Output**:
+- `<project_path>/design_spec.md` — human-readable design narrative
+- `<project_path>/spec_lock.md` — machine-readable execution contract (distilled from the decisions in design_spec.md; Executor re-reads this before every page). See `templates/spec_lock_reference.md` for the skeleton.
 
 **✅ Checkpoint — Phase deliverables complete, auto-proceed to next step**:
 ```markdown
 ## ✅ Strategist Phase Complete
 - [x] Eight Confirmations completed (user confirmed)
 - [x] Design Specification & Content Outline generated
+- [x] Execution lock (spec_lock.md) generated
 - [ ] **Next**: Auto-proceed to [Image_Generator / Executor] phase
 ```
 
@@ -239,6 +246,8 @@ Read references/executor-consultant-top.md # Top consulting style (MBB level)
 > Only need to read executor-base + one style file.
 
 **Design Parameter Confirmation (Mandatory)**: Before generating the first SVG, the Executor MUST review and output key design parameters from the Design Specification (canvas dimensions, color scheme, font plan, body font size) to ensure spec adherence. See executor-base.md Section 2 for details.
+
+**Per-page spec_lock re-read (Mandatory)**: Before generating **each** SVG page, Executor MUST `read_file <project_path>/spec_lock.md` and use only the colors / fonts / icons / images listed there. This resists context-compression drift on long decks. See executor-base.md §2.1 for details.
 
 > ⚠️ **Main-agent only rule**: SVG generation in Step 6 MUST remain with the current main agent because page design depends on full upstream context (source content, design spec, template mapping, image decisions, and cross-page consistency). Do NOT delegate any slide SVG generation to sub-agents.
 > ⚠️ **Generation rhythm rule**: After confirming the global design parameters, the Executor MUST generate pages sequentially, one page at a time, while staying in the same continuous main-agent context. Do NOT split Step 6 into grouped page batches such as 5 pages per batch.
@@ -316,3 +325,4 @@ Before switching roles, you **MUST first read** the corresponding reference file
 
 - Do NOT add extra flags like `--only` to the post-processing commands — run them as-is
 - Local preview: `python3 -m http.server -d <project_path>/svg_final 8000`
+- **Troubleshooting**: If the user encounters issues during generation (layout overflow, export errors, blank images, etc.), recommend checking `docs/faq.md` — it contains known solutions sourced from real user reports and is continuously updated

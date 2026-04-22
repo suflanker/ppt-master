@@ -1,4 +1,4 @@
-# Page Layout Template Library (20 Templates)
+# Page Layout Template Library (23 Templates)
 
 Pre-built PPT page layout templates supporting multiple styles and use cases.
 
@@ -16,6 +16,7 @@ Pre-built PPT page layout templates supporting multiple styles and use cases.
 | `google_style` | Brand | Annual reports, tech sharing, data presentation | Google Four Colors `#4285F4` `#EA4335` `#FBBC04` `#34A853` | Modern clean, data-driven, ample whitespace |
 | `mckinsey` | Brand | Strategic consulting, executive reports, investment analysis | McKinsey Blue `#005587` | Structured thinking, minimalist premium, MECE principle |
 | `anthropic` | Brand | AI tech sharing, developer conferences, product launches | Anthropic Orange `#D97757` | Tech-forward, conclusion-first, dark cover |
+| `china_telecom_template` | Brand | Telecom solutions, digital transformation plans,政企汇报 | Telecom Red `#C00000` | Restrained, authoritative, telecom enterprise style |
 | `中汽研_常规` | Brand | Product certification, evaluation & testing | Deep Blue `#004098` | [Standard] Professional authority, consulting style |
 | `中汽研_商务` | Brand | Business visits, technical exchanges | Blue Gradient `#003366` | [Business] Modern tech, composed and sophisticated |
 | `中汽研_现代` | Brand | Strategic launches, future tech | Deep Blue `#001529` | [Future] Future Tech, neon glow |
@@ -33,6 +34,8 @@ Pre-built PPT page layout templates supporting multiple styles and use cases.
 | `科技蓝商务` | General | Corporate reports, product launches, proposals | Tech Blue `#0078D7` | Tech, business, professional, clean |
 | `smart_red` | General | Tech company profiles, education solutions | Smart Red-Orange `#DE3545` | Modern, vibrant, geometric |
 | `重庆大学` | Scenario | Academic defense, research presentations | CQU Blue `#006BB7` | Academic solidity, mountain-city character |
+| `中国能建` | Power & energy, engineering, state-owned enterprise reports | CEEC Blue `#0068b7` | Craftsmanship, steady and reliable |
+| `国家电网_标准` | Power & energy, engineering, state-owned enterprise reports | SGCC Green `#066C67` | Craftsmanship, steady and reliable |
 ---
 
 ## Template Categories
@@ -47,12 +50,15 @@ Templates mimicking **specific well-known brands/institutions** with their exclu
 | `google_style` | Google Material Design style, four-color brand identity |
 | `mckinsey` | McKinsey consulting style, data-driven and structured |
 | `anthropic` | Anthropic AI style, dark tech-forward aesthetic |
+| `china_telecom_template` | China Telecom brand style, red-gray structural header + ribbon footer |
 | `中汽研_常规` | CATARC standard style (v1), suitable for certification and evaluation |
 | `中汽研_商务` | CATARC business style (v2), modern tech business, composed and sophisticated |
 | `中汽研_现代` | CATARC modern style (v3 Future), Future Tech style, deep blue + neon cyan |
 | `中国电建_常规` | PowerChina standard style (v1), suitable for power, energy, and engineering SOEs |
 | `中国电建_现代` | PowerChina modern style (v2), emphasis on grand narrative and digital tech |
 | `招商银行` | China Merchants Bank v2.0, minimalist luxury, borderless open layout |
+| `中国能建` | 中国能建标准演示模板,Professional, authoritative, state-enterprise blue; clean and structured" |
+| `国家电网_标准` | 国家电网标准演示模板,专业、严谨、政府央企风格，简洁大气 |
 
 ### 2. General Style Templates
 

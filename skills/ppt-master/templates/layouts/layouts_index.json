@@ -1,133 +1,47 @@
 {
   "meta": {
-    "total": 22,
+    "total": 23,
     "defaultViewBox": "0 0 1280 720",
-    "formats": [
-      "ppt169"
-    ],
-    "standardFiles": [
-      "design_spec.md",
-      "01_cover.svg",
-      "02_toc.svg",
-      "02_chapter.svg",
-      "03_content.svg",
-      "04_ending.svg"
-    ],
-    "standardPageTypes": [
-      "cover",
-      "toc",
-      "chapter",
-      "content",
-      "ending"
-    ],
-    "updated": "2026-04-11"
+    "formats": ["ppt169"],
+    "standardFiles": ["design_spec.md", "01_cover.svg", "02_toc.svg", "02_chapter.svg", "03_content.svg", "04_ending.svg"],
+    "standardPageTypes": ["cover", "toc", "chapter", "content", "ending"],
+    "updated": "2026-04-18"
   },
   "categories": {
     "brand": {
       "label": "Brand Style Templates",
-      "layouts": [
-        "google_style",
-        "mckinsey",
-        "anthropic",
-        "中汽研_常规",
-        "中汽研_商务",
-        "中汽研_现代",
-        "中国电建_常规",
-        "中国电建_现代",
-        "招商银行",
-        "中国能建"
-      ]
+      "layouts": ["google_style", "mckinsey", "anthropic", "china_telecom_template", "中汽研_常规", "中汽研_商务", "中汽研_现代", "中国电建_常规", "中国电建_现代", "招商银行", "中国能建", "国家电网_标准"]
     },
     "general": {
       "label": "General Style Templates",
-      "layouts": [
-        "exhibit",
-        "科技蓝商务",
-        "smart_red"
-      ]
+      "layouts": ["exhibit", "科技蓝商务", "smart_red"]
     },
     "scenario": {
       "label": "Scenario-Specific Templates",
-      "layouts": [
-        "academic_defense",
-        "psychology_attachment",
-        "medical_university",
-        "重庆大学"
-      ]
+      "layouts": ["academic_defense", "psychology_attachment", "medical_university", "重庆大学"]
     },
     "government": {
       "label": "Government/Enterprise Templates",
-      "layouts": [
-        "government_red",
-        "government_blue",
-        "ai_ops",
-        "国家电网_标准"
-      ]
+      "layouts": ["government_red", "government_blue", "ai_ops"]
     },
     "special": {
       "label": "Special Style Templates",
-      "layouts": [
-        "pixel_retro"
-      ]
+      "layouts": ["pixel_retro"]
     }
   },
   "quickLookup": {
-    "strategy": [
-      "exhibit",
-      "mckinsey"
-    ],
-    "board": [
-      "exhibit",
-      "mckinsey",
-      "招商银行"
-    ],
-    "general_business": [
-      "科技蓝商务",
-      "smart_red",
-      "exhibit"
-    ],
-    "technology": [
-      "anthropic",
-      "google_style",
-      "smart_red",
-      "ai_ops"
-    ],
-    "government": [
-      "government_red",
-      "government_blue",
-      "ai_ops",
-      "国家电网_标准"
-    ],
-    "academic": [
-      "academic_defense",
-      "重庆大学"
-    ],
-    "medical": [
-      "medical_university"
-    ],
-    "psychology": [
-      "psychology_attachment"
-    ],
-    "finance": [
-      "招商银行",
-      "exhibit",
-      "mckinsey"
-    ],
-    "certification": [
-      "中汽研_常规",
-      "中汽研_商务",
-      "中汽研_现代"
-    ],
-    "energy": [
-      "中国电建_常规",
-      "中国电建_现代",
-      "中国能建",
-      "国家电网_标准"
-    ],
-    "creative": [
-      "pixel_retro",
-      "smart_red"
-    ]
+    "strategy": ["exhibit", "mckinsey"],
+    "board": ["exhibit", "mckinsey", "招商银行"],
+    "general_business": ["科技蓝商务", "smart_red", "exhibit", "china_telecom_template"],
+    "technology": ["anthropic", "google_style", "smart_red", "ai_ops", "china_telecom_template"],
+    "government": ["government_red", "government_blue", "ai_ops"],
+    "academic": ["academic_defense", "重庆大学"],
+    "medical": ["medical_university"],
+    "psychology": ["psychology_attachment"],
+    "finance": ["招商银行", "exhibit", "mckinsey"],
+    "certification": ["中汽研_常规", "中汽研_商务", "中汽研_现代"],
+    "energy": ["中国电建_常规", "中国电建_现代", "中国能建", "国家电网_标准"],
+    "creative": ["pixel_retro", "smart_red"]
   },
   "layouts": {
     "academic_defense": {
@@ -135,21 +49,14 @@
       "summary": "A standard template for academic defenses, research presentations, and project proposals",
       "tone": "Professional, rigorous, research-oriented, clear hierarchy",
       "themeMode": "Light theme (white background + dark blue title bar)",
-      "keywords": [
-        "Academic",
-        "Defense",
-        "Research",
-        "Standard"
-      ]
+      "keywords": ["Academic", "Defense", "Research", "Standard"]
     },
     "ai_ops": {
       "label": "Enterprise Digital Intelligence Template",
       "summary": "For high-density scenarios such as telecom AI operations architecture, IT system overview, and digital transformation plans",
       "tone": "Information-dense, structured, modular layout, telecom/government-enterprise style",
       "themeMode": "Light theme (white background + red/blue accents + warm gray panels)",
-      "assets": [
-        "reference_style.svg"
-      ],
+      "assets": ["reference_style.svg"],
       "keywords": [
         "Telecom",
         "AI operations",
@@ -163,11 +70,27 @@
       "summary": "A tech-oriented template for AI/LLM knowledge sharing and product launches",
       "tone": "Tech-forward, professional, modern, conclusion-first",
       "themeMode": "Hybrid theme (dark cover/chapter + light content pages)",
+      "keywords": ["AI", "LLM", "Developer", "Technology"]
+    },
+    "china_telecom_template": {
+      "label": "中国电信模板",
+      "summary": "A China Telecom style template for telecom solution proposals, digital transformation plans, and government-enterprise briefings",
+      "tone": "Authoritative, structured, restrained, telecom enterprise style",
+      "themeMode": "Light theme (white background + telecom red title bar + silver-gray lane)",
+      "assets": [
+        "logo.png",
+        "top_emblem.png",
+        "footer_ribbon.png",
+        "header_brand.png",
+        "slogan_red.png",
+        "skyline_bg.png"
+      ],
       "keywords": [
-        "AI",
-        "LLM",
-        "Developer",
-        "Technology"
+        "China Telecom",
+        "Telecom",
+        "Digital transformation",
+        "Government-enterprise",
+        "Briefing"
       ]
     },
     "exhibit": {
@@ -236,36 +159,21 @@
       "summary": "A professional template for medical reports, case discussions, and research presentations",
       "tone": "Professional, rigorous, life-affirming, tech-forward, trustworthy",
       "themeMode": "Light theme (white background + medical blue title bar + life green accents)",
-      "keywords": [
-        "Medical",
-        "Hospital",
-        "Case study",
-        "Research"
-      ]
+      "keywords": ["Medical", "Hospital", "Case study", "Research"]
     },
     "pixel_retro": {
       "label": "Pixel Retro Template",
       "summary": "A pixel-art template for tech sharing and gaming-themed content",
       "tone": "Retro gaming, neon cyber, geek tech, 8-bit style",
       "themeMode": "Dark theme (deep space black background + neon accents)",
-      "keywords": [
-        "Pixel art",
-        "Retro gaming",
-        "Cyberpunk",
-        "Technology"
-      ]
+      "keywords": ["Pixel art", "Retro gaming", "Cyberpunk", "Technology"]
     },
     "psychology_attachment": {
       "label": "Psychology Healing Template",
       "summary": "A warm and professional template for psychotherapy training and counseling lectures",
       "tone": "Professional, warm, healing, trustworthy",
       "themeMode": "Light theme (cloud white background + blue-green gradient accent + colorful semantic colors)",
-      "keywords": [
-        "Psychology",
-        "Healing",
-        "Counseling",
-        "Warm"
-      ]
+      "keywords": ["Psychology", "Healing", "Counseling", "Warm"]
     },
     "smart_red": {
       "label": "Smart Red-Orange Business Template",
@@ -320,42 +228,23 @@
       "summary": "A CATARC brand template for certification showcase and high-end business presentations",
       "tone": "Modern tech, authoritative professional, composed and grand",
       "themeMode": "Deep blue tech gradient + clean white content pages",
-      "assets": [
-        "右上角 logo.png",
-        "大型 logo.png"
-      ],
-      "keywords": [
-        "CATARC",
-        "Certification",
-        "Business",
-        "Technology"
-      ]
+      "assets": ["右上角 logo.png", "大型 logo.png"],
+      "keywords": ["CATARC", "Certification", "Business", "Technology"]
     },
     "中汽研_常规": {
       "label": "CATARC Standard Template",
       "summary": "A standard CATARC template for certification and testing scenarios",
       "tone": "Professional, authoritative, trustworthy, consulting style",
       "themeMode": "Light theme (white background + dark blue accent)",
-      "assets": [
-        "右上角 logo.png",
-        "大型 logo.png"
-      ],
-      "keywords": [
-        "CATARC",
-        "Certification",
-        "Testing",
-        "Authoritative"
-      ]
+      "assets": ["右上角 logo.png", "大型 logo.png"],
+      "keywords": ["CATARC", "Certification", "Testing", "Authoritative"]
     },
     "中汽研_现代": {
       "label": "CATARC Modern Template",
       "summary": "A futuristic tech template for cutting-edge technology showcase and premium launches",
       "tone": "Futuristic, tech-forward, deep, refined",
       "themeMode": "Immersive dark cover/transition pages + clean light gray content pages",
-      "assets": [
-        "右上角 logo.png",
-        "大型 logo.png"
-      ],
+      "assets": ["右上角 logo.png", "大型 logo.png"],
       "keywords": [
         "CATARC",
         "Future tech",
@@ -401,20 +290,12 @@
       "summary": "A university-exclusive template for academic defenses and research presentations",
       "tone": "Academically composed, mountain-city essence, modern minimalist",
       "themeMode": "Academic blue primary + mountain-city layered imagery",
-      "assets": [
-        "重庆大学logo.png",
-        "重庆大学logo2.png"
-      ],
-      "keywords": [
-        "Chongqing University",
-        "Academic",
-        "Defense",
-        "University"
-      ]
+      "assets": ["重庆大学logo.png", "重庆大学logo2.png"],
+      "keywords": ["Chongqing University", "Academic", "Defense", "University"]
     },
     "中国能建": {
       "label": "中国能建集团 (China Energy Engineering Group)",
-      "summary": "Official brand template for China Energy Engineering Group (CNCE), suitable for corporate reporting, energy project proposals, and government briefings",
+      "summary": "Official brand template for China Energy Engineering Group (CEEC), suitable for corporate reporting, energy project proposals, and government briefings",
       "tone": "Professional, authoritative, state-enterprise blue; clean and structured",
       "themeMode": "Light theme (white background + corporate blue #0068b7)",
       "primaryColor": "#0068b7",
@@ -442,15 +323,11 @@
         "content": "03_content.svg",
         "ending": "04_ending.svg"
       },
-      "assets": [
-        "brand_logo.png",
-        "cover_bg.png",
-        "chapter_bg.jpg"
-      ]
+      "assets": ["brand_logo.png", "cover_bg.png", "chapter_bg.jpg"]
     },
     "国家电网_标准": {
       "label": "国家电网标准演示模板",
-      "summary": "适用于国家电网工作汇报、项目建设汇报、政府简报及年度总结报告，深夜蓝背景配白色文字的央企正式风格",
+      "summary": "适用于国家电网工作汇报、项目建设汇报、政府简报及年度总结报告，绿色背景配白色文字的央企正式风格",
       "tone": "专业、严谨、政府央企风格，简洁大气",
       "themeMode": "混合主题（封面/章节页深夜蓝背景 + 内容页白色背景，蓝色标题栏）",
       "scenarios": [

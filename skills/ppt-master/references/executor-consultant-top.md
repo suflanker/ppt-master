@@ -117,6 +117,8 @@ Horizontal table; own row highlighted in theme color, others in gray. Leading in
 
 Start → increase/decrease factors → End. Positive factors green bars, negative factors red bars, start/end points dark bars, cumulative line as dashed connector.
 
+> When `page_rhythm = breathing`, the MBB-appropriate form is **negative-space-driven**: a single takeaway statement on a near-empty canvas, or a dominant chart with one sentence of strategic implication (an asymmetric 2:8 degeneration of the standard chart+insight layout). The extreme-simplicity aesthetic of MBB is *served* by this — filler imagery and decorative overlap from marketing-style decks do NOT belong here. Universal rhythm discipline is in `executor-base.md §2.1`.
+
 ---
 
 ## Strategic Use of Color

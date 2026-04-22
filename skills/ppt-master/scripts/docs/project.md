@@ -14,9 +14,12 @@ python3 scripts/project_manager.py info <project_path>
 ```
 
 Notes:
-- Files outside the workspace are copied into `sources/` by default
-- With `--move`, files outside the workspace are moved into `sources/`
-- Files already inside the workspace are moved directly
+- Files outside the repo are copied into `sources/` by default
+- With `--move`, files outside the repo are moved into `sources/`
+- Files already inside the repo are moved into `sources/` by default (with a stderr
+  note), to avoid leaving unintended artifacts that could be committed by mistake.
+  Pass `--copy` to force a copy for in-repo sources instead.
+- `--move` and `--copy` are mutually exclusive.
 
 Common formats:
 - `ppt169`
@@ -89,7 +92,7 @@ Notes:
 - Extracts reusable media assets from `ppt/media/`
 - Summarizes slide size, theme colors, and font metadata
 - Infers background image inheritance across slide, layout, and master
-- Generates `manifest.json`, `analysis.md`, `assets/`, cleaned slide SVGs, and `reference_svg_selection.json`
+- Generates `manifest.json`, `analysis.md`, `master_layout_refs.json`, `master_layout_analysis.md`, `assets/`, cleaned slide SVGs, and `reference_svg_selection.json`
 - Native SVG export is Windows-only because it uses installed Microsoft PowerPoint
 - On macOS, the script falls back to exporting PDF via Keynote and then converts PDF pages to SVG
 - Writes cleaned SVG files to `svg/` after externalizing inline Base64 image payloads
