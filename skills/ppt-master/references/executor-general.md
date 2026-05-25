@@ -36,7 +36,7 @@ The General style is not confined to fixed templates; layouts can be freely chos
 | Element | Usage | Notes |
 |---------|-------|-------|
 | Gradient blocks | Background zones, title backing | Use `<linearGradient>` / `<radialGradient>`, limit to 2-3 colors |
-| Rounded rectangle cards | Content containers, feature modules | `rx="12"` with light shadow (simulate with lighter rect) |
+| Rounded rectangle cards | Content containers, feature modules | `rx="12"`; add light shadow ONLY if the card floats over a photo/colored panel (see shared-standards.md §6) |
 | Icon accents | List item prefixes, feature markers | Use `data-icon` placeholders, size 32-48px |
 | Numbered circles | Step flows, ranked lists | `<circle>` + centered `<text>`, theme color fill |
 | Divider lines | Content separation | `<line>` or `<rect height="2">`, opacity 0.2-0.3 |
@@ -63,11 +63,13 @@ The General style is not confined to fixed templates; layouts can be freely chos
 
 ### Typography Hierarchy
 
+Sizes follow the ramp anchored on the deck's `body` baseline from `spec_lock.md` — the px values below are **example figures for body ≈ 18px** (multiply by the ratio column for any other baseline: 0.7x annotation / 1x body / 1.2x subtitle / 1.6x title).
+
 ```
-Title layer   → 28-36px, bold, theme color or white
-Subtitle layer → 20-24px, medium weight, secondary color
-Body layer    → 16-18px, regular, dark gray
-Annotation layer → 12-14px, light gray, bottom-aligned
+Title layer   → ~1.5-2x body  (e.g., 28-36px @ body=18)   bold, theme color or white
+Subtitle layer → ~1.2x body   (e.g., 20-24px @ body=18)   medium weight, secondary color
+Body layer    → 1x body       (e.g., 16-18px @ body=18)   regular, dark gray
+Annotation layer → ~0.7-0.8x  (e.g., 12-14px @ body=18)   light gray, bottom-aligned
 ```
 
 ---
@@ -78,38 +80,22 @@ Annotation layer → 12-14px, light gray, bottom-aligned
 
 General style speaker notes use **conversational narration** — like talking with the audience, not reading a report. Natural tone with rhythm, using rhetorical devices where appropriate.
 
-### Stage Direction Markers
-
-| Marker | Purpose | Example |
-|--------|---------|---------|
-| `[Pause]` | Silence after key reveal, letting the audience absorb | "What does this number mean? [Pause] It means 1 in every 3 users..." |
-| `[Interactive]` | Ask questions or guide audience participation | "[Interactive] How many of you have used this feature?" |
-| `[Transition]` | Bridge from previous page, must be at start of each page's text | "[Transition] Now that we understand the context, let's see how it works." |
-
 ### Notes Writing Guidelines
 
-- **Tell stories**: Use "scenario-conflict-resolution" structure for each page's narrative
-- **Use metaphors**: Make abstract concepts tangible ("It's like adding a turbocharger to the system")
-- **Create suspense**: Pose questions at the right time, answer on the next page
-- **Conversational data**: 30% → "nearly one-third", 2.5x → "more than doubled"
-- **Key points structure**: `Key points: (1) Core message (2) Supporting evidence (3) Call to action`
+Notes are pure spoken narration (TTS). No bracketed markers, no `Key points:` / `Duration:` lines — see [executor-base.md §8](executor-base.md#8-speaker-notes-generation-framework).
+
+- **Tell stories**: Use a "scenario-conflict-resolution" arc for each page's narrative.
+- **Use metaphors**: Make abstract concepts tangible ("It's like adding a turbocharger to the system").
+- **Create suspense**: Pose questions at the right moment and answer them on the next page — written as plain rhetorical questions, not as `[Interactive]` tags.
+- **Conversational data**: 30% → "nearly one-third", 2.5x → "more than doubled". Spell out percentages as words when the spoken form is more natural.
+- **Natural transitions**: Open each page after the first with a sentence that bridges from the prior page.
 
 ### Notes Example
 
 ```markdown
 # 03_key_advantages
 
-[Transition] Having covered the market landscape, you might be wondering: where is our opportunity?
-
-Our core advantages can be summed up in three words: Fast, Accurate, Efficient.
-Fast — deployment time cut from 3 months to 2 weeks; [Pause]
-Accurate — recognition accuracy at 97.3%, far exceeding the industry average of 82%;
-Efficient — overall costs reduced by nearly one-third.
-
-[Interactive] If you were the decision-maker, which of these three numbers would impress you most?
-
-Key points: (1) Three differentiating advantages (2) Quantitative data support (3) Prompt for reflection
-Duration: 2 minutes
+Having covered the market landscape, you might be wondering — where is our opportunity? Our core advantages can be summed up in three words: fast, accurate, efficient. Fast, because deployment time has been cut from three months to two weeks. Accurate, because recognition accuracy now reaches ninety-seven point three percent, far exceeding the industry average of eighty-two. And efficient, because overall costs have been reduced by nearly a third — a combination that, if you were the decision-maker, would be hard to ignore.
 ```
 
 ---
@@ -120,3 +106,4 @@ Duration: 2 minutes
 - [ ] Decorative elements are moderate: serving content, not overshadowing it
 - [ ] Image-text ratio is appropriate: not just text walls, visual highlights present
 - [ ] Notes are conversational: reads like speaking, not reading a script
+- [ ] Notes contain no bracketed stage markers and no `Key points:` / `Duration:` meta-lines (TTS reads everything verbatim)

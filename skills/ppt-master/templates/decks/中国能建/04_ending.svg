@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="1280" height="720" viewBox="0 0 1280 720">
+  <!-- Page background -->
+  <rect x="0" y="0" width="1280" height="720" fill="#FFFFFF"/>
+
+  <!-- Brand logo centered top -->
+  <g id="ending-logo">
+    <image href="brand_logo.png" x="413.88" y="90.69" width="423.69" height="110.83" preserveAspectRatio="none"/>
+  </g>
+
+  <!-- Top grey line -->
+  <g id="ending-line-top">
+    <line x1="309.31" y1="270.16" x2="925.4" y2="270.16" stroke-width="0.667" stroke="#F2F2F2"/>
+  </g>
+
+  <!-- Blue band -->
+  <g id="ending-blue-band">
+    <rect x="0.03" y="272.3" width="1279.94" height="283.47" fill="#0068B7"/>
+  </g>
+
+  <!-- Thank-you text -->
+  <g id="ending-thanks">
+    <text x="640" y="430" text-anchor="middle" font-family="&quot;微软雅黑&quot;, sans-serif" font-size="64" fill="#FFFFFF" letter-spacing="2">敬请批评指正！</text>
+  </g>
+
+  <!-- Bottom grey line -->
+  <g id="ending-line-bottom">
+    <line x1="320.65" y1="507.96" x2="925.41" y2="507.96" stroke-width="0.667" stroke="#F2F2F2"/>
+  </g>
+</svg>

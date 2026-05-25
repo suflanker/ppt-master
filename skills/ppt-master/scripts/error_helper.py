@@ -110,12 +110,21 @@ class ErrorHelper:
             ],
             'severity': 'error'
         },
-        'clippath_detected': {
-            'message': 'Forbidden <clipPath> element detected',
+        'clippath_on_non_image': {
+            'message': 'clip-path is only allowed on <image> elements',
             'solutions': [
-                'Remove <clipPath> elements',
-                'PPT does not support SVG clipping paths',
-                'Use basic shape combinations as an alternative to clipping'
+                'Remove clip-path from shapes / groups / text',
+                'Draw the target geometry directly with the matching native element: <circle> / <ellipse> / <rect rx="..."> / <polygon> / <path>. A rect clipped to a circle is just a <circle>.',
+                'clip-path on <image> is conditionally allowed — see references/shared-standards.md §1.2'
+            ],
+            'severity': 'error'
+        },
+        'clippath_def_missing': {
+            'message': 'clip-path references a <clipPath> id that does not exist in <defs>',
+            'solutions': [
+                'Define the referenced <clipPath id="..."> inside <defs>',
+                'The clipPath must contain exactly one shape child (circle / ellipse / rect with rx,ry / path / polygon)',
+                'Reference: references/shared-standards.md §1.2'
             ],
             'severity': 'error'
         },
@@ -252,8 +261,8 @@ class ErrorHelper:
             'message': 'Forbidden web font (@font-face) detected',
             'solutions': [
                 'Remove @font-face declarations',
-                'Use the system font stack',
-                'font-family: system-ui, -apple-system, sans-serif'
+                'End every font-family stack with a PPT-safe pre-installed family',
+                'Example: font-family: "Microsoft YaHei", Arial, sans-serif'
             ],
             'severity': 'error'
         },
@@ -276,12 +285,13 @@ class ErrorHelper:
             'severity': 'error'
         },
         'invalid_font': {
-            'message': 'Non-standard font used',
+            'message': 'Font stack does not end on a PPT-safe family',
             'solutions': [
-                'Use the system UI font stack',
-                'font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
-                'Avoid using specific font names (e.g. Arial, Helvetica)',
-                'Ensure cross-platform compatibility'
+                'End the stack with a cross-platform pre-installed family',
+                'CJK: "Microsoft YaHei", sans-serif  |  SimSun, serif',
+                'Latin: Arial, sans-serif  |  "Times New Roman", serif',
+                'Mono: Consolas, "Courier New", monospace',
+                'See strategist.md §g for the full PPT-safe discipline'
             ],
             'severity': 'warning'
         }
@@ -415,6 +425,10 @@ def main() -> None:
 
     if len(sys.argv) > 1:
         error_type = sys.argv[1]
+        if error_type in {'-h', '--help', 'help'}:
+            ErrorHelper.print_help()
+            return
+
         context = {}
 
         # Parse context parameters

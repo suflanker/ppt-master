@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1280" height="720" viewBox="0 0 1280 720">
+  <defs>
+    <linearGradient id="bottomFade" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0.45"/>
+    </linearGradient>
+  </defs>
+  <image href="cover_bg.png" x="0" y="-2" width="1292.93" height="725.07" preserveAspectRatio="none"/>
+  <rect x="0" y="360" width="1280" height="360" fill="url(#bottomFade)"/>
+  <image href="logo_small.png" x="80" y="58" width="170" height="56" preserveAspectRatio="none"/>
+  <text x="80" y="290" text-anchor="start" xml:space="preserve" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="56" fill="#FFFFFF" font-weight="bold">{{TITLE}}</text>
+  <text x="80" y="580" text-anchor="start" xml:space="preserve" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="28" fill="#FFFFFF" font-weight="bold">{{SUBTITLE}}</text>
+  <text x="80" y="625" text-anchor="start" xml:space="preserve" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="22" fill="#FFFFFF" font-weight="bold">{{DATE}}</text>
+</svg>

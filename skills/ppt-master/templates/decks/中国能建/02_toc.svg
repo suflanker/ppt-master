@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="1280" height="720" viewBox="0 0 1280 720">
+  <defs>
+    <linearGradient id="cardGrad1" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0" stop-color="#F8F8F8"/>
+      <stop offset="1" stop-color="#EAEAEA"/>
+    </linearGradient>
+    <linearGradient id="cardGrad2" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0" stop-color="#F8F8F8"/>
+      <stop offset="1" stop-color="#EAEAEA"/>
+    </linearGradient>
+    <linearGradient id="cardGrad3" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0" stop-color="#F8F8F8"/>
+      <stop offset="1" stop-color="#EAEAEA"/>
+    </linearGradient>
+    <filter id="cardShadow1" x="-25%" y="-25%" width="150%" height="150%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2.67"/>
+      <feOffset dx="2.83" dy="2.83" result="offsetBlur"/>
+      <feFlood flood-color="#000000" flood-opacity="0.10"/>
+      <feComposite in="shadowColor" in2="offsetBlur" operator="in" result="shadow"/>
+      <feMerge>
+        <feMergeNode in="shadow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="cardShadow2" x="-25%" y="-25%" width="150%" height="150%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2.67"/>
+      <feOffset dx="2.83" dy="2.83" result="offsetBlur"/>
+      <feFlood flood-color="#000000" flood-opacity="0.10"/>
+      <feComposite in="shadowColor" in2="offsetBlur" operator="in" result="shadow"/>
+      <feMerge>
+        <feMergeNode in="shadow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="cardShadow3" x="-25%" y="-25%" width="150%" height="150%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2.67"/>
+      <feOffset dx="2.83" dy="2.83" result="offsetBlur"/>
+      <feFlood flood-color="#000000" flood-opacity="0.10"/>
+      <feComposite in="shadowColor" in2="offsetBlur" operator="in" result="shadow"/>
+      <feMerge>
+        <feMergeNode in="shadow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Page background -->
+  <rect x="0" y="0" width="1280" height="720" fill="#FFFFFF"/>
+
+  <!-- Top decoration: blue line + left accent bar -->
+  <g id="toc-top-decor">
+    <line x1="54.4" y1="80" x2="1237.39" y2="80" stroke-width="1.333" stroke="#002F7B"/>
+    <rect x="-0.07" y="17.93" width="24.73" height="62.07" fill="#0068B7"/>
+  </g>
+
+  <!-- Right separator line -->
+  <g id="toc-divider">
+    <path d="M 465.75 100.24 L 469.28 100.24 L 469.28 676.42 L 465.75 676.42 L 465.75 100.24 Z" fill="#808080"/>
+    <path d="M 473.32 100.24 L 474.59 100.24 L 474.59 676.42 L 473.32 676.42 L 473.32 100.24 Z" fill="#808080"/>
+  </g>
+
+  <!-- Brand logo top-right -->
+  <g id="toc-logo">
+    <image href="brand_logo.png" x="985.09" y="5.71" width="252.31" height="66" preserveAspectRatio="none"/>
+  </g>
+
+  <!-- TOC title image -->
+  <image href="toc.png" x="81" y="287" width="324.8" height="156.8"
+    preserveAspectRatio="xMidYMid slice" />
+
+  <!-- TOC Item 1 -->
+  <g id="toc-item-1">
+    <!-- Card body -->
+    <path d="M 534.95 237.71 L 1154.83 237.71 C 1159.21 237.71 1162.77 240.18 1162.77 243.23 L 1162.77 282.54 C 1162.77 285.58 1159.21 288.05 1154.83 288.05 L 534.95 288.05 C 530.57 288.05 527 285.58 527 282.54 L 527 243.23 C 527 240.18 530.57 237.71 534.95 237.71 Z" fill="url(#cardGrad1)" stroke-width="0.001" stroke="#DFDFE1" filter="url(#cardShadow1)"/>
+    <!-- Number tag -->
+    <path d="M 551.07 228.97 L 620.93 228.97 L 629.26 237.04 L 542.74 237.04 L 551.07 228.97 Z" fill="#C9C9C9"/>
+    <rect x="551.07" y="228.97" width="69.87" height="52.77" fill="#0068B7"/>
+    <text x="584" y="265" text-anchor="middle" font-family="&quot;微软雅黑&quot;, sans-serif" font-size="27.47" fill="#FFFFFF" font-weight="bold">01</text>
+    <!-- Title -->
+    <text x="621.49" y="268.28" text-anchor="start" font-family="&quot;微软雅黑&quot;, sans-serif" font-size="24" fill="#0068B7" font-weight="bold">{{TOC_ITEM_1_TITLE}}</text>
+  </g>
+
+  <!-- TOC Item 2 -->
+  <g id="toc-item-2">
+    <path d="M 534.95 349.79 L 1154.83 349.79 C 1159.21 349.79 1162.77 352.26 1162.77 355.3 L 1162.77 394.54 C 1162.77 397.58 1159.21 400.05 1154.83 400.05 L 534.95 400.05 C 530.57 400.05 527 397.58 527 394.54 L 527 355.3 C 527 352.26 530.57 349.79 534.95 349.79 Z" fill="url(#cardGrad2)" stroke-width="0.001" stroke="#DFDFE1" filter="url(#cardShadow2)"/>
+    <path d="M 551.07 342.12 L 620.93 342.12 L 629.26 350.17 L 542.74 350.17 L 551.07 342.12 Z" fill="#C9C9C9"/>
+    <rect x="551.07" y="342.12" width="69.87" height="52.7" fill="#0068B7"/>
+    <text x="584" y="378" text-anchor="middle" font-family="&quot;微软雅黑&quot;, sans-serif" font-size="27.47" fill="#FFFFFF" font-weight="bold">02</text>
+    <text x="621.49" y="379.72" text-anchor="start" font-family="&quot;微软雅黑&quot;, sans-serif" font-size="24" fill="#0068B7" font-weight="bold">{{TOC_ITEM_2_TITLE}}</text>
+  </g>
+
+  <!-- TOC Item 3 -->
+  <g id="toc-item-3">
+    <path d="M 535.02 462.85 L 1154.89 462.85 C 1159.28 462.85 1162.84 465.32 1162.84 468.36 L 1162.84 507.61 C 1162.84 510.65 1159.28 513.12 1154.89 513.12 L 535.02 513.12 C 530.63 513.12 527.07 510.65 527.07 507.61 L 527.07 468.36 C 527.07 465.32 530.63 462.85 535.02 462.85 Z" fill="url(#cardGrad3)" stroke-width="0.001" stroke="#DFDFE1" filter="url(#cardShadow3)"/>
+    <path d="M 551.14 454.12 L 620.99 454.12 L 629.33 462.17 L 542.8 462.17 L 551.14 454.12 Z" fill="#C9C9C9"/>
+    <rect x="551.13" y="454.12" width="69.87" height="52.7" fill="#0068B7"/>
+    <text x="584" y="490" text-anchor="middle" font-family="&quot;微软雅黑&quot;, sans-serif" font-size="27.47" fill="#FFFFFF" font-weight="bold">03</text>
+    <text x="621.56" y="492.79" text-anchor="start" font-family="&quot;微软雅黑&quot;, sans-serif" font-size="24" fill="#0068B7" font-weight="bold">{{TOC_ITEM_3_TITLE}}</text>
+  </g>
+</svg>

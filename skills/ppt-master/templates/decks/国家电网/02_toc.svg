@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1280" height="720" viewBox="0 0 1280 720">
+  <defs>
+    <linearGradient id="bgGrad" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0" stop-color="#F1F9FC"/>
+      <stop offset="1" stop-color="#D4F4F2"/>
+    </linearGradient>
+    <linearGradient id="panelGrad" x1="1" y1="0.5" x2="0" y2="0.5">
+      <stop offset="0" stop-color="#249087"/>
+      <stop offset="1" stop-color="#1D8578"/>
+    </linearGradient>
+    <linearGradient id="highlightGrad" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#D4F4F2"/>
+    </linearGradient>
+    <filter id="cardShadow" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="14" stdDeviation="22" flood-color="#7DDFD6" flood-opacity="0.4"/>
+    </filter>
+    <filter id="highlightShadow" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="16" stdDeviation="35" flood-color="#249087" flood-opacity="0.4"/>
+    </filter>
+    <filter id="textShadow" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="4" stdDeviation="3" flood-color="#18605A" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+  <!-- Background -->
+  <rect x="0" y="0" width="1280" height="720" fill="url(#bgGrad)"/>
+  <!-- Left panel -->
+  <rect x="0" y="0" width="418" height="720" fill="url(#panelGrad)"/>
+  <!-- Left panel overlay image (sprite crop) -->
+  <!-- <svg x="2" y="0" width="417" height="720"  preserveAspectRatio="none">
+    <image href="toc_overlay.jpeg" x="0" y="0" width="417" height="720" preserveAspectRatio="none" />
+  </svg> -->
+
+  <image x="0" y="0" width="1280" height="720" xlink:href="toc_bg.png"
+    preserveAspectRatio="xMidYMid slice" />
+  <!-- Header icon -->
+  <image href="header_icon.png" x="1100" y="23" width="134" height="52" preserveAspectRatio="none"/>
+  <!-- TOC Item 1 (highlighted) -->
+  <rect x="502" y="176" width="488" height="85" rx="14" ry="14" fill="url(#highlightGrad)" stroke="#FFFFFF" stroke-width="3" filter="url(#highlightShadow)"/>
+  <text x="514" y="227" text-anchor="start" xml:space="preserve" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="32" fill="#249087" font-weight="bold">{{TOC_ITEM_1_TITLE}}</text>
+  <!-- Chevron arrows -->
+  <polygon points="873,198 888,198 903,219 888,240 873,240 888,219" fill="#249087" fill-opacity="0.06"/>
+  <polygon points="898,198 913,198 928,219 913,240 898,240 913,219" fill="#249087" fill-opacity="0.15"/>
+  <polygon points="924,198 939,198 954,219 939,240 924,240 939,219" fill="#249087" fill-opacity="0.40"/>
+  <!-- TOC Item 2 -->
+  <rect x="502" y="320" width="488" height="86" rx="12" ry="12" fill="#FFFFFF" filter="url(#cardShadow)"/>
+  <text x="514" y="371" text-anchor="start" xml:space="preserve" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="32" fill="#18605A">{{TOC_ITEM_2_TITLE}}</text>
+  <!-- TOC Item 3 -->
+  <rect x="502" y="464" width="488" height="86" rx="12" ry="12" fill="#FFFFFF" filter="url(#cardShadow)"/>
+  <text x="514" y="515" text-anchor="start" xml:space="preserve" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="32" fill="#18605A">{{TOC_ITEM_3_TITLE}}</text>
+  <!-- TOC Item 4 -->
+  <rect x="502" y="609" width="488" height="86" rx="12" ry="12" fill="#FFFFFF" filter="url(#cardShadow)"/>
+  <text x="514" y="660" text-anchor="start" xml:space="preserve" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="32" fill="#18605A">{{TOC_ITEM_4_TITLE}}</text>
+</svg>

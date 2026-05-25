@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="1280" height="720" viewBox="0 0 1280 720">
+  <!-- Cover background image (sprite crop) -->
+  <g id="cover-bg">
+    <svg x="0.44" y="164.27" width="1281.29" height="555.73" viewBox="0 0.22815 1 0.77185" preserveAspectRatio="none">
+      <image href="cover_bg.png" x="0" y="0" width="1" height="1" preserveAspectRatio="none"/>
+    </svg>
+  </g>
+
+  <!-- Brand logo -->
+  <g id="cover-logo">
+    <image href="brand_logo.png" x="466.12" y="27.85" width="374.82" height="98.04" preserveAspectRatio="none"/>
+  </g>
+
+  <!-- Main title -->
+  <g id="cover-title">
+    <text x="640" y="330" text-anchor="middle" font-family="&quot;微软雅黑&quot;, sans-serif" font-size="53.33" fill="#FFFFFF" font-weight="bold">{{TITLE}}</text>
+  </g>
+
+  <!-- Subtitle / date -->
+  <g id="cover-subtitle">
+    <text x="640" y="400" text-anchor="middle" font-family="&quot;思源黑体 CN Bold&quot;, &quot;微软雅黑&quot;, sans-serif" font-size="30" fill="#FFFFFF">{{SUBTITLE}}</text>
+  </g>
+
+  <!-- Date -->
+  <g id="cover-date">
+    <text x="640" y="640" text-anchor="middle" font-family="&quot;思源黑体 CN Bold&quot;, &quot;微软雅黑&quot;, sans-serif" font-size="20" fill="#FFFFFF" fill-opacity="0.8">{{DATE}}</text>
+  </g>
+</svg>

@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="1280" height="720" viewBox="0 0 1280 720">
+  <!-- Page background -->
+  <rect x="0" y="0" width="1280" height="720" fill="#FFFFFF"/>
+
+  <!-- Top-right logo -->
+  <g id="content-logo">
+    <svg x="989.9" y="17.83" width="258.17" height="62.83" viewBox="0.03528 0 0.97153 1" preserveAspectRatio="none">
+      <image href="logo_top_right.png" x="0" y="0" width="1" height="1" preserveAspectRatio="none"/>
+    </svg>
+  </g>
+
+  <!-- Blue separator line -->
+  <g id="content-rule">
+    <line x1="0" y1="94.83" x2="1280" y2="94.83" stroke-width="6" stroke="#0068B7"/>
+  </g>
+
+  <!-- Background watermark (sprite crop) -->
+  <g id="content-watermark">
+    <svg x="-0.07" y="0.07" width="1280.07" height="719.93" viewBox="0.24014 0.07905 0.54211 0.71034" preserveAspectRatio="none">
+      <image href="content_watermark.png" x="0" y="0" width="1" height="1" preserveAspectRatio="none"/>
+    </svg>
+  </g>
+
+  <!-- Grey content background area -->
+  <g id="content-area-bg">
+    <rect x="20" y="111.28" width="1240" height="583.7" fill="#F2F2F2"/>
+  </g>
+
+  <!-- Dark blue header bar -->
+  <g id="content-header-bar">
+    <rect x="20" y="115.23" width="1240" height="68.17" fill="#005DA2" />
+    <text x="50" y="155" text-anchor="start" font-family="&quot;Times New Roman&quot;, &quot;微软雅黑&quot;, sans-serif" font-size="26.67" fill="#FFFFFF" font-weight="bold">{{SECTION_TITLE}}</text>
+  </g>
+
+  <!-- Page title with number -->
+  <g id="content-page-title">
+    <text x="55.6" y="62.1" text-anchor="start" font-family="Arial, &quot;微软雅黑&quot;, sans-serif" font-size="32" fill="#0068B7" font-weight="bold">{{PAGE_TITLE}}</text>
+  </g>
+
+  <!-- Body text area -->
+  <g id="content-body">
+    <text x="57.13" y="222.29" text-anchor="start" font-family="&quot;Times New Roman&quot;, &quot;微软雅黑&quot;, sans-serif" font-size="24" fill="#000000">{{CONTENT_AREA}}</text>
+  </g>
+
+
+  <!-- Footer: date -->
+  <g id="content-footer-date">
+    <text x="96" y="700" text-anchor="start" font-family="&quot;微软雅黑&quot;, sans-serif" font-size="16" fill="#000000">{{DATE}}</text>
+  </g>
+
+  <!-- Footer: page number -->
+  <g id="content-footer-pagenum">
+    <text x="1192" y="700" text-anchor="end" font-family="Arial, &quot;微软雅黑&quot;, sans-serif" font-size="16" fill="#000000">{{PAGE_NUM}}</text>
+  </g>
+</svg>
