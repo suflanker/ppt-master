@@ -48,25 +48,28 @@ PPT Master 可以在任何能读取文件和执行命令的 AI 编程代理中�
 
 ## Q: 为什么一段正文被拆成了好几个文本框？能不能一段一个文本框？
 
-默认就是按行拆框——SVG 里的每一视觉行都会变成一个独立的 PowerPoint 文本框。这样做是为了**逐像素保留 SVG 的版式**，对封面、图表、表格、以及任何对版式精度敏感的页面来说是必要的。
+默认会把可合并的正文段落导出成一个可编辑的 PowerPoint 文本框，内部保留多个段落。**拉伸框时文字会在框内自动重排**。
 
-如果你希望按整段编辑正文，重新导出时加上 `--merge-paragraphs`：
+如果你需要严格保持逐行版式，重新导出时加上 `--no-merge`：
 
 ```bash
-python3 skills/ppt-master/scripts/svg_to_pptx.py <project_path> --merge-paragraphs
+python3 skills/ppt-master/scripts/svg_to_pptx.py <project_path> --no-merge
 ```
 
-可合并的段落块（同 x、dy 围绕同一行距聚集、段间允许更大间距）会合并成一个可编辑的文本框，内部为多个 `<a:p>`，并精确保留行距。**拉伸框时文字会在框内自动重排**。
+使用 `--no-merge` 时，SVG 里的每一视觉行都会变成一个独立的 PowerPoint 文本框。这样能**逐像素保留 SVG 的版式**，适合封面、图表、表格、以及任何对版式精度敏感的页面。
 
-**代价**：PowerPoint 自动换行后，行数可能与原 SVG 不一致——页面版式会与原 SVG 有偏差。适合正文密集型页面（abstract、多段落章节、参考文献等）；版式敏感的页面继续用默认。判定足够保守——非段落型 `<text>` 会自动落回默认的按行拆框路径。
+**代价**：默认段落合并后，PowerPoint 自动换行的行数可能与原 SVG 不一致。默认更适合正文密集型页面（abstract、多段落章节、参考文献等）；版式敏感页面使用 `--no-merge`。判定足够保守——非段落型 `<text>` 会自动落回按行拆框路径。
 
-跟 AI 对话时也可以直接说："我想整段编辑 abstract" / "让文本框能自适应" —— AI 会替你打开这个开关。默认关闭，不影响已有项目。
+跟 AI 对话时也可以直接说："这个页面要严格保持逐行版式" —— AI 重新导出时会加上 `--no-merge`。
 
-## Q: 三种执行师有什么区别？
+## Q: PPT Master 怎么确定演示的风格？
 
-- **Executor_General**: 通用场景，灵活布局
-- **Executor_Consultant**: 一般咨询，数据可视化
-- **Executor_Consultant_Top**: 顶级咨询（MBB 级），5 大核心技巧
+在第 d 项确认时锁定两个独立维度：
+
+- **Mode（怎么讲）**：`pyramid` / `narrative` / `instructional` / `showcase` / `briefing` —— 见 `references/modes/`
+- **Visual style（长什么样）**：`swiss-minimal` / `editorial` / `soft-rounded` / `dark-tech` … + `custom` —— 见 `references/visual-styles/`
+
+任意 mode 可与任意 visual style 自由组合。
 
 ## Q: 用 PPT Master 做 PPT 贵吗？
 
@@ -121,6 +124,8 @@ python3 skills/ppt-master/scripts/svg_to_pptx.py <project> --animation-trigger o
 
 > **没有 Claude 渠道？** 本项目赞助商 [PackyCode](https://www.packyapi.com/register?aff=ppt-master) 提供 Claude 及其他主流模型的按量付费接入——无需订阅，无需境外信用卡，支持国内支付，开箱即用。充值时填写优惠码 **`ppt-master`** 享 9 折。
 
+最后再说一句：这是一个免费、个人维护的开源项目。合用就用，能帮到你我很高兴；不合用，换个工具就好。真诚的反馈与建议始终欢迎——这也是项目一点点变好的方式。
+
 ## Q: 文字超出边框 / 元素错位怎么办？
 
 这几乎都是模型能力问题，不是 PPT Master 的 bug。SVG 排版是纯手动绝对定位——模型必须准确计算坐标、字体度量和容器尺寸。
@@ -150,6 +155,14 @@ python3 skills/ppt-master/scripts/svg_to_pptx.py <project> --animation-trigger o
 可以。你可以**随时中断工作流**——前几页生成后就可以查看并反馈意见。AI 可以根据你的意见重新生成特定页面，不需要等到全部完成再修改。
 
 生成后的修正也一样简单，直接告诉 AI："第 3 页布局有问题——标题和图表重叠了"，它会修正那个特定的 SVG。
+
+## Q: 我已经有一份做好的 `.pptx`，能不能复用它的设计、只填新内容？
+
+可以——这就是 **套模板（template fill）** 路径，独立于 SVG 生成管线。把你现成的 `.pptx` 连同素材（或一个主题）给 AI，说「套模板 / 把这些填回去」。它会把你的 deck 当作原生页面库，只挑适合新内容的页面（可乱序、可重复），把新文字——以及原生表格单元格、图表数据——直接写回原始 OOXML。
+
+输出仍是 100% 原生可编辑的 PowerPoint：原设计、母版、图片、动画都保留，且只导出选中的页面。它刻意**不**改版式、不加页、不换图——一份 deck 的页面结构本身承载着逻辑（总分、对比、递进），所以应挑选结构本就契合内容的页面，而不是硬塞进去。若需要全新结构或不同页数，请改用 create-template（见下一问）。完整步骤：[套模板工作流](../../skills/ppt-master/workflows/template-fill-pptx.md)。
+
+---
 
 ## Q: 如何制作自定义模板？
 

@@ -12,7 +12,11 @@ PPT Master is an AI-driven presentation generation system. Multi-role collaborat
 
 > Topic-only requests with no source material: run the standalone [`topic-research`](skills/ppt-master/workflows/topic-research.md) workflow before SKILL.md Step 1 to gather web materials.
 >
+> Template fill: when the user provides an existing `.pptx` template plus text materials or a topic and asks to reuse the original PPT design or fill content back into it (for example, "fill this deck with the new content", "fill this back into the template", or "reuse this deck's design"), run the standalone [`template-fill-pptx`](skills/ppt-master/workflows/template-fill-pptx.md) workflow. This route edits PPTX directly and must not enter the SVG generation pipeline.
+>
 > Phase B resumption (split-mode execution): when the user opens a fresh chat and says "继续生成 projects/<x>" or similar, run the standalone [`resume-execute`](skills/ppt-master/workflows/resume-execute.md) workflow to enter Phase B (SVG generation + export) without re-running Phase A.
+>
+> Spec refinement (opt-in): when the user explicitly asks to refine / review / revise the spec before generation (for example "refine the spec first", "review the spec before generating", "send me the spec to confirm first"), run the standalone [`refine-spec`](skills/ppt-master/workflows/refine-spec.md) workflow. Strategist produces the full `design_spec.md` + `spec_lock.md` first, then stops so the user can revise any part of it (outline, color, typography, layout, image strategy, …) before any image or SVG work; on approval the pipeline resumes at Step 5/6. Default is OFF — no request means the spec is written in one pass and the pipeline auto-proceeds. Surfaced as an opt-in line in the Eight Confirmations, same shape as the split-mode note; never enter it unprompted.
 >
 > Decks containing data charts: run the standalone [`verify-charts`](skills/ppt-master/workflows/verify-charts.md) workflow between the executor and post-processing steps to calibrate chart coordinates.
 >
@@ -81,7 +85,7 @@ python3 skills/ppt-master/scripts/animation_config.py validate <project_path>  #
 python3 skills/ppt-master/scripts/total_md_split.py <project_path>
 python3 skills/ppt-master/scripts/finalize_svg.py <project_path>
 python3 skills/ppt-master/scripts/svg_to_pptx.py <project_path>
-# Add --merge-paragraphs when the user wants paragraph-level editable text frames instead of one-per-line (default off, see SKILL.md Step 7.3).
+# Mergeable dy-stacked paragraph blocks collapse into one editable text frame by default; add --no-merge to keep every line as its own frame (strict line fidelity). See SKILL.md Step 7.3.
 ```
 
 ## Core Directories

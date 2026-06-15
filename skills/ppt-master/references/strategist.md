@@ -25,6 +25,8 @@ As a top-tier AI presentation strategist, receive source documents, perform cont
 ⛔ **BLOCKING**: After the read, present professional recommendations for the eight items below as a bundled package and wait for explicit user confirmation.
 
 > **Execution discipline**: This is the last BLOCKING checkpoint in the pipeline. After confirmation, complete the Design Spec and proceed to image generation / SVG / post-processing without further pauses.
+>
+> **One opt-in exception**: present the spec-refinement line alongside the split-mode note (SKILL.md Step 4). It is OFF by default — the above discipline holds unchanged. Only when the user *explicitly* asks to refine the spec do you hand off to the [refine-spec](../workflows/refine-spec.md) workflow, which produces the full spec first and stops for user review/revision of any part before generation. Never enter it unprompted.
 
 ### a. Canvas Format Confirmation
 
@@ -40,51 +42,40 @@ Confirm target audience, usage occasion, and core message; provide initial asses
 
 ### d. Style Objective Confirmation
 
-Two layers. Output: `d. Style: <Mode> + <Visual style descriptor>`.
+Two independent layers, each locks one catalog item. Output: `d. Mode: <mode> + Visual style: <visual_style>`.
+
+> **Presenting a `custom` lock — spell it out.** Whenever either layer resolves to `custom`, the confirmation must state the bespoke choice in **plain language** — what the cadence / fusion / posture actually is (Layer 1), or what the aesthetic actually is (Layer 2) — so the user confirms a legible direction, never the bare word `custom`. Show this prose in the confirmation first; it is the same content you then crystallize into the `mode_behavior` / `visual_style_behavior` line. e.g. `d. Mode: custom — open with a narrative hook, then a pyramid analysis core, then a showcase close (no single dominant spine)` — not just `Mode: custom`.
 
 #### Layer 1 — Communication mode
 
-| Mode | Core Focus | Target Audience | One-line Description |
-|-------|-----------|----------------|---------------------|
-| **A) General Versatile** | Visual impact first | Public / clients / trainees | "Catch the eye at a glance" |
-| **B) General Consulting** | Data clarity first | Teams / management | "Let data speak" |
-| **C) Top Consulting** | Logical persuasion first | Executives / board | "Lead with conclusions" |
+🚧 **GATE**: read [`modes/_index.md`](./modes/_index.md) before recommending.
 
-Mode selection decision tree:
+The deck's **narrative + persuasion skeleton** — how the argument is organized and advanced. Lock **one** of `pyramid` / `narrative` / `instructional` / `showcase` / `briefing` (closed set; full catalog in the index).
 
-```
-Content characteristics?
-  ├── Heavy imagery / promotional ──→ A) General Versatile
-  ├── Data analysis / progress report ──→ B) General Consulting
-  └── Strategic decisions / persuading executives ──→ C) Top Consulting
+**Source**:
+- User supplied their own outline / structure → it is authoritative. Transcribe it into `§IX` as given (page order + titles preserved); still lock a mode, but for register / voice and page-internal treatment, **not** to reshape — never reorder the user's pages or rewrite their given titles. Note in `design_spec.md` that the structure is user-authored. `briefing` imposes the least if no particular "讲法" is intended.
+- A bespoke direction the five don't give — a nameable cadence (dialectic 正反合, myth-vs-reality, countdown, Socratic), a multi-act fusion of modes, or the user's own feel (confrontational here, detached there). Either the user asks, **or you recommend it** when a fusion / bespoke direction genuinely serves the deck better than a single preset (a recommendation the user confirms, like every lock). The *kind* doesn't matter → `mode: custom` + a `mode_behavior:` paragraph that **crystallizes the intent** (act sequence or posture shifts, title voice, page rhythm, register) concretely enough for the Executor to follow per page; it reads only `spec_lock.md`, never the chat. One deck locks **one** value — a fusion is one `custom` describing the acts, never several modes. Avoid only the *dodge*: don't default to `custom` when a preset genuinely fits, and prefer a dominant mode + page-level variation when one mode leads.
+- No user structure or cadence → recommend by the index's auto-selection table (content / audience signal → mode) plus the deck's stated purpose; the mode does the structural lifting. Present as a recommendation; the user may override.
 
-Audience?
-  ├── Public / clients / trainees ────→ A) General Versatile
-  ├── Teams / management ────────────→ B) General Consulting
-  └── Executives / board / investors → C) Top Consulting
-```
+Write the locked value to `spec_lock.md` `- mode:` and record the rationale in `design_spec.md` (for `custom`, also write the sibling `- mode_behavior:` paragraph). Executor loads only that one mode file, or follows `mode_behavior` when the value is `custom`.
 
 #### Layer 2 — Visual style
 
-Anchors the downstream confirmations e (Color), f (Icon), g (Typography), h (Image).
+🚧 **GATE**: read [`visual-styles/_index.md`](./visual-styles/_index.md) before recommending.
+
+The deck's **visual aesthetic** — shape language, decoration density, whitespace rhythm, typographic character, texture. Anchors the downstream confirmations e (Color), f (Icon), g (Typography), h (Image). Lock one preset from the catalog, or `custom`.
 
 **Source**:
-- User named a style → record verbatim as a short descriptor (normalize multilingual phrasings to a single canonical form)
-- No user description → propose a default that fits the content (e.g., warm cultural tones for heritage content; clean minimalism for tech briefings; high-contrast editorial for magazine essays). Present as a recommendation; the user may override
+- User named a style → map to the closest preset; if none fits, `custom` with a `visual_style_behavior` paragraph.
+- No user description → recommend by the index's auto-selection table (content vibe / industry → style). Present as a recommendation; the user may override.
 
-**Common descriptors** (free-form, combinable, not enums):
+**Carries no color.** A visual style governs how the deck's HEX (locked at `e`) is *used* — never which colors, same discipline as [`image-renderings`](./image-renderings/_index.md). When the deck has AI images, prefer the style's paired rendering so layout and illustration share one aesthetic.
 
-| Axis | Examples |
-|---|---|
-| Aesthetic | minimalist / information-dense / Keynote / editorial / hand-drawn |
-| Scenario | business consulting / academic defense / government briefing / product launch / education / pitch deck |
-| Visual character | dark tech / pixel retro / neo-Chinese / Scandinavian / Memphis / cyberpunk / vaporwave |
+Write the locked value to `spec_lock.md` `- visual_style:` and the rationale to `design_spec.md`. Executor loads only that one visual-style file.
 
-Accept user combinations and one-off coinages ("Scandinavian + slight industrial"). The list is for recall, not constraint.
+> **Template vs preset**: a style mention may sound like a template name ("academic style" vs the `academic_defense/` template directory). Step 3 only triggers on an explicit template directory path supplied by the user — bare names and style words never copy templates; they map to a visual-style preset here. If a template was triggered upstream, its files are already in `<project_path>/templates/` and its fused design_spec governs.
 
-> **Template vs descriptor**: a style mention may sound like a template name ("academic style" vs the `academic_defense/` template directory). Step 3 only triggers on an explicit template directory path supplied by the user — bare names and style words never copy templates. If a template was triggered upstream, its files are already in `<project_path>/templates/`. Layer 2 only handles descriptors that did NOT come with a template path.
-
-**Downstream effect**: e / f / g / h values realize the Layer 2 descriptor on top of the Layer 1 mode. Example: "A) Versatile + neo-Chinese" → e leans cinnabar / ink / rice-paper; g pairs serif (KaiTi-class) with sans body; f minimal line icons; h restrained traditional imagery with negative space.
+**Downstream effect**: e / f / g / h realize the locked mode + visual style. Example: `showcase` + `dark-tech` → e applies one luminous accent on a dark field; g pairs a clean sans with mono; f minimal glow icons; h the `digital-dashboard` rendering.
 
 ### e. Color Scheme Recommendation
 
@@ -104,6 +95,14 @@ Proactively provide a color scheme (HEX values) based on content characteristics
 | Government / Public Sector | `#C41E3A` Red | Authoritative, dignified |
 
 **Color rules**: 60-30-10 rule (primary 60%, secondary 30%, accent 10%); text contrast ratio >= 4.5:1; no more than 4 colors per page.
+
+**Lock the full neutral set the visual style implies** — not just primary / secondary / accent / border. Predict the extra neutral tiers the locked `visual_style` (§d Layer 2) needs and lock them now; `spec_lock.colors` must be complete before generation, and the Executor draws only from it (never invents a tone mid-deck).
+
+| Style trait | Extra neutral tiers to lock |
+|---|---|
+| Layers panels / charts (e.g. `data-journalism`, `swiss-minimal`) | `surface` (panel lift), `grid` (hairline, lighter than dividers) |
+| Text over imagery / dark field (e.g. `photo-editorial`, `glassmorphism`, `dark-tech`) | `scrim` / `overlay` for legibility |
+| Print / hand-drawn fills (e.g. `chalkboard`, `zine`) | `block-shade`, one step off the field |
 
 ### f. Icon Usage Confirmation
 
@@ -163,7 +162,7 @@ See [`../templates/icons/README.md`](../templates/icons/README.md) for the curre
 - `"Times New Roman"` ↔ `Times`
 - `Georgia` ↔ `Cambria`
 
-**Mandatory**: propose **two** combinations to the user — one concord (safe), one contrast (with tension). Do not default to "title = body, same font" without explicit user request.
+**Mandatory**: propose **two** combinations to the user — one concord (safe), one contrast (with tension). Do not default to "title = body, same font" without explicit user request. Pick each family by subject fit and the locked `visual_style` character — there is **no default family**; type should follow the deck's content and aesthetic, not fall back to one safe face.
 
 > **Template precedence**: when a template was loaded at Step 3 via an explicit path and declares `title` / `body` font stacks in `<project_path>/templates/design_spec.md §III Typography` / §IV (or whichever heading the fused spec uses), lock those directly and skip the two-combination presentation. Same precedence as e. — user override > template values.
 
@@ -178,7 +177,7 @@ See [`../templates/icons/README.md`](../templates/icons/README.md) for the curre
 | Mono | Consolas, Courier New |
 | Display | Impact, Arial Black |
 
-**Seed combinations** (all PPT-safe; first column names the contrast axis, not a scenario):
+**Seed combinations** (all PPT-safe; first column is the contrast axis, not a scenario) — starting points, not the allowed set. Any client-preinstalled family is fair game; non-pre-installed expressive faces go title-only (see note below).
 
 | Contrast axis | Title stack | Body stack | Code stack |
 |---|---|---|---|
@@ -191,7 +190,7 @@ See [`../templates/icons/README.md`](../templates/icons/README.md) for the curre
 | Cool serif (academic) | `Cambria, SimSun, serif` | `"Times New Roman", SimSun, serif` | — |
 | Hei × song (政务) | `SimHei, "Microsoft YaHei", sans-serif` | `SimSun, serif` | — |
 | Tech / developer | `Arial, "Microsoft YaHei", sans-serif` | same | `Consolas, "Courier New", monospace` |
-| Concord (default fallback) | `"Microsoft YaHei", "PingFang SC", sans-serif` | same | — |
+| Concord (single family — pick the family by subject + `visual_style`) | `<family by subject>, …, sans-serif / serif` | same | — |
 
 > **Stack length discipline (soft rule).** ≤4 fonts per stack. Lead with Windows-preinstalled fonts (Microsoft YaHei / SimSun / Arial / Georgia / Consolas); keep at most **one** macOS-exclusive family (typically `"PingFang SC"`). Converter only picks the first Latin and first CJK font ([`drawingml_utils.py parse_font_family`](../scripts/svg_to_pptx/drawingml_utils.py)); macOS→Windows fallback is auto-mapped via `FONT_FALLBACK_WIN`.
 
@@ -199,6 +198,7 @@ See [`../templates/icons/README.md`](../templates/icons/README.md) for the curre
 > - **Retro / pixel** — Press Start 2P / VT323 / Silkscreen
 > - **Rounded friendly** — Nunito / Quicksand / M PLUS Rounded / OPPO Sans (closest safe substitute: `Trebuchet MS` / `Verdana`)
 > - **Modern web sans** — Inter / HarmonyOS Sans / Source Han Sans / Noto Sans
+> - **Calligraphic display** — 隶书 LiSu / 华文行楷 STXingkai / 华文新魏 STXinwei (closest safe substitute: `KaiTi` / `FangSong`); cover / section / hero titles only, never body
 > - **Brand-specific** — McKinsey Bower, corporate VI typefaces
 
 #### Font Size Ramp (all sizes in px)
@@ -224,6 +224,8 @@ Baseline choice follows **content density**, not style. Common: `18px` (dense) /
 | Page number / footnote | 0.5-0.65x | 12-16px | 9-12px |
 
 > Two baseline columns are illustrative only — for any other baseline (16/20/22/28/32…), multiply the row's ratio. Checker reads live `body` from `spec_lock.md`. Executor may pick any px within a role's band without pre-declaring; values outside **every** band require lock extension first.
+
+> **Hero in single-focus / breathing pages**: when one element *is* the entire page — a large number, a headline, a key phrase — it is the visual subject, not body content. Such heroes may borrow the cover-title band (2.5–5×); for greater emphasis, declare a hero slot in `spec_lock.md` (e.g., `hero_number` / `hero_headline`) — checker exempts declared slots with no fixed upper limit. The row above "Hero number (consulting KPIs) 1.5–2×" applies only to numeric KPIs in dashboard/data layouts, not to full-page focal elements.
 
 #### Formula Rendering Policy
 
@@ -385,8 +387,8 @@ The tables below are source data Strategist reads when constructing the three ca
 
 | `d. Style` signal | Recommended rendering | Alternates |
 |---|---|---|
-| Top Consulting / strategic / MBB | `editorial` or `vector-illustration` | `blueprint`, `minimalist-swiss` |
-| General Consulting / corporate report / 学术答辩 | `vector-illustration` | `flat`, `editorial` |
+| Strategic / MBB / board | `editorial` or `vector-illustration` | `blueprint`, `minimalist-swiss` |
+| Corporate report / analysis / 学术答辩 | `vector-illustration` | `flat`, `editorial` |
 | High-end consulting / luxury / 高端 / design-firm | `minimalist-swiss` | `editorial`, `vector-illustration` |
 | Tech / SaaS / AI / 架构 | `3d-isometric`, `blueprint`, `digital-dashboard` | `flat` |
 | Modern SaaS / fintech / health-tech / premium app | `glassmorphism` | `digital-dashboard`, `flat` |
@@ -464,6 +466,8 @@ Image_Generator reads these fields and applies them deck-wide. If both are absen
 #### hero_page suggestion (same confirmation turn)
 
 After the user picks a candidate, scan the outline and surface any pages where the image makes more sense as the page's main voice than as a local block. Present them as a short list and let the user confirm, edit, or skip. Result is recorded as `page_role: hero_page` on the matching `ai` rows. Density is judgment-based — no fixed quota.
+
+**Per hero_page title**: lock where it lives — `embedded` (fused into the image: neon, carved, smoke, 3D-lit lettering) or `none` (editable SVG title over an atmospheric backdrop, Primitive D). Default `none`; flip to `embedded` only when the words must be *part of the visual*, not merely a display font. Per page — may bake only the keyword while subtitle / date / chrome stay SVG. Surface it with the hero_page list for the same confirm / edit / skip.
 
 **When selection includes B**, you must run `python3 scripts/analyze_images.py <project_path>/images` before outputting the spec, and integrate scan results into the image resource list.
 
@@ -611,39 +615,20 @@ The most common Strategist failure mode is missing the structural half — treat
 
 ---
 
-## 2. Executor Style Details (Reference for Confirmation Item #4)
+## 2. Mode & Visual-Style Catalogs (Reference for Confirmation Item d)
 
-### A) General Versatile — Executor_General
+Confirmation `d` locks two independent catalog items:
 
-- **Capabilities**: full-width images + gradient overlays; free creative layouts; variants (image-text / minimalist / creative)
-- **Scenarios**: promotions, product launches, training, brand campaigns
-- **Avoid**: rigid/formal tone, dense data tables
+- **Mode** — narrative skeleton: [`modes/_index.md`](./modes/_index.md) → `pyramid` / `narrative` / `instructional` / `showcase` / `briefing`.
+- **Visual style** — aesthetic: [`visual-styles/_index.md`](./visual-styles/_index.md) → presets + `custom`.
 
-### B) General Consulting — Executor_Consultant
-
-- **Capabilities**: KPI dashboards (4-card, big numbers + trend arrows); chart combinations (bar/line/pie/funnel); status color grading (R/Y/G)
-- **Scenarios**: progress reports, financial analysis, government reports, proposals
-- **Avoid**: flashy decoration, image-dominated slides
-
-### C) Top Consulting — Executor_Consultant_Top
-
-| Rule | Detail |
-|------|--------|
-| Data contextualization | Every data point gets a comparison ("grew 63% — industry avg 12%") |
-| SCQA framework | Situation → Complication → Question → Answer |
-| Pyramid principle | Conclusion first; core insight in title |
-| Strategic coloring | Color serves information, not decoration |
-| Chart vs Table | Trends → charts; precise values → tables |
-
-- **Page elements**: gradient top bar + dark takeaway box, confidential marking + footer, MECE / driver tree / waterfall
-- **Scenarios**: strategic decisions, deep analysis, MBB-level deliverables
-- **Avoid**: isolated data, subjective statements, decoration
+Read the relevant `_index.md` at confirmation `d` (Layer 1 / Layer 2) for its catalog table and auto-selection. Executor loads the locked mode + visual-style files at generation (see SKILL Step 6).
 
 ---
 
 ## 3. Color Knowledge Base
 
-### Consulting Style Colors
+### Consulting Brand Colors
 
 | Brand | HEX |
 |-------|-----|
@@ -653,7 +638,7 @@ The most common Strategist failure mode is missing the structural half — treat
 | PwC Orange | `#D04A02` |
 | EY Yellow | `#FFE600` |
 
-### General Versatile Colors
+### Versatile / General Colors
 
 | Style | HEX |
 |-------|-----|
@@ -709,11 +694,11 @@ Templates are starting points. The Strategist may adjust based on content and au
 
 ### 6.1 Content Planning Strategy
 
-| Style | Content Outline | Speaker Notes |
-|-------|----------------|---------------|
-| A) General Versatile | Per-page core theme from source doc | Concise script |
-| B) General Consulting | Structured sections, data-driven insights | Professional terms, conclusion-first |
-| C) Top Consulting | SCQA + pyramid principle | Highly condensed, conclusion-driven |
+Content-outline and speaker-notes strategy follow the deck's locked **mode** — see [`modes/_index.md`](./modes/_index.md) and the locked mode's file. The guidance below applies within any mode:
+
+**Per-block expression**: phrase each §IX content block in the mode that fits it — prose, bullet, keyword, or any phrasing the content calls for — not a default bullet. Take the cue from the source's texture: a narrative source (article / transcript / talk) leans prose — resist compressing its argument pages into fragments; a data sheet leans bullet/keyword. Write the real sentence into §IX itself, not a skeleton point to expand later. One page mixes modes; let layout pull each (narrative → prose, structural/chart → bullets/keywords).
+
+> Note: §IX is the only content copy the Executor re-reads after context compression — what you write there is what survives.
 
 ### 6.2 Outline Output Specification (Must include 11 chapters)
 
@@ -727,7 +712,7 @@ Templates are starting points. The Strategist may adjust based on content and au
 | VI. Icon Usage Spec | Source description, placeholder syntax, recommended icon list |
 | VII. Visualization Reference List | Visualization type, reference template path, used-in pages, purpose |
 | VIII. Image Resource List | Filename, dimensions, ratio, purpose, status, generation description |
-| IX. Content Outline | Grouped by chapter; each page includes layout, title, content points, visualization type (if applicable) |
+| IX. Content Outline | Grouped by chapter; each page includes layout, title, core message (the page's one idea), content blocks (in the selected phrasing mode), visualization type (if applicable) |
 | X. Speaker Notes Requirements | File naming rules, content structure description |
 | XI. Technical Constraints Reminder | SVG generation rules, PPT compatibility rules |
 

@@ -48,25 +48,28 @@ Yes. The main `.pptx` (native PowerPoint shapes — all text, graphics, and colo
 
 ## Q: Why is one paragraph split into multiple text boxes? Can I get one text box per paragraph instead?
 
-By default yes — every visual line of body text becomes its own PowerPoint text frame. This preserves the SVG's exact line layout pixel-for-pixel, which matters for covers, charts, tables, and any page with tight typographic alignment.
+By default, mergeable body-text paragraphs export as one editable PowerPoint text frame with multiple paragraphs. Resizing the box reflows text inside it.
 
-If you'd rather edit body text as whole paragraphs, re-export with `--merge-paragraphs`:
+If you need strict line-layout fidelity, re-export with `--no-merge`:
 
 ```bash
-python3 skills/ppt-master/scripts/svg_to_pptx.py <project_path> --merge-paragraphs
+python3 skills/ppt-master/scripts/svg_to_pptx.py <project_path> --no-merge
 ```
 
-Mergeable paragraph blocks (same x, dy clustered around one line-height, optional larger gap for paragraph breaks) collapse into one editable text frame with multiple `<a:p>` and precise line-spacing. Resizing the box reflows text inside it.
+With `--no-merge`, every visual line becomes its own PowerPoint text frame. This preserves the SVG's exact line layout pixel-for-pixel, which matters for covers, charts, tables, and any page with tight typographic alignment.
 
-**Trade-off**: PowerPoint may wrap the merged paragraphs to a different line count than the SVG source — so the page won't match the original layout exactly. Best for long-form body text (abstracts, multi-paragraph sections, reference lists); keep the default for layout-tight pages. The detection is conservative — mixed-layout `<text>` falls through to the default per-line path automatically.
+**Trade-off**: default paragraph merging lets PowerPoint wrap merged paragraphs to a different line count than the SVG source. Best for long-form body text (abstracts, multi-paragraph sections, reference lists); use `--no-merge` for layout-tight pages. The detection is conservative — mixed-layout `<text>` falls through to the per-line path automatically.
 
-When you're chatting with the AI, you can also just ask: "I want to edit the abstract as one block" / "make text boxes resizable" — the AI will turn this on for you. Defaults stay off so existing decks aren't affected.
+When you're chatting with the AI, you can also just ask for strict line fidelity on layout-sensitive pages — the AI will add `--no-merge` when re-exporting.
 
-## Q: What's the difference between the three Executors?
+## Q: How does PPT Master decide a deck's style?
 
-- **Executor_General**: General scenarios, flexible layout
-- **Executor_Consultant**: General consulting, data visualization
-- **Executor_Consultant_Top**: Top consulting (MBB level), 5 core techniques
+Two independent choices, locked at confirmation `d`:
+
+- **Mode** (how the deck argues): `pyramid` / `narrative` / `instructional` / `showcase` / `briefing` — see `references/modes/`
+- **Visual style** (how it looks): `swiss-minimal` / `editorial` / `soft-rounded` / `dark-tech` … + `custom` — see `references/visual-styles/`
+
+Any mode pairs with any visual style.
 
 ## Q: Is PPT Master expensive to use?
 
@@ -119,6 +122,8 @@ If the results you've seen look mediocre, check your setup before concluding any
 
 > **No Claude access?** Project sponsor [PackyCode](https://www.packyapi.com/register?aff=ppt-master) provides pay-as-you-go access to Claude and other models — no subscription, no overseas card required. Use promo code **`ppt-master`** for 10% off.
 
+One last thing: this is a free, solo-maintained open-source project. If it fits your needs, use it — I'm glad it helps; if it doesn't, pick another tool. Sincere feedback and suggestions are always welcome, because that's how the project gets a little better over time.
+
 ## Q: Text overflows or elements are misaligned — what can I do?
 
 This is almost always a model capability issue, not a bug in PPT Master. SVG layout is essentially manual absolute positioning — the model must calculate coordinates, font metrics, and container sizes correctly.
@@ -148,6 +153,14 @@ Split mode is a **compromise** — it pays ~6K tokens (re-reading SKILL.md) to d
 Yes. You can **interrupt the workflow at any time** — after the first few pages are generated, review them and give feedback. The AI can regenerate specific pages based on your comments. You don't need to wait until the end to make corrections.
 
 For post-generation fixes, simply tell the AI: "Page 3 has a layout issue — the title overlaps the chart" and it will fix that specific SVG.
+
+## Q: I already have a finished `.pptx` — can I reuse its design and just fill in new content?
+
+Yes — this is the **template fill** route, separate from the SVG generation pipeline. Give the AI your existing `.pptx` plus your material (or a topic) and ask it to "fill this deck with the new content" or "fill this back into the template". It treats your deck as a native slide library, lets you pick only the pages that fit the new story (reorder freely, and reuse one page for several output slides), and writes the new text — plus native table cells and chart data — straight into the original OOXML.
+
+The output stays 100% native-editable PowerPoint: the original design, layouts, images, and animations are preserved, and only the selected pages are exported. It deliberately does **not** change layouts, add pages, or swap images — a deck's page structure encodes its logic (lead-then-detail, comparison, progression), so pick pages whose structure already fits your content rather than forcing it in. For a fresh structure or a different page count, use create-template (next question) instead. Full steps: [template-fill workflow](../skills/ppt-master/workflows/template-fill-pptx.md).
+
+---
 
 ## Q: How do I create a custom template?
 

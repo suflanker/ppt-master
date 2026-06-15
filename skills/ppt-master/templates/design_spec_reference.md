@@ -34,7 +34,8 @@
 
 ### Theme Style
 
-- **Style**: {design_style}
+- **Mode**: [pyramid / narrative / instructional / showcase / briefing — narrative skeleton, locked at d Layer 1]
+- **Visual style**: [preset name or custom — aesthetic, locked at d Layer 2; carries no HEX]
 - **Theme**: [Light theme / Dark theme]
 - **Tone**: [Filled by Strategist, e.g., tech, professional, modern, innovative]
 
@@ -145,6 +146,8 @@ Two views on the same font decisions — fill both, keep them consistent:
 
 > Sizes outside **every** band remain forbidden — surface the need and extend `spec_lock.md typography` (e.g., `cover_title: 96`) rather than invent a one-off value.
 
+> **Hero in single-focus / breathing pages**: when one element *is* the entire page — a large number, a headline, a key phrase — it is the visual subject, not body content. Such heroes may borrow the cover-title band (2.5–5×); for greater emphasis, declare a hero slot in `spec_lock.md` (e.g., `hero_number` / `hero_headline`) — checker exempts declared slots with no fixed upper limit. The row above "Hero number (consulting KPIs) 1.5–2×" applies only to numeric KPIs in dashboard/data layouts, not to full-page focal elements.
+
 ---
 
 ## V. Layout Principles
@@ -199,7 +202,7 @@ Two views on the same font decisions — fill both, keep them consistent:
 **Non-card containers** (naked text blocks / full-bleed imagery / divider-separated content — typical for `breathing` pages or minimalist designs):
 
 - Vertical rhythm carried by **whitespace**, not gutters — block gaps run wider than card gaps since there's no container edge to separate content.
-- **Line-height**: 1.4-1.6× body font size.
+- **Line-height**: ~1.4–1.5× for dense/small-body text (CLReq comfortable minimum); 1.6–2.0× for large-type, sparse, or `breathing` pages.
 - **Full-bleed text placement**: inset text away from the image's focal points; legibility over photographic backgrounds typically needs a gradient or opacity overlay.
 - **Content width** is driven by reading comfort and image composition, not a card grid slot — don't back-compute "column width" when there's no column.
 
@@ -277,7 +280,7 @@ Catalog read: 71 templates
 **text_policy** (`ai` rows only; AI judges per row, no global default bias):
 
 - `none` — image carries no text; SVG overlays all labels
-- `embedded` — image contains in-artwork text: decorative lettering, a designed title, hand-lettered keywords, or stable visual identifiers (axis labels, subplot letters, unit symbols). Body copy / data points / long quotes never go inside the image regardless — they must stay editable. Embedded text is frozen into the raster; verify the rendered text in the output
+- `embedded` — image contains in-artwork text: decorative lettering, a designed title, hand-lettered keywords, or stable visual identifiers (axis labels, subplot letters, unit symbols). Body copy / data points / long quotes never go inside the image regardless — they must stay editable. Embedded text is frozen into the raster, so the exact characters are named literally in the prompt
 
 **page_role** (`ai` rows only; leave blank for default):
 
@@ -303,11 +306,12 @@ Catalog read: 71 templates
 
 - **Layout**: [Choose a pattern from §V, combine two, or break the grid as the content demands]
 - **Title**: [Page title]
+- **Core message**: [the one thing this page exists to land — its spine, always phrased as one assertion sentence (prose by nature). One per page; can't name it → merge or cut the page.]
 - **Visualization**: [visualization_type] (see VII. Visualization Reference List)
-- **Content**:
-  - [Point 1]
-  - [Point 2]
-  - [Point 3]
+- **Content**: write each block in the phrasing that fits it (prose / bullet / keyword / … any phrasing the content calls for) and write it already in that mode, so the texture itself carries the intent — a prose block reads as a real sentence, not a fragment. One page may mix modes; blocks still sit under the core message, never replace it:
+  - [a connected sentence or two that argues the point]
+  - [parallel fragment] · [parallel fragment] · [parallel fragment]
+  - [label] / [label] / [label]
 
 > **Visualization field**: add only when the page has data visualization or structured infographic elements. Type must be listed in §VII.
 
