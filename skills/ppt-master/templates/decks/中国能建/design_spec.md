@@ -79,4 +79,3 @@ placeholders:
 | `logo_top_right.png` | 右上角辅助 logo | 内容 |
 | `content_watermark.png` | 内容页底部水印/装饰图（sprite） | 内容 |
 | `toc.png` | 目录页左侧目录标识图 | 目录 |
-
