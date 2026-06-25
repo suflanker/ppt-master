@@ -6,6 +6,7 @@ import io
 import math
 import re
 import base64
+from pathlib import Path
 from typing import Any
 from xml.etree import ElementTree as ET
 
@@ -17,6 +18,7 @@ from .drawingml_utils import (
     rect_to_dml_xfrm,
     parse_hex_color, resolve_url_id, get_effective_filter_id,
     parse_font_family, is_cjk_char, estimate_text_width,
+    detect_text_lang, resolve_text_run_fonts,
     parse_transform_matrix, _xml_escape,
 )
 from .drawingml_styles import (
@@ -28,6 +30,26 @@ from .drawingml_paths import (
     PathCommand, parse_svg_path, svg_path_to_absolute,
     normalize_path_commands, path_commands_to_drawingml,
 )
+
+
+def _resolve_external_image(svg_dir: Path, href: str) -> Path:
+    """Resolve a non-data-URI image href to a file on disk.
+
+    Search order: next to the SVG (``svg_output/``), the project root, the
+    project's ``images/`` (the single runtime image pool — template-bundled
+    bitmaps plus AI / web / user images all live here), then ``templates/``
+    (legacy flat-copied template assets). Raises ``FileNotFoundError`` if none
+    of these exist.
+    """
+    for candidate in (
+        svg_dir / href,
+        svg_dir.parent / href,
+        svg_dir.parent / 'images' / href,
+        svg_dir.parent / 'templates' / href,
+    ):
+        if candidate.exists():
+            return candidate
+    raise FileNotFoundError(f'External image not found: {href}')
 
 
 def _wrap_shape(
@@ -799,6 +821,23 @@ def convert_polyline(elem: ET.Element, ctx: ConvertContext) -> ShapeResult | Non
 # text
 # ---------------------------------------------------------------------------
 
+_SERIF_WIDTH_FAMILIES = {
+    'book antiqua',
+    'cambria',
+    'fangsong',
+    'garamond',
+    'georgia',
+    'kaiti',
+    'palatino',
+    'palatino linotype',
+    'serif',
+    'simsun',
+    'songti',
+    'times',
+    'times new roman',
+}
+
+
 def _normalize_text(text: str, *, preserve_space: bool = False) -> str:
     """Collapse runs of whitespace into a single space; do NOT strip the ends.
 
@@ -821,6 +860,73 @@ def _normalize_text(text: str, *, preserve_space: bool = False) -> str:
 def _preserves_space(elem: ET.Element) -> bool:
     xml_space = elem.get('{http://www.w3.org/XML/1998/namespace}space') or elem.get('xml:space')
     return xml_space == 'preserve'
+
+
+def _parse_letter_spacing_px(
+    value: str | None,
+    *,
+    font_size: float,
+    scale_x: float = 1.0,
+) -> float:
+    """Parse an SVG letter-spacing value into scaled pixels."""
+    if not value:
+        return 0.0
+    raw = value.strip().lower()
+    if raw in {'normal', 'inherit', 'initial', 'unset'}:
+        return 0.0
+
+    match = re.fullmatch(r'([-+]?(?:\d*\.\d+|\d+\.?))(px|pt|em)?', raw)
+    if not match:
+        return 0.0
+
+    amount = float(match.group(1))
+    unit = match.group(2) or 'px'
+    if unit == 'em':
+        return amount * font_size
+    if unit == 'pt':
+        return amount * 4.0 / 3.0 * scale_x
+    return amount * scale_x
+
+
+def _letter_spacing_to_drawingml_spc(letter_spacing_px: float) -> str:
+    """Convert SVG px letter spacing into DrawingML rPr@spc."""
+    if abs(letter_spacing_px) < 1e-9:
+        return ''
+    spc_val = round(letter_spacing_px * FONT_PX_TO_HUNDREDTHS_PT)
+    return f' spc="{spc_val}"'
+
+
+def _is_serif_run(run: dict[str, Any]) -> bool:
+    """Return whether a text run uses a serif-like family."""
+    for family in str(run.get('font_family', '')).split(','):
+        name = family.strip().strip("'\"").lower()
+        if not name or name in {'sans-serif', 'sans serif'}:
+            continue
+        if name in _SERIF_WIDTH_FAMILIES:
+            return True
+        if 'serif' in name and 'sans' not in name:
+            return True
+    return False
+
+
+def _estimate_run_text_width(run: dict[str, Any]) -> float:
+    """Estimate one text run's rendered width, including tracking."""
+    text = str(run.get('text', ''))
+    base_width = estimate_text_width(
+        text,
+        float(run.get('font_size', 16)),
+        str(run.get('font_weight', '400')),
+    )
+    letter_spacing_px = float(run.get('letter_spacing', 0.0) or 0.0)
+    return base_width + letter_spacing_px * max(len(text) - 1, 0)
+
+
+def _estimate_text_runs_width(runs: list[dict[str, Any]]) -> float:
+    """Estimate a line of text runs with renderer headroom."""
+    width = sum(_estimate_run_text_width(run) for run in runs)
+    if any(_is_serif_run(run) for run in runs):
+        return width * 1.35
+    return width * 1.12
 
 
 def _override_run_attrs(
@@ -854,6 +960,12 @@ def _override_run_attrs(
         run_attrs['font_style'] = tspan.get('font-style')
     if tspan.get('text-decoration'):
         run_attrs['text_decoration'] = tspan.get('text-decoration')
+    if tspan.get('letter-spacing'):
+        run_attrs['letter_spacing'] = _parse_letter_spacing_px(
+            tspan.get('letter-spacing'),
+            font_size=float(run_attrs.get('font_size', 16)),
+            scale_x=float(run_attrs.get('_scale_x', 1.0)),
+        )
     return run_attrs
 
 
@@ -894,8 +1006,8 @@ def _build_text_runs(
     """Build a list of text runs from a <text> element, handling <tspan> children.
 
     Each run is a dict with keys: text, fill, fill_raw, font_weight,
-    font_style, font_family, font_size. Nested tspans are walked recursively so
-    inline format changes inside a tspan still produce distinct runs.
+    font_style, font_family, font_size, letter_spacing. Nested tspans are walked
+    recursively so inline format changes inside a tspan still produce distinct runs.
     """
     runs: list[dict[str, Any]] = []
     preserve_space = _preserves_space(elem)
@@ -981,17 +1093,25 @@ def _build_run_xml(
     fs_px = run.get('font_size', 16)
     fstyle = run.get('font_style', '')
     ff = run.get('font_family', '')
+    letter_spacing_px = float(run.get('letter_spacing', 0.0) or 0.0)
     opacity = run.get('opacity')
 
     text_dec = run.get('text_decoration', '')
 
-    sz = round(fs_px * FONT_PX_TO_HUNDREDTHS_PT)
+    # Exported font size = fs_px * FONT_PX_TO_HUNDREDTHS_PT hundredths-of-pt,
+    # rounded to **one decimal place of pt** (the nearest 10 hundredths). No 0.5pt
+    # / integer snapping — whatever the px works out to is the size, e.g.
+    # 18px -> 13.5pt, 24px -> 18.0pt, 42px -> 31.5pt.
+    sz = int(round(fs_px * FONT_PX_TO_HUNDREDTHS_PT / 10.0)) * 10
     b_attr = ' b="1"' if fw in ('bold', '600', '700', '800', '900') else ''
     i_attr = ' i="1"' if fstyle == 'italic' else ''
     u_attr = ' u="sng"' if 'underline' in text_dec else ''
     strike_attr = ' strike="sngStrike"' if 'line-through' in text_dec else ''
+    spc_attr = _letter_spacing_to_drawingml_spc(letter_spacing_px)
 
     fonts = parse_font_family(ff) if ff else default_fonts
+    run_fonts = resolve_text_run_fonts(text, fonts)
+    lang = detect_text_lang(text)
 
     fill_xml = _build_text_fill_xml(fill, fill_raw, opacity, ctx)
     outline_xml = _build_text_outline_xml(run)
@@ -999,13 +1119,13 @@ def _build_run_xml(
     space_attr = ' xml:space="preserve"' if text != text.strip() or '  ' in text else ''
 
     return f'''<a:r>
-<a:rPr lang="zh-CN" sz="{sz}"{b_attr}{i_attr}{u_attr}{strike_attr} dirty="0">
+<a:rPr lang="{lang}" sz="{sz}"{b_attr}{i_attr}{u_attr}{strike_attr}{spc_attr} dirty="0">
 {outline_xml}
 {fill_xml}
 {effect_xml}
-<a:latin typeface="{_xml_escape(fonts['latin'])}"/>
-<a:ea typeface="{_xml_escape(fonts['ea'])}"/>
-<a:cs typeface="{_xml_escape(fonts['latin'])}"/>
+<a:latin typeface="{_xml_escape(run_fonts['latin'])}"/>
+<a:ea typeface="{_xml_escape(run_fonts['ea'])}"/>
+<a:cs typeface="{_xml_escape(run_fonts['cs'])}"/>
 </a:rPr>
 <a:t{space_attr}>{_xml_escape(text)}</a:t>
 </a:r>'''
@@ -1027,6 +1147,11 @@ def convert_text(elem: ET.Element, ctx: ConvertContext) -> ShapeResult | None:
     stroke_opacity = get_stroke_opacity(elem, ctx)
     font_style = _get_attr(elem, 'font-style', ctx) or ''
     text_decoration = _get_attr(elem, 'text-decoration', ctx) or ''
+    letter_spacing_px = _parse_letter_spacing_px(
+        _get_attr(elem, 'letter-spacing', ctx),
+        font_size=font_size,
+        scale_x=ctx.scale_x or 1.0,
+    )
 
     fonts = parse_font_family(font_family_str)
 
@@ -1038,6 +1163,8 @@ def convert_text(elem: ET.Element, ctx: ConvertContext) -> ShapeResult | None:
         'font_family': font_family_str,
         'font_style': font_style,
         'text_decoration': text_decoration,
+        'letter_spacing': letter_spacing_px,
+        '_scale_x': ctx.scale_x or 1.0,
         'opacity': opacity,
         'stroke_raw': stroke_raw,
         'stroke_width': stroke_width,
@@ -1075,11 +1202,7 @@ def convert_text(elem: ET.Element, ctx: ConvertContext) -> ShapeResult | None:
             if not line_runs:
                 continue
             visual_line_widths.append(
-                estimate_text_width(
-                    ''.join(r['text'] for r in line_runs),
-                    font_size,
-                    font_weight,
-                )
+                _estimate_text_runs_width(line_runs)
             )
             soft_break = child.get('data-paragraph-soft-break') == '1'
             if soft_break and paragraph_runs:
@@ -1136,7 +1259,7 @@ def convert_text(elem: ET.Element, ctx: ConvertContext) -> ShapeResult | None:
             + font_size * 1.5
         )
     else:
-        text_width = estimate_text_width(full_text, font_size, font_weight) * 1.05
+        text_width = _estimate_text_runs_width(runs)
         text_height = font_size * 1.5
     padding = font_size * 0.1
 
@@ -1173,16 +1296,6 @@ def convert_text(elem: ET.Element, ctx: ConvertContext) -> ShapeResult | None:
             raw_box_y = (box_y - ctx.translate_y) / sy
             box_x = ctx.translate_x + sx * (a * raw_box_x + e)
             box_y = ctx.translate_y + sy * (d * raw_box_y + f)
-
-    # Letter spacing
-    spc_attr = ''
-    letter_spacing = _get_attr(elem, 'letter-spacing', ctx)
-    if letter_spacing:
-        try:
-            spc_val = float(letter_spacing) * 100
-            spc_attr = f' spc="{int(spc_val)}"'
-        except ValueError:
-            pass
 
     # Text rotation. SVG's rotate(angle [cx cy]) rotates around (cx, cy), but
     # DrawingML's <a:xfrm rot="..."> rotates the shape around its own center.
@@ -1686,11 +1799,7 @@ def convert_image(elem: ET.Element, ctx: ConvertContext) -> ShapeResult | None:
     else:
         if ctx.svg_dir is None:
             return None
-        img_path = ctx.svg_dir / href
-        if not img_path.exists():
-            img_path = ctx.svg_dir.parent / href
-        if not img_path.exists():
-            raise FileNotFoundError(f'External image not found: {href}')
+        img_path = _resolve_external_image(ctx.svg_dir, href)
         img_format = img_path.suffix.lstrip('.').lower()
         if img_format == 'jpeg':
             img_format = 'jpg'
@@ -1887,11 +1996,7 @@ def convert_nested_svg(elem: ET.Element, ctx: ConvertContext) -> ShapeResult | N
     else:
         if ctx.svg_dir is None:
             return None
-        img_path = ctx.svg_dir / href
-        if not img_path.exists():
-            img_path = ctx.svg_dir.parent / href
-        if not img_path.exists():
-            raise FileNotFoundError(f'External image not found: {href}')
+        img_path = _resolve_external_image(ctx.svg_dir, href)
         img_format = img_path.suffix.lstrip('.').lower()
         if img_format == 'jpeg':
             img_format = 'jpg'

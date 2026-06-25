@@ -7,4 +7,6 @@
 在原项目基础上，增加了中国能建与国网的PPT模板。
 感谢原作者
 
+> 📄 上游原版 README：[README_upstream.md](./README_upstream.md)
+
 [⬆ 回到顶部](#ppt-master--ai-生成原生可编辑-pptx支持任意文档输入)
