@@ -31,16 +31,18 @@ For the first, give the AI your `.pptx` plus your material (or a topic) and ask 
 You: Replicate this as a template via /create-template: projects/brand/our_deck.pptx
 ```
 
-That runs `pptx_template_import.py` and rebuilds the file into a reusable bundle — layout SVGs + `design_spec.md` + extracted theme colors, fonts, and images. That bundle is what you point to at generation time.
+That runs `pptx_template_import.py` and rebuilds the file into a reusable workspace — layout SVGs + `design_spec.md` + extracted theme colors, fonts, and images. If you want a PowerPoint review file, run the optional preview export; it creates `exports/<id>_template_preview.pptx` on demand. The workspace root is what you point to at generation time.
+
+During the create-template brief, choose `library` (the existing default) or `project`. Both require `templates/` and use optional `images/`, `icons/`, and on-demand `exports/`; empty optional directories are omitted. Project scope requires an initialized target project; library scope alone adds global registration.
 
 A created template lives in one of two places:
 
 | Location | Path | Notes |
 |---|---|---|
-| **Registered in the skill library** | `skills/ppt-master/templates/layouts/<id>/` | Global, reusable across every project; run `register_template.py` so it shows up when you ask "what templates are available?" |
-| **Inside a project** | `projects/<project>/templates/` | Project-local; works by path, no registration needed |
+| **Registered in the skill library** | `skills/ppt-master/templates/<kind>/<id>/` | Portable workspace plus global registration, so it appears when you ask "what templates are available?" |
+| **Under projects** | `projects/<name>/` | The same portable workspace without global registration |
 
-Either way, you invoke it during generation by giving its **directory path** in chat — the workflow triggers on an explicit path only, never on a bare template name:
+Invoke either result by giving its **workspace-root path** in chat. Step 3 resolves `templates/design_spec.md`; for compatibility it also accepts older flat packages whose `design_spec.md` is directly at the supplied root. A create-template run may hand its exact validated workspace root directly to Step 3 in the same conversation. Both cases stay path-based; a bare template name never triggers. The complete workspace can be copied or migrated between the library and `projects/` without restructuring it; only library registration changes.
 
 ```
 You: Make a deck from sources/report.pdf with template skills/ppt-master/templates/layouts/academic_defense/
@@ -58,7 +60,7 @@ The whole loop is three steps. Install first — you only need Python; see [Quic
 2. **Tell the AI in chat** what to turn into a deck (add a template path if you set one up above; otherwise it's free design):
    ```
    You: Make a deck from projects/q3-report/sources/report.pdf
-   You: 把这份内容做成 PPT：<paste your text>
+   You: Turn this text into a deck: <paste your text>
    ```
 3. **Get an editable `.pptx`** at `exports/<name>_<timestamp>.pptx` — real DrawingML shapes, text boxes, and charts you can click and edit in PowerPoint, Keynote, WPS, or LibreOffice.
 
@@ -82,7 +84,9 @@ Full guide → [Live Preview Workflow](../skills/ppt-master/workflows/live-previ
 
 ## Animations & transitions
 
-Exported decks ship **page transitions** and **per-element entrance animations** as real OOXML — not embedded video. By default, elements cascade in on slide entry with no setup, and the deck plays natively in PowerPoint and Keynote with no extra tooling. Reach for customization only when you want a specific order, effect, or timing.
+Exported decks carry page transitions and optional per-element entrance animations as real OOXML — not embedded video. The default is a `fade` page transition with **no element animation**; opt in with `-a auto`, a named effect, or an `animations.json` sidecar when you want a reveal sequence.
+
+Animation settings are strict: unknown effects or Start modes, invalid timing values, and missing sidecar targets fail instead of silently becoming another effect. Before the result replaces an existing output, PPT Master reads the candidate package back and checks timing placement, IDs, shape targets, effects, durations, and Start modes. Microsoft PowerPoint is the primary motion-validation target; other presentation apps can open the PPTX but may map individual animation effects differently.
 
 Full guide → [Animations & Transitions](../skills/ppt-master/references/animations.md)
 
@@ -94,7 +98,7 @@ Turn the speaker notes into per-slide voice narration, embed the audio back into
 
 ```
 You: Generate narration for this deck and re-export with audio embedded.
-You: 给这个 PPT 生成音频
+You: Generate narration audio for this deck
 ```
 
 Narration defaults to `edge-tts` (about 90 locales); optional cloud providers cover higher-quality voices. The AI recommends a voice for the deck's language and asks once before generating.
@@ -121,7 +125,7 @@ The [FAQ](./faq.md) is the living troubleshooting reference — continuously upd
 | Visual quality disappoints | Switch to a large-context Claude model + `gpt-image-2` — the harness sets the floor, the model sets the ceiling. |
 | Text overflows or elements overlap | Re-run that page, or fix it in live preview; see the [FAQ](./faq.md). |
 | No image-generation API key | Zero-config web search still works as a fallback; see the [FAQ](./faq.md). |
-| Animations or some effects look off in another app | The file is standard `.pptx` and opens in PowerPoint / Keynote / WPS / LibreOffice; element animations render most completely in PowerPoint 2016+ and Keynote, while older Office may downgrade some to plain Appear. |
+| Animations or some effects look off in another app | Microsoft PowerPoint is the primary motion-validation target. Keynote / WPS / LibreOffice can open the `.pptx`, but may remap or omit individual effects or Start semantics; validate motion-critical delivery in PowerPoint. |
 | A long deck might blow the context window | Generation can run in split mode; details in the [FAQ](./faq.md). |
 
 For model choice, cost, chart editability, custom templates, and more, the [FAQ](./faq.md) is the place to look.

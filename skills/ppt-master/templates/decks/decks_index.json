@@ -5,37 +5,19 @@
     "page_count": 5,
     "primary_color": "#C00000"
   },
-  "中国电建_常规": {
+  "中国电建": {
     "summary": "Engineering project reports, technical proposal presentations, business negotiations, corporate promotion, annual summaries.",
     "canvas_format": "ppt169",
     "page_count": 5,
     "primary_color": "#00418D"
   },
-  "中国电建_现代": {
-    "summary": "Major engineering reports, international market promotion, technology achievement showcases, high-end business negotiations.",
-    "canvas_format": "ppt169",
-    "page_count": 5,
-    "primary_color": "#00418D"
-  },
-  "中汽研_商务": {
-    "summary": "Product certification display, evaluation presentations, technology promotion, high-end business reporting.",
-    "canvas_format": "ppt169",
-    "page_count": 5,
-    "primary_color": "#003366"
-  },
-  "中汽研_常规": {
+  "中汽研": {
     "summary": "Product certification display, evaluation presentations, technology promotion, business visits.",
     "canvas_format": "ppt169",
     "page_count": 5,
     "primary_color": "#004098"
   },
-  "中汽研_现代": {
-    "summary": "Forward-looking technology showcases, strategic releases, high-end business reporting.",
-    "canvas_format": "ppt169",
-    "page_count": 5,
-    "primary_color": "#001529"
-  },
-  "国家电网": {
+"国家电网": {
     "summary": "国家电网风格通用汇报模板 — 青绿色稳重专业，左侧深色竖栏+右侧卡片布局，适合央企内部汇报、项目进展、技术方案",
     "canvas_format": "ppt169",
     "page_count": 4,

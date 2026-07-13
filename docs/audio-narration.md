@@ -11,7 +11,7 @@ PPT Master can turn the speaker notes into per-slide narration via [`edge-tts`](
 ## How it works
 
 1. **Speaker notes are written as pure spoken narration.** PPT Master's notes spec deliberately produces TTS-friendly prose — no bracketed stage markers, no `Key points:` / `Duration:` meta-lines — so what is read aloud is exactly what's on the page.
-2. **AI picks the voice for you.** When you ask for narration, the AI checks the deck's primary language (`zh-CN` / `en-US` / `ja-JP` / `ko-KR` / …), pulls the selected provider's voice catalog, and recommends 3–6 candidates with a one-line tone description for each (e.g. "稳重男声，适合财报"). It also recommends a speaking rate or provider defaults based on notes density.
+2. **AI picks the voice for you.** When you ask for narration, the AI checks the deck's primary language (`zh-CN` / `en-US` / `ja-JP` / `ko-KR` / …), pulls the selected provider's voice catalog, and recommends 3–6 candidates with a one-line tone description for each (e.g. "steady male voice for financial reporting"). It also recommends a speaking rate or provider defaults based on notes density.
 3. **One question, one answer.** You are asked once — voice, rate, and "embed audio back into PPTX (yes/no)" — all with a recommended default. Reply "ok" to accept everything, or just call out the part you want to change.
 4. **Generation runs.** The script writes page-level audio to `audio/`, then (if you kept embedding) re-exports the deck with audio attached. Long-audio import and automatic long-audio splitting are not supported.
 
@@ -21,15 +21,15 @@ The full step-by-step is in [`workflows/generate-audio.md`](../skills/ppt-master
 
 | Command | Purpose |
 |---|---|
-| `--recorded-narration audio` | Prepare PowerPoint's recorded timings and narrations. Requires complete per-slide audio and writes page auto-advance timings. Use this for narrated/video export. |
-| `--narration-audio-dir audio` | Lower-level audio embedding. Embeds matched files and allows partial coverage. Use this for testing or manual PowerPoint finishing. |
+| `--recorded-narration audio` | Prepare PowerPoint's recorded timings and narrations. Requires complete per-slide audio and writes page auto-advance timings. Use this for narrated/video export. The re-export is saved as `exports/<name>_<timestamp>_narrated.pptx`. |
+| `--narration-audio-dir audio` | Lower-level audio embedding. Embeds matched files and allows partial coverage. Use this for testing or manual PowerPoint finishing. Exports get the same `_narrated` name suffix. |
 
 ## Triggering it
 
 Just say so in chat after the deck has been exported:
 
 ```
-You: 给这个 PPT 生成音频
+You: Generate narration audio for this deck
 You: Generate narration for this deck and re-export with audio embedded.
 You: Add Japanese voice narration; pick a calm female voice.
 ```
@@ -111,14 +111,14 @@ Four cloud providers — **ElevenLabs**, **MiniMax**, **Qwen**, **CosyVoice** �
 | Provider | Where to clone | Sample length |
 |---|---|---|
 | ElevenLabs | [elevenlabs.io](https://elevenlabs.io) → Voices → Add Voice → Instant / Professional Voice Cloning | 1 min (Instant) / 30 min+ (Professional) |
-| MiniMax | [platform.minimaxi.com](https://platform.minimaxi.com) → 语音克隆 (Voice Clone) | ~10 s – 5 min |
-| Qwen TTS | [DashScope console](https://dashscope.console.aliyun.com) → 语音合成 → 声音复刻 | ~10 s – 5 min |
-| CosyVoice | [DashScope console](https://dashscope.console.aliyun.com) → 语音合成 → 音色复刻 | ~10 s – 5 min |
+| MiniMax | [platform.minimaxi.com](https://platform.minimaxi.com) → Voice Clone | ~10 s – 5 min |
+| Qwen TTS | [DashScope console](https://dashscope.console.aliyun.com) → Speech Synthesis → Voice Replica | ~10 s – 5 min |
+| CosyVoice | [DashScope console](https://dashscope.console.aliyun.com) → Speech Synthesis → Voice Replica | ~10 s – 5 min |
 
 **How to use it after cloning** — in chat, just say so. The AI will skip the voice-recommendation step and use your `voice_id` directly:
 
 ```
-You: 用 MiniMax 我克隆的音色生成旁白，voice_id 是 xxxxxxx
+You: Generate narration with my cloned MiniMax voice; voice_id is xxxxxxx
 You: Generate the narration with my cloned ElevenLabs voice id abc123
 ```
 

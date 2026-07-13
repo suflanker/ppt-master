@@ -32,6 +32,37 @@
 
 PPT Master 可以在任何能读取文件和执行命令的 AI 编程代理中运行——**Claude Code**（CLI / VS Code / JetBrains / Web）、**VS Code Copilot**、**Codex** 等均可使用。不同工具的使用成本可参考下方的费用对比。
 
+## Q: 我下载过旧版本，怎么更新到最新版？
+
+看你当时怎么安装：
+
+| 安装方式 | 更新方式 |
+|---|---|
+| Git clone | 在 `ppt-master` 目录运行 `python3 skills/ppt-master/scripts/update_repo.py` |
+| Download ZIP | 重新下载最新版 ZIP，解压到新目录；把旧目录里的 `.env` 和 `projects/` 复制过去；再运行 `pip install -r requirements.txt` |
+| Skill marketplace | 用对应的 marketplace / skills 工具重新安装或更新 |
+
+长期使用建议用 Git clone。ZIP 适合快速体验，但没有 Git 历史，不能自动 `git pull`。
+
+如果不确定自己是哪种安装方式，可以让 AI 在项目目录里运行：
+
+```bash
+python3 skills/ppt-master/scripts/update_repo.py
+```
+
+如果当前目录不是 Git clone 版本，脚本会提示你按 ZIP 方式迁移。
+
+## Q: 仓库超过 1 GB，skills 工具下载直接失败——能只拿 skill 吗？
+
+可以。完整仓库确实很大（Git 历史，加上内置的示例 deck 及其素材），而且这个体积是写进历史里的——在不破坏已有大量 fork 的前提下没法瘦身。如果你只想要 skill、不需要完整仓库，用下面的轻量方式：
+
+- **Marketplace CLI**：`npx skills add hugohe3/ppt-master`，或 Claude Code 里的 `/plugin install`，都只拉取 skill 文件（见 README 的「开始设置」一节）。
+- **手动下载**：到 [Releases](https://github.com/hugohe3/ppt-master/releases) 页面下载 `ppt-master-skill-*.zip`——只含 skill 文件（约 50 MB），无需 clone 完整仓库。
+
+两种方式装好后，都要在安装目录跑 `pip install -r requirements.txt`，后处理脚本才能工作。
+
+中国大陆地区访问 GitHub 下载不便的话，完整仓库在 [AtomGit](https://atomgit.com/hugohe3/ppt-master) 也有镜像（clone 或下载 ZIP）；1 GB 出头的体积在中国大陆地区网络下载一般没问题。
+
 ## Q: 能用 AI 生成配图吗？
 
 可以。PPT Master 内置了图片生成脚本，支持多个供应商（Gemini、OpenAI、FLUX、通义千问、智谱等）。在策略师阶段选择"AI 生图"方案后，流程会根据内容自动生成配图。你也可以使用自己的图片——只需放到项目的 `images/` 目录下即可。
@@ -42,9 +73,13 @@ PPT Master 可以在任何能读取文件和执行命令的 AI 编程代理中�
 
 如果想要更现代的商业风照片，建议在 `.env` 里设置 `PEXELS_API_KEY` 和/或 `PIXABAY_API_KEY`（都是免费申请）。搜索会自动纳入 Pexels / Pixabay，人物、办公、生活方式、产品和插画类图片质量通常会明显更稳定。两种路径可以在同一份 deck 里混用（比如 hero 图用 AI 生成、团队照片用网络搜索）；如果选中的图片需要署名，Executor 会在该幻灯片自动添加就地小字署名。
 
+要清楚一点：**网络搜索只负责「找到一张相关、可下载、授权合规的图」，并不保证它在这一页里好看或贴切**——排序只看文字元数据，看不到画面。生成时多模态模型会读一份缩略图自查、不合适会重搜；但**要真正高质量，最可靠的还是你自己去搜**：在任何来源找到更合适的图，把链接给 AI，它会用 `image_search.py --from-url <链接>` 直接下载替换（记为手动来源、版权由你把关）。换图随时能做——生成途中或在实时预览里都行，不会打断流程。简而言之：把网络搜索当「兜底占位」，把人工挑图当「精修」。
+
 ## Q: 生成的 PPT 可以编辑吗？
 
-可以。主 `.pptx`（原生 PowerPoint 形状，文字、图形、颜色均可直接编辑，无需转换）以时间戳命名保存至 `exports/`。Executor 的原始 SVG 源（`svg_output/` 副本）始终镜像到 `backup/<timestamp>/svg_output/`，便于归档或基于该版重跑 `finalize_svg → svg_to_pptx` 重建 pptx，无需再走 LLM。加 `--svg-snapshot` 会额外在 `exports/` 内并排生成 SVG 快照版 pptx，便于跨平台单文件分发；默认关闭——日常开发/诊断场景中 live preview 已经提供了 SVG 视觉参考。需要 **Office 2016** 或更高版本。
+可以。唯一受支持的 PPTX 产物路线，是由项目转换器读取 `svg_output/` 并生成原生 DrawingML `.pptx`；文字、图形和颜色无需额外转换即可编辑，文件以时间戳命名保存至 `exports/`。Executor 的原始 SVG 源（`svg_output/` 副本）始终镜像到 `backup/<timestamp>/svg_output/`，便于归档或基于该版重跑 `finalize_svg → svg_to_pptx` 重建 PPTX，无需再走 LLM。
+
+Step 7 仍会强制生成 `svg_final/`。其中每页都是自包含的视觉预览 SVG，可直接在浏览器或 IDE 中打开，也可作为 SVG 图片手动插入 PowerPoint；项目只保证其作为预览或图片显示，不保证 PowerPoint 手工“转换为形状”后的结果。需要可编辑形状时，请使用 `exports/` 中由项目转换器生成的原生 PPTX。
 
 ## Q: 为什么一段正文被拆成了好几个文本框？能不能一段一个文本框？
 
@@ -58,7 +93,7 @@ python3 skills/ppt-master/scripts/svg_to_pptx.py <project_path> --no-merge
 
 使用 `--no-merge` 时，SVG 里的每一视觉行都会变成一个独立的 PowerPoint 文本框。这样能**逐像素保留 SVG 的版式**，适合封面、图表、表格、以及任何对版式精度敏感的页面。
 
-**代价**：默认段落合并后，PowerPoint 自动换行的行数可能与原 SVG 不一致。默认更适合正文密集型页面（abstract、多段落章节、参考文献等）；版式敏感页面使用 `--no-merge`。判定足够保守——非段落型 `<text>` 会自动落回按行拆框路径。
+**代价**：默认合并会保留一个可编辑文本框和原始视觉行边界；只有需要让每一视觉行都能单独移动时才使用 `--no-merge`。判定足够保守——非段落型 `<text>` 会自动落回按行拆框路径。
 
 跟 AI 对话时也可以直接说："这个页面要严格保持逐行版式" —— AI 重新导出时会加上 `--no-merge`。
 
@@ -97,9 +132,9 @@ PPT Master 本身免费开源，唯一的成本来自你自己的 AI 模型用�
 
 ## Q: 生成的图表可以编辑数据吗？
 
-图表以**自定义设计的 SVG 图形**形式渲染，转换为原生 PowerPoint 形状——形状级别完全可编辑（移动、改色、改文字、调样式）。这是一个有意为之的选择，而不是 Excel 驱动的图表对象：PowerPoint 默认图表样式陈旧、视觉受限于固定模板。SVG 图表则提供出版物级的视觉质量，并且可以在 PowerPoint 中直接精修。
+默认情况下，图表以**自定义设计的 SVG 图形**形式渲染，转换为原生 PowerPoint 形状——形状级别完全可编辑（移动、改色、改文字、调样式）。默认不用 Excel 驱动的图表对象是有意为之：PowerPoint 默认图表样式陈旧、视觉受限于固定模板。SVG 图表则提供出版物级的视觉质量，可以在 PowerPoint 中直接精修，且在 PowerPoint / Keynote / LibreOffice / WPS 间像素一致。
 
-如果你的工作流明确需要 Excel 驱动的数据编辑，可以在导出后自己手动在 PowerPoint 里制作一张类似的原生图表。
+如果你的工作流明确需要 Excel 驱动的数据编辑，导出时加 `--native-objects`：受支持的数据图表和纯文本表格会以**带数据、可直接编辑的 PowerPoint 原生图表 / 表格对象**形式导出（保存为 `exports/<name>_<timestamp>_native_charts.pptx`，并保留这份 deck 自己的配色，而不是套用 PowerPoint 默认主题）。代价是跨软件渲染——原生对象在 PowerPoint / Keynote / LibreOffice / WPS 间可能略有差异，所以 SVG 形状仍是默认路径。
 
 ## Q: 页面切换和元素动画可以调吗？
 
@@ -162,9 +197,9 @@ python3 skills/ppt-master/scripts/svg_to_pptx.py <project> -a auto --animation-t
 
 默认推荐**一次性连续生成**——10–15 页的 deck 在 200K 上下文窗口下完全够用，跨页视觉一致性也最好（Executor 看到前几页 SVG 后会主动对齐风格、字号、节奏）。
 
-只有信号偏重的场景（页数 ≥ 18 / 源材料很厚 / 走过 topic-research 累积大量 web 抓取），AI 才会在策略师阶段给出**两段式（拆分模式）**的可选提示：第一阶段（八项确认 + 图片获取）结束后停止当前对话；你新开聊天窗口，输入 `继续生成 projects/<项目名>` 进入第二阶段（SVG 生成 + 导出）。新会话从磁盘重新加载 `design_spec` / `spec_lock` / `sources` / `images` 继续执行。
+只有信号偏重的场景（页数 ≥ 18 / 源材料很厚 / 走过 topic-research 累积大量 web 抓取），AI 才会在策略师阶段给出**拆分模式**的可选提示：规划会话（策略师确认阶段 + 图片获取）结束后停止当前对话；你新开聊天窗口，输入 `继续生成 projects/<项目名>` 进入执行会话（SVG 生成 + 导出）。新会话从磁盘重新加载 `design_spec` / `spec_lock` / `sources` / `images` 继续执行。
 
-两段式是**折中方案**——付出约 6K tokens 的 SKILL.md 重读成本，换得 60–200K 的 Phase A 噪声丢弃，并把节省下来的窗口空间用于 Phase B 主动重读 `sources/` 做内容增稠。**信号正常时不需要**，提示也不会出现；用户随时可以忽略提示，走默认连续模式。
+两段式是**折中方案**——付出约 6K tokens 的 SKILL.md 重读成本，换得 60–200K 的规划会话噪声丢弃，并把节省下来的窗口空间用于执行会话主动重读 `sources/` 做内容增稠。**信号正常时不需要**，提示也不会出现；用户随时可以忽略提示，走默认连续模式。
 
 ## Q: 能在导出前预览或修正某一页吗？
 
@@ -209,7 +244,9 @@ beautify 和主管线的一句话判别：**原来的分页是要保留的信息
 
 **第一步 — 准备参考材料**
 
-**最推荐的方式是直接给原始 `.pptx` 文件**。当前的 PPTX 导入管线能做到接近高保真还原——PPT Master 会从 PPTX 中提取主题色、字体、母版/版式结构、可复用图片资源（包括精灵图裁剪关系），再用这些素材重建出干净可维护的模板。封面、章节、装饰繁复的页面都能稳定还原，这是目前最靠谱的派生路径。
+**最推荐的方式是直接给原始 `.pptx` 文件**。PPT Master 会提取主题色、字体、Master/Layout、placeholder type/idx、原生形状信息和可复用图片资源。`standard` 与 `fidelity` 把来源当作视觉参考，重新设计 SVG roster 和新的 Master/Layout/slot 系统，不保留、也不蒸馏来源拓扑。`mirror` 则按来源页序恢复 Master/Layout 身份与父子关系、placeholder 事实和受支持的视觉对象，不做语义归纳。由于结构层禁止 `<g>`，来源 Master/Layout 的 group wrapper 只允许机械展开成直接原子。
+
+完整导入 SVG 可以保留高级 PowerPoint 形状所需的 metadata、隐藏 carrier 和预览指纹，但模型只读取轻量 inspection projection；projection 永远不是导出源。`standard` / `fidelity` 使用紧凑 canonical metadata。Mirror 从无损来源物化，只在未改的 Slide-local/slot 对象上复用转换器已经支持的 metadata；不支持或已修改的对象保留当前 SVG fallback。
 
 没有源 PPTX 时，截图集也能跑（`cover.png` / `toc.png` / `chapter.png` / `content.png` / `closing.png`），但保真度会明显下降。建议优先找原始 PPTX。
 
@@ -221,12 +258,13 @@ beautify 和主管线的一句话判别：**原来的分页是要保留的信息
 - 期望的风格基调和配色（如"现代克制、深蓝主色调"）
 - 类别偏好（`brand` 品牌 / `general` 通用 / `scenario` 场景 / `government` 政务 / `special` 特殊）
 - 画布格式（默认 16:9，如需其他格式请注明）
+- 输出范围：进入索引的 `library`（默认）或一个已经初始化的 `project`；两者使用相同路由并省略空的可选目录
 
-不需要一次提供所有细节——AI 代理会通过对话追问补齐缺失信息（模板 ID、主题模式等）。
+不需要一次提供所有细节——AI 代理会通过对话追问补齐缺失信息（输出范围、模板 ID、主题模式等）。
 
 **第三步 — 等待完成**
 
-AI 代理会自动完成后续工作 — 分析截图、构建布局定义、注册模板，使其出现在 PPT Master 工作流的模板选项中。
+AI 代理会自动完成后续工作——分析参考、构建布局定义并验证模板。如果你明确需要 PowerPoint 审阅文件，它还会按需生成 `exports/<id>_template_preview.pptx`。两种范围都要求 `templates/`，并使用可选的 `images/`、`icons/` 与 `exports/`：`library` 写入 `skills/ppt-master/templates/<kind>/<id>/` 并完成全局注册；`project` 写入 `projects/<name>/` 并跳过注册；空的可选目录直接省略。把这个工作区根目录交给 Step 3 即可，Step 3 不会复制 `exports/`，全局库的预览导出也由 Git 忽略。旧式平铺包仍可把 `design_spec.md` 放在根目录，目录平铺本身不要求恢复结构。
 
 > **提示**：对风格和使用场景描述得越具体，生成的模板就越符合你的预期。
 

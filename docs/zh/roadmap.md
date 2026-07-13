@@ -25,7 +25,7 @@
 - **PPTX 导出质变**：SVG clipPath → DrawingML picture geometry、marker → 原生箭头、输出归集到 `exports/`
 - **图表库 70 个 + 图标三库**（simple-icons / phosphor-duotone / brand-logo）
 - **`spec_lock.md` 机器可读契约**：Strategist 锁定后 Executor 每页强制重读，跨页一致性有了保证
-- **元素级动画默认开启** + 旁白音频 / 视频导出([`workflows/generate-audio.md`](../../skills/ppt-master/workflows/generate-audio.md))
+- **元素级动画能力** + 旁白音频 / 视频导出（[`workflows/generate-audio.md`](../../skills/ppt-master/workflows/generate-audio.md)）；当前行为为按需开启，元素动画默认 `none`
 
 ### 2026-05（视觉编辑 + AI 图系统化）
 
@@ -40,7 +40,7 @@
 - **Kubernetes Blueprint 示例 deck 交付**（[`examples/ppt169_kubernetes_blueprint_2026/`](../../examples/ppt169_kubernetes_blueprint_2026/)） — P0 三档第二档落地：等距工程图美学 + 蓝图青/琥珀色板 + 全手写 SVG 几何（无 raster 图）+ 自定义"逐笔绘制"动画，10 页 Kubernetes 架构走读实压「几何形状泛化 + chart 结构扩展性」
 - **AI 图 `custom` 兜底出口** — `rendering` / `palette` / hero 构图三处允许声明 `custom` + 一段 `*_behavior` prose，替换原"找不到匹配就硬塞 vector-illustration / cool-corporate"的假兜底；端到端契约：[`image-renderings/_index.md`](../../skills/ppt-master/references/image-renderings/_index.md) §1.5 + [`image-palettes/_index.md`](../../skills/ppt-master/references/image-palettes/_index.md) §2 + Strategist h.5 hard-rule（每维 ≤1 custom，单候选可双 custom）+ spec_lock 字段 + Image_Generator Step 2 消费分支
 - **Template 架构三分类收口**（[`docs/zh/templates-architecture.md`](./templates-architecture.md)） — brand / layout / deck 三独立目录 + 每类独立 schema + 段级合成 + git-style 冲突解决；SKILL.md Step 3 按 kind 分支处理，触发规则仍是「显式路径才触发」
-- **Pattern 填充 PPTX 安全网** — `svg_quality_checker.py` 现在对未标 `data-pptx-pattern` 的 `<pattern>` 元素发 warning（会静默回退 `ltUpDiag` 斜纹）、对超出 OOXML `ST_PresetPatternVal` 枚举的值发 error（schema 校验失败 PPT 无法打开）；`shared-standards.md §7` 落地了完整 preset 清单和 `<rect fill="<bg>"/>` 子元素约定
+- **Pattern 填充 PPTX 安全网** — `svg_quality_checker.py` 现在对未标 `data-pptx-pattern` 的 `<pattern>` 元素发 warning（会静默回退 `ltUpDiag` 斜纹）、对超出 OOXML `ST_PresetPatternVal` 枚举的值发 error（schema 校验失败 PPT 无法打开）；`shared-standards.md §7` 落地了完整 preset 清单，以及从导入元数据或子元素 paint 解析颜色的合同
 - **LaTeX 数学公式渲染上线**（[`scripts/latex_render.py`](../../skills/ppt-master/scripts/latex_render.py)） — Strategist 在 Typography 确认中锁定 `mixed` / `render-all` / `text-only` 三档策略，显式写 `images/formula_manifest.json`；脚本走 codecogs → quicklatex → mathpad → wikimedia 四源 fallback chain，输出透明 PNG 进 §VIII 表的 `Acquire Via: formula` / `Status: Rendered` 行；公式密集型 deck（学术 / 工程 / 教学）首次拥有原生渲染路径，规则面禁止扫源文件 `$...$` 自动渲染（公式选取是 Strategist 决策）
 - **实时预览直接编辑 — L1 / L2 / L3**（[`workflows/live-preview.md`](../../skills/ppt-master/workflows/live-preview.md)） — 浏览器编辑器新增无需 AI 往返的确定性就地编辑：文字内容（L1）、fill / stroke / font-size 等样式属性（L2）、以及画布上的几何操作（L3）——在选中元素上拖拽即移动、方向键微调（`Shift` = 10px）、多选、加右键重叠选择器选取堆叠元素。编辑支持 `Ctrl+Z` 撤销 + 合并，点 **Apply changes** 写回 `svg_output/`；移动经 finalize / 导出保位（移动的 text、提升的多行 tspan、重定位的 icon 都在 PPTX 中如实再现）。重新导出仍由对话触发；画布上的缩放手柄尚未实现（缩放走几何输入框）
 
@@ -51,9 +51,9 @@
 - **提示词约束强度三档解耦**（[`docs/rules/prompt-style.md`](../rules/prompt-style.md) §4） — 规则（`Hard rule` / `Forbidden`）/ 默认（`Default — … may override`）/ 参考（`Reference — not a constraint`）三档显式化 + 「客观失败 vs 品味」判据 + checker 边界，让模型对「该守 vs 可破」一目了然；visual-style catalog 全程用 Reference 强度
 - **visual-style catalog 扩充至 18 个，与 image-renderings 对齐 + 示例库回收** — 先从[示例库](../../examples/)提炼 4 个（`brutalist` / `blueprint` / `memphis` / `zine`），再补齐 [`image-renderings`](../../skills/ppt-master/references/image-renderings/) 里有排版对应物的手绘 / 纹理风格 6 个（`sketch-notes` / `ink-notes` / `chalkboard` / `paper-cut` / `vintage-poster` / `pixel-art`），再回收示例库里仍未覆盖的独立气质：`ink-wash`（新中式水墨留白，源 藏拙 / 李子柒）· `glassmorphism`（深底磨砂玻璃 + 流光，源 glassmorphism_demo，从 soft-rounded 独立）· `photo-editorial`（满版摄影主导、文字点题，源 Pritzker / fashion_weekly）· `data-journalism`（Bloomberg/Economist 新闻信息图，多栏微图表 + 数据侧栏，源 global_ai_capital）。catalog 重组为 5 组（企业产品 / 编辑出版 / 表现印刷 / 手绘笔触 / 特殊）。**关键判据**：一个 rendering 升 visual-style 的前提是它定义「整页版面语言」而非「插入图的样子」——故 corporate-photo「摄影主导版面」该建（photo-editorial），而 nature / warm-scene / fantasy-animation 等纯氛围 rendering 仍只配对、不单建。全程零 HEX、Reference 强度
 - **mode catalog 扩档至 5 个：加 `briefing`** — 补上「中性信息平铺」这一格：无论点 / 无故事 / 不教学 / 不冲击，topic 标题、等权铺事实、完整可扫读，服务周报 / 参考册 / 目录 / 会议材料 / FAQ 这类「只告知不论证」的 deck。五个 mode 自此更接近 MECE 地切分**表达意图**：说服（pyramid）· 讲故事（narrative）· 教会（instructional）· 震住（showcase）· 只告知（briefing）。`_index` 加了 `briefing` vs `pyramid` 的灰区判据（「要不要造个 thesis 才塞得进 pyramid → 那就是 briefing」）。五个预设之外加一个 `custom` 兜底，承接预设盖不住的 bespoke 方向（特殊节奏 / 多 mode 融合 / 特定姿态）——用户点名**或策略师推荐**皆可，与所有锁一样由用户确认；一份 deck 永远只锁一个值，融合=一个 custom 描述多幕。唯一要避免的是「预设明明贴合却图省事甩 custom」。这与「用户自带大纲 / 方向覆盖 mode」是同一条真值优先原则
-- **mode / visual-style 体系真实 deck 验证完成 + 四项校准收紧落地** — 5 mode + 18 visual-style + `custom` 逃生舱在 5 份覆盖性 deck 上跑过验证（briefing×data-journalism / narrative×photo-editorial / instructional×chalkboard / showcase×glassmorphism / custom×zine，其中 narrative 一份走 AI 图生成分支）：**选型零误判**（四对 Close-calls 灰区引力全被触发且全抗住）、**纪律全落实**（零 HEX / Reference 强度 / 整页版面语言）、**custom 机制可用**（`mode_behavior` 散文段落撑过 10 页生成、能讲成大白话让用户确认）、**mode ⟂ visual_style 正交成立**（任意组合无串味，含「keynote/发布会=mode 不是 style」路由正面验证）、导出 5/5 deck × 全页 0 失败。据真实信号收紧四处：`strategist §e` 按 visual_style 预判中性档位一次锁全（消除连续三份的 Executor 中途补色）、`executor-base §1` 套模板页重皮到当前 visual_style（模板供结构不供皮，镜像模板仍按 §1.1 逐字保留）、`briefing §1` 的 `core_message` = 本页覆盖什么而非证明什么（briefing 专属例外，全局 §IX 论断语义保留给 narrative/instructional/pyramid）、`svg_quality_checker` 修字体 drift 误报（按定界符匹配 + font-stack 归一化）+ 放宽 showcase mode 与 poster 类 visual-style 的字号上限
-- **可选 spec 复核环节上线**（[`workflows/refine-spec.md`](../../skills/ppt-master/workflows/refine-spec.md)） — 八项确认后新增一个 opt-in 停顿点：用户明确要求时（默认 OFF），Strategist 先产出完整 `design_spec.md` + `spec_lock.md`，停下来让用户对 spec 任意部分（大纲 / 配色 / 排版 / 版式 / 图片策略 / page rhythm）深入讨论修改，改完同步两个文件再进生成。与 split-mode 同构——不主动触发、默认管线零变化，仅在八项确认里多一行 opt-in 提示。复核视角（逻辑清晰度 / 信息密度 / 焦点 / 口语化 / 感染力 / 章节配比 + 各设计维度）只给方向、不落任何数字阈值（`Reference` 强度）。启发自 [@cuberoocp](https://github.com/cuberoocp) [issue #173](https://github.com/hugohe3/ppt-master/issues/173)
-- **交互式可视化八项确认页（Step 4）**（[`scripts/confirm_ui/server.py`](../../skills/ppt-master/scripts/confirm_ui/server.py)，字段 schema [`scripts/docs/confirm_ui.md`](../../skills/ppt-master/scripts/docs/confirm_ui.md)） — 八项确认从纯聊天升级为浏览器可视化页面，Step 4 默认自动拉起：可枚举字段（canvas / mode / visual_style / 图标 / 图片用法 / 公式与生成策略）从 `catalogs.json` 出常用项、生成型字段摆候选——配色 swatch、字体实时预览（CJK / Latin 各自独立）、AI 图 rendering × palette 候选；并支持自定义 HEX 即时 swatch 反馈、配色 × 字体组合的实时合成预览、canvas 尺寸联动建议正文字号区间。与 Step 6 Live Preview **共用 `5050` 端口**（永不同时跑，确认页在 Step 4 末尾自动 `--shutdown` 让出端口；端口被占则自动顺延到下一个空闲口）。原则上**聊天始终是 canonical 通道、确认页只是便利层**：页面写出的 `result.json` 对推荐值具权威性、由下游就地消费（图片计划 / `image_strategy` / 字体 / split 与 refine-spec 开关都从中读取），任何打不开 / 超时 / 无 GUI 的情况都无损回退到聊天总结路径
+- **mode / visual-style 体系真实 deck 验证完成 + 四项校准收紧落地** — 5 mode + 18 visual-style + `custom` 逃生舱在 5 份覆盖性 deck 上跑过验证（briefing×data-journalism / narrative×photo-editorial / instructional×chalkboard / showcase×glassmorphism / custom×zine，其中 narrative 一份走 AI 图生成分支）：**选型零误判**（四对 Close-calls 灰区引力全被触发且全抗住）、**纪律全落实**（零 HEX / Reference 强度 / 整页版面语言）、**custom 机制可用**（`mode_behavior` 散文段落撑过 10 页生成、能讲成大白话让用户确认）、**mode ⟂ visual_style 正交成立**（任意组合无串味，含「keynote/发布会=mode 不是 style」路由正面验证）、导出 5/5 deck × 全页 0 失败。据真实信号收紧四处：`strategist §e` 按 visual_style 预判中性档位一次锁全（消除连续三份的 Executor 中途补色）、`executor-base §1` 套模板页重皮到当前 visual_style（模板供结构不供皮，mirror 模板保持恢复后的视觉身份）、`briefing §1` 的 `core_message` = 本页覆盖什么而非证明什么（briefing 专属例外，全局 §IX 论断语义保留给 narrative/instructional/pyramid）、`svg_quality_checker` 修字体 drift 误报（按定界符匹配 + font-stack 归一化）+ 放宽 showcase mode 与 poster 类 visual-style 的字号上限
+- **可选 spec 复核环节上线**（[`workflows/refine-spec.md`](../../skills/ppt-master/workflows/refine-spec.md)） — 策略师确认阶段后新增一个 opt-in 停顿点：用户明确要求时（默认 OFF），Strategist 先产出完整 `design_spec.md` + `spec_lock.md`，停下来让用户对 spec 任意部分（大纲 / 配色 / 排版 / 版式 / 图片策略 / page rhythm）深入讨论修改，改完同步两个文件再进生成。与 split-mode 同构——不主动触发、默认管线零变化，仅在策略师确认阶段里多一行 opt-in 提示。复核视角（逻辑清晰度 / 信息密度 / 焦点 / 口语化 / 感染力 / 章节配比 + 各设计维度）只给方向、不落任何数字阈值（`Reference` 强度）。启发自 [@cuberoocp](https://github.com/cuberoocp) [issue #173](https://github.com/hugohe3/ppt-master/issues/173)
+- **交互式可视化策略师确认页（Step 4）**（[`scripts/confirm_ui/server.py`](../../skills/ppt-master/scripts/confirm_ui/server.py)，字段 schema [`scripts/docs/confirm_ui.md`](../../skills/ppt-master/scripts/docs/confirm_ui.md)） — 模板遵循方式只在加载 Deck/Layout 模板时显示，默认推荐 `adaptive`：每页仍映射模板架构，无匹配构图时可在同一 Master 下创建新 Layout；`strict` 保持所选 Layout 契约不变。确认页与 Live Preview 共用端口，最终 `result.json` 对下游权威。
 - **源文档转换保真度提升一批** — 源材料进管线时更少丢信息：`doc_to_md` 把 Word 里的 OMML / Office Math 公式转成内联 LaTeX、`pdf_to_md` 识别 `Figure N |` 竖线分隔的图注、`ppt_to_md` 保留源 deck 已有的超链接（run 级外链 `[text](url)` / slide 内部跳转 `[text](#slide-N)` / shape 级点击，含危险 scheme 过滤与锚文本 Markdown 转义）并把原生图表数据转写成 Markdown 表格（数值随转换存活，不再只剩一张图）。图注识别基于 [@suay1113](https://github.com/suay1113) [PR #191](https://github.com/hugohe3/ppt-master/pull/191)，超链接保留提炼自 [@ZhaoZuohong](https://github.com/ZhaoZuohong) [PR #155](https://github.com/hugohe3/ppt-master/pull/155)
 
 - **内容保真的 PPT 美化 / 重排版上线**（[`workflows/beautify-pptx.md`](../../skills/ppt-master/workflows/beautify-pptx.md)） — 与 `template-fill` 互为镜像：template-fill 复用某份 deck 的设计换新内容，beautify 反过来保留内容、重做版面。给一份现成 PPTX，**全部文字逐字保留（不增 / 不删 / 不改写）**，从源 deck 提取并**继承其视觉身份（配色 / 字体，`theme` 或 `observed` 两套候选过确认页）**，只重做版面 / 层级 / 留白；严格 1:1 页数页序，图表 / 表格从抽取数据原生重绘（数据冻结）、源配图重新排布。技术上仍走从零生成原生 PPTX 管线（`ppt_to_md` 抽内容 → 主管线 → 全新 deck），不补丁原文件，因此不碰 Non-goals #53。新增 `beautify_identity.py` / `beautify_inventory.py`，confirm 页全字段按源 seed 后用户复核。v1 天花板（诚实标注）：不缓解信息过载（挤页只在页内改，真要重排分页属主管线）、不保证坐标级 paste-back、combo / dual-axis / waterfall 图丢未捕获的绘图层
@@ -64,6 +64,30 @@
 
 - **一批默认行为与入口标准化** — 逐元素入场动画默认关（只留转场 `fade`；元素动画改 opt-in `-a auto` / `animations.json`），消除"自动级联入场"的 AI 味；per-project `icons/` 在选择时把选中图标复制进项目、嵌入优先本地；`analysis/` 确立为机器抽取事实的 canonical 必读层（PPTX intake bundle + `image_analysis.csv`）；主管线把源 deck 的身份（配色 / 字体 / 版式）当**参考而非约束**（可继承可重设，由策略师判断，默认从零设计）；confirm 页支持自定义配色输入
 
+- **AI 插画大图 → 切片点缀插画管线**（[`scripts/slice_images.py`](../../skills/ppt-master/scripts/slice_images.py)） — 当一份 deck 需要若干同一家族的点缀插画时，不再一格一次 AI 调用，而是**一次生成一张多格插画大图**（单次调用锁住整组风格 / 色板、成本远低于逐格生成），再由 `slice_images.py` 确定性按 `RxC` 网格切成独立元素文件；`--trim` 按每格内容包围盒紧裁、`--alpha` 抠掉平整底色，让每个元素以**透明剪影**落到异色页面而非带可见方框。资源契约（§VIII）双行落地：一行 `ai` Illustration Sheet（生成但永不直接放置、不进 `spec_lock.md` images）+ 每格一行 `slice` 元素（实际放置、进 spec_lock）；Step 5 生成大图后切片并重跑 `analyze_images`，Step 7 readiness gate 在离线场景列出大图 + 元素目标让用户手动放图再切。要不要用点缀插画是 Strategist 在 `image_usage` source 边界内的判断（不单独成确认字段；`image_usage: none` 永远压过插画意图），用户看不到内部 sheet/slice 实现。`svg_quality_checker` 加了对应校验，[`image-layout-patterns.md`](../../skills/ppt-master/references/image-layout-patterns.md) 补了图主导的促销 / 宣传版式范式
+
+- **点缀插画：从「能切出来」到「会用、成体系」** — 在切片管线之上补齐决策层 + 收紧切片质量，让 deck 真正用好插画而非只是技术上能生成。①**切片质量**：`slice_images.py` 的 `--alpha` 改软蒙版抗锯齿 + 1px 去光晕、底色采样改 2px 边框环中位数、色距改最大通道差；`svg_quality_checker` 对 Generated `slice` 行校验文件存在性。②**触发倾向绑定 `visual_style`**：每个风格标 `core` / `supportive` / `sparse` 插画倾向（[`visual-styles/_index.md`](../../skills/ppt-master/references/visual-styles/_index.md) 加 `Illus.` 列 + 各文件 §6），core 默认推荐用、sparse 默认不用；优先级链 `image_usage:none` → 用户显式意图（双向覆盖）→ 风格倾向 → none。③**贯穿母题 through-line**：deck 倾向用插画时，封面锚点 / 章节分隔 / 页内散点出自同一母题家族（共享 h.5 rendering+palette+主题世界），读成一套设计系统而非孤立散点；AI 母题仅在 `image_usage` 含 ai 时生成，provided/web 仅沿用本已成同族的素材。④**插画角色决策地图**：Strategist §h 加「角色 × 何时 × 机制 × source」导航表（散点 / 主角锚点 / 章节分隔 / 氛围背景 / 母题）。全程不设配额、不把品味数字化（同尺寸瓷砖检测评估后不做，留给 §4.3 placement 散文 + 执行判断）
+
+- **图像变换矩阵端到端保真 + host-native 生成路径** — `svg_to_pptx` 的 DrawingML 图片导出现在如实尊重 SVG 的 transform 矩阵（旋转 / 斜切 / 复合变换不再在嵌套 `<g transform>` 下错位或塌回原点），把「跨四渲染器位置保真」主轴补到 raster 图层；`image_gen.py` 增加 host-native 生成路径，在宿主自带图像生成能力时走原生通道。两者均属修复 / 增量补强，细节见 commit log
+
+- **网络配图改为「最佳图 + 可复核 + 人工换图」** — web 图来源不再默认静默下载一池候选，而是**默认只下最佳匹配图**，候选池退化成 `--save-candidates` 的显式升级路径（默认 4 张）；每张下载图生成 ≤1024px review 副本（`images/.review/`，放置 / promote 仍全分辨率）。合适性复核做成 **model-agnostic**：多模态模型读 review 副本自查，非多模态则把 `source_page_url` 交人工判断——不假设模型有视觉。新增 `image_search.py --from-url <链接>`：把人找到的任意图片 URL 下载并替换目标（记 `license_tier: manual`、继承页面上下文），作为通用人工换图通道；`--promote` 改为从被选候选重算署名（不沿用旧图 credit）。全程在 Step 5 内、不合适转 `Needs-Manual` + 占位，**不阻塞主流程**。定位上 web 搜索是「兜底取图、不保证质量」，真要高质量靠 AI 生图或自己手动挑图换入
+
+- **Web 配图实体安全门（精确主体不再被「高清错图」赢走）** — 承上条 web 配图：给 web 候选加 `required_terms` 实体门控，挡住「元数据相关但主体错误」的图（一张精修的罗马纪念碑赢下「重庆地标」行）。`required_terms` 各组之间 AND、组内 `A|B` 给别名（跨语言 `Chongqing|重庆`），匹配做小写 / 分隔符归一 / 空白压缩以兼容多词与 CJK 名；命中实体即视作相关信号（零 query 词重叠不再否决，CJK 标题地标可在英文 query 下通过，无 `required_terms` 时旧的否决逻辑照旧）。像素面积从主导分（cap 5000）降级为 tie-breaker（cap 1500）+ 标题命中加权，让实体准确性与相关性压过纯分辨率（避免高清错主体赢）。CLI `--require-terms`（可重复，逗号 / `|`）、批量 `required_terms`、`--from-url` 均继承，记入 `image_sources.json` 备审；门控形同虚设（弱 `required_terms`）会发 warning。定位是与 `.review` 视觉复核配对的**元数据门**，不是视觉分类器
+
+- **原生 PPTX 导出图片媒体大小封顶** — 保持生成 deck 可编辑、不嵌入巨幅源图：新增原生图片尺寸模式——`cap`（默认）只对超大源图限制最大边长，`display` 按渲染 SVG 框尺寸做更激进压缩；原生导出保留完整嵌入像素，SVG/PPT 显示裁剪仍走可编辑的 picture-crop 元数据；`finalize_svg` 保留原有 slice/meet 行为，另加默认按渲染尺寸下采样以产出紧凑 SVG 快照。文档落地 `cap` / `display` 两模式与 `--no-image-optimize` 逃生舱
+
+### 2026-07（分阶段确认 UI + 原生对象 + 动效加固）
+
+- **Step 4 确认 gate 重构为三阶段向导 + 可视化预览** — 原来单次「八项确认」gate 拆成一个浏览器会话内的三阶段流程（方向锚点 → 设计系统 → 图片 / 执行方式），每个下游阶段都从用户**实际已确认**的上游选择重新推导，而非 AI 原始推荐——于是图片策略天然吻合已确认的配色系统。确认页为难以凭名字判断的选项补上视觉辅助：18 个 `visual_style` 每个一张专属 real-SVG 页面缩略图、真实图标库样本、AI 图参考图预览。`recommendations.json` 改用规范的 `stage` 选择器（`tier` 仅作内部向后兼容读取），用户可见措辞统一为「阶段」；聊天 fallback 镜像同样的分阶段顺序
+
+- **页间转场与元素入场动画完成无静默降级加固** — 当前默认保持页间 `fade` / 0.4 秒、元素入场 `none`，对象动画仍通过 `-a` 或 `animations.json` 按需开启。未知效果 / Start 模式、非有限或越界时长、非法顺序，以及缺失 slide/group 引用都会直接失败，不再偷换为 `fade`、其它 Start 模式或继承值。公开产物替换前会回读候选 PPTX，校验根级 timing 位置、时间节点 ID 唯一性、shape 引用、效果 / 时长 / Start 语义及旁白 timing 合并。直接 PPTX 路线只保留源对象动画，不把它翻译成生成路线的动画模型。Microsoft PowerPoint 是动效行为的主要验证目标；其它演示软件仅作为兼容目标，不承诺完全相同的播放结果
+
+- **`--native-objects` 从休眠 marker 硬化为可用级 opt-in** — 那条窄「原生对象」例外（见下文 Non-goals）现在导出的图表与纯文本表格会**保留 deck 自己的设计**，不再塌回 PowerPoint 的白底默认主题。classic 原生图表显式写入 chart-area / plot-area / 轴线 / 网格线 / 标签文字颜色——从可见的 SVG fallback 推断（最大面板型 `<rect>` → 背景、fallback 文字 → 标签、fallback 描边 → 轴线/网格），或用 `style` 显式覆盖（`chart_area_fill` / `plot_area_fill` / `text_color` / `axis_color` / `grid_color`，`"none"` 表透明）；颜色解析把命名色、`#RGB` 简写、`rgb()` / `rgba()` 归一为 OOXML hex；bar/column 系列关掉负值反色，负值柱保持系列色。激活导出命名为 `<name>_<ts>_native_charts.pptx` 以与默认压平形状导出区分。**默认路线不变**——图表/表格仍以 SVG 派生的 DrawingML 形状导出以保跨渲染器保真；原生对象仍是下文 Non-goals 里那条刻意的 opt-in 取舍
+
+- **原生 package 结构 + 按模式创建模板** — 每个新 SVG 页面在创作时就声明最终 Master/Layout 身份。固定 Master/Layout 视觉是根级原子，可复用槽位是带真实 carrier 或显式 composite proxy 的有界顶层 group，零槽位 Layout 也合法。导出只确定性编译该合同，把锁定 title/body 字号写入母版 `p:txStyles`，并执行最终 package 回读；不提升重复 chrome，也不推断 placeholder。`standard` / `fidelity` 重新创作 SVG roster 和新的 Master/Layout 系统，不保留、也不蒸馏来源拓扑。`mirror` 按来源页序恢复 Master/Layout 身份与父子关系、placeholder 事实和受支持视觉，不做语义归纳；固定结构层的来源 group 只允许机械展开成直接原子。无损导入保留在分析区，轻量 projection 仅供检查。`library` 与 `project` 都要求 `templates/`，`images/` / `icons/` 可选，`exports/` 仅在按需生成评审文件时出现；只有全局注册不同。旧 baseline/template/preserve SVG 包先运行 `restore-pptx-structure`；原始 PPTX 的一次性回填仍走 `template-fill-pptx`。
+
+- **原生预设授权引导跨角色强化** — 用真正的 PowerPoint 预设（`prstGeom`，带调节手柄、非扁平卡片外观）被重申为库存几何（块箭头、chevron、横幅、标注、流程节点、星形）的**默认**而非例外。预设是每页由 helper（`preset_shape_svg.py`）现生成的，所以引导落在提示词层而非模板示范：Executor 现在在逐页作图仪式内主动够预设——按对象意图在画图当下决定，绝不扫描已完成路径——并写明准确的 paint 边界（渐变填充/描边或 pattern 填充保持普通 SVG，因为 helper 只对 fill 和 stroke 画 `none` 或纯色 HEX）。Strategist 在上游预热：给 §VII 页面的 Usage **追加**一条非破坏性的 `native-preset candidate` 注记，按页面计划而非模板名触发；Executor 仍自定具体预设、frame 与 paint。把预设片段烤进 `templates/charts/` 经评估否决——冻死的 frame/fingerprint 会诱导原样复制，违反授权契约
+
 ---
 
 ## 进行中 / 下一步
@@ -71,6 +95,8 @@
 明确在做或下一步要做的方向，不承诺时间窗口。
 
 - **多 deck intake 与材料发散度的真实使用校准（刚落地）** — 多 deck 合并 intake（`<stem>` 前缀 + `decks[]` 合并索引）与材料发散度自由文字项（§c 受众下）均已上线（见上「2026-06」），接下来按真实使用信号校准：多份源 deck 同名（stem 冲突）的处理目前是后者覆盖前者，是否需要去重 / 加序号待信号；发散度的自由文字让 Strategist 判得准不准、放开写时「事实守源」边界守不守得住，待真实生成验证。两者都不预先加机械阈值
+- **插画能力（机制 + 部署层）的真实 deck 校准（刚落地）** — 切片管线、边缘质量收紧，以及决策层（风格倾向 / 贯穿母题 / 角色地图，见上「2026-06」）均已上线，接下来按真实使用信号校准：一次大图切多格的风格 / 色板一致性与 `--alpha` 软蒙版对格内不规则构图的鲁棒性、离线 readiness gate 的手动放图 + 重切体验、风格倾向是否翻对了该翻的风格、母题在真实 deck 上读成「设计系统」还是「过度装饰」、以及 source 边界（provided/web 不静默生成 AI）守得住否。不预先加机械阈值 / 配额；同尺寸瓷砖若真反复出现再考虑更窄的 lint
+- **预设上的原生投影——作为独立增强延后** — 受支持的投影技术上能与原生预设共存（效果继承到 hidden carrier，导出为 `prstGeom` + `outerShdw`），但只有精确嵌套才对：带 id 的逻辑组包一层**无 id 单子** `<g filter="url(#id)">`。天真写法（filter 挂在顶层带 id 组上）会静默产生双 `outerShdw`，且 `shared-standards` 目前禁止在多元素 `<g>` 上加 filter。因此预设带阴影刻意不并入当前预设引导——带阴影的库存形状保守留普通 SVG。要做对需精确结构规范 + `shared-standards` / `native-shape-authoring` 全仓 sweep，可能再加一条 checker 规则抓双阴影；按真实信号再启动
 - 其余：mode / visual-style 体系的验证与校准已收口（见上「2026-06」），结构（5 mode + 18 visual-style + custom）定型、四对近邻消歧并成一张 Close-calls 表、四项校准收紧已落地。后续方向由真实使用信号与反馈驱动；长期改进见下「持续维护方向」，已评估不做的见「明确不做」
 
 ---
@@ -91,19 +117,19 @@
 
 **对应 Issue**：[#53](https://github.com/hugohe3/ppt-master/issues/53)、[#118](https://github.com/hugohe3/ppt-master/issues/118)
 
-PPT Master 主路线是「AI 从零生成 SVG → DrawingML」，整条管线围绕完全可控的形状/文字/版式构建。「解析既有 PPTX 占位符 + 仅回填文字」是另一种产品形态，需要处理任意来源的母版 / 主题 / 占位符体系，与现有架构发力点正交。
+PPT Master 主路线是「AI 从零生成 SVG → DrawingML」，整条管线围绕完全可控的形状/文字/版式构建。结构完整的 PPTX 现在可以通过两种显式方式形成经过确认的可复用模板包：`standard` / `fidelity` 以视觉证据为参考，创作新的 SVG 与 Master/Layout 系统；`mirror` 恢复当前可达且受支持的来源结构。但「打开任意 PPTX 后不经规范化就盲填所有占位框」仍是另一种产品形态。
 
 **基础诉求其实很简单**：如果只是「固定位置替换 Excel 数据到 PPT 模板」，直接让 AI 写一段 `python-pptx` 脚本即可，几行代码搞定，不需要本项目这套管线。
 
-> **与 `template-fill-pptx` 路线的区别**：「复用某份 deck **自己的**设计、把新内容回填进去」是已支持的能力（见上「2026-06」），输出仍原生可编辑。这里拒的是另一种形态——解析**任意第三方**模板的母版 / 主题 / 占位符体系并仅做文字替换；两者发力点不同，别混为一谈。
+> **已支持边界**：`template-fill-pptx` 直接回填选中的源页面；`create-template` 或者创作新的显式 SVG 契约（`standard` / `fidelity`），或者在不做语义归纳的前提下恢复受支持的来源契约（`mirror`）。下游 `strict` / `adaptive` 都从这份已声明契约还原原生结构。仍不做未经审查、没有契约的任意第三方 placeholder 全自动替换。
 
 ### 改用原生 PowerPoint 图表（Excel-native chart）
 
 **对应 Issue**：[#99](https://github.com/hugohe3/ppt-master/issues/99)、[#100](https://github.com/hugohe3/ppt-master/issues/100) 类
 
-跨四渲染器（PowerPoint / Keynote / LibreOffice / WPS）的位置保真是项目主轴。改用 PowerPoint 原生图表会让「像素级一致性」破功——同一个 PPTX 在不同渲染器里图表会显示不同布局。图表用 SVG 是 **by design**，不是能力缺失。
+跨四渲染器（PowerPoint / Keynote / LibreOffice / WPS）的位置保真是项目主轴。把默认路线改成 PowerPoint 原生图表会让「像素级一致性」破功——同一个 PPTX 在不同渲染器里图表会显示不同布局。图表默认用 SVG 是 **by design**，不是能力缺失。
 
-如果需要数据驱动的原生 Excel 图表，建议另选工具或在导出后用 PowerPoint 手动替换；本项目不会内置这条路径。
+窄例外是 `data-pptx-native` marker：受支持的数据图表与纯文本网格表格在生成时携带原生对象元数据，导出加 `--native-objects` 才激活——供主动用跨渲染器保真换取 PowerPoint 内可编辑性的用户使用；激活后的对象现在会保留 deck 的 chart-area / plot / 轴线 / 网格线 / 标签颜色与原生表格格式，不再塌回 PowerPoint 默认主题（见上文 2026-07）。默认导出路径与 SVG 图表 / 表格系统不变。
 
 ### uv 作为默认 / 必需依赖
 

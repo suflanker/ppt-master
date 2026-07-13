@@ -8,33 +8,70 @@
 
 ## 一、三分类
 
-| 分类 | 物理目录 | 写什么 | 不写什么 | 出处工作流 |
+| 分类 | 全局库工作区根目录 | 写什么 | 不写什么 | 出处工作流 |
 |---|---|---|---|---|
 | **Brand** | `templates/brands/<id>/` | 仅身份段：color / typography / logo / voice / icon style | 不写 canvas、page structure、SVG roster | `workflows/create-brand.md` |
 | **Layout** | `templates/layouts/<id>/` | 仅结构段：canvas / page structure / page types / SVG roster | 不写品牌身份（无 logo、无品牌色硬约束） | `workflows/create-template.md`（layout 分支）|
 | **Deck** | `templates/decks/<id>/` | 全段：身份段 + 结构段 + 中间段（template overview） | —— | `workflows/create-template.md`（deck 分支，默认）|
 
-三者是**三种并列的 reference bundle**，物理目录与 frontmatter `kind` 字段双向对齐：
+每张新建或已恢复的 Layout/Deck SVG 都是完整预览，并在根节点声明 Master/Layout key 与选择器名称；固定 Master/Layout 视觉是直接原子元素；语义槽位是顶层 group。普通槽位必须有正数设计区域 bounds 和恰好一个兼容 carrier；复合 `object` 区域走显式 proxy 绑定，零槽 Layout 也合法。这些专用标记具有最高优先级；最小 `data-pptx-role` 只补充它们无法表达的页面框架行为。`standard` / `fidelity` 重新创作 SVG 和新的结构，不保留、也不蒸馏来源拓扑。Mirror 按来源恢复 roster、身份、父子关系、placeholder 事实和受支持视觉，不做语义归纳；固定结构层的来源 group 只允许机械展开成直接原子。下游 `strict` 保持所选声明合同，`adaptive` 保持 Master 并可在创作时建立新 Layout 身份；两者都使用 `pptx_structure.mode: structured`。只有使用旧 Master/Layout 语义的包才必须先运行 `restore-pptx-structure`；旧包把 `design_spec.md` 平铺在根目录仍属于受支持的兼容目录形态，目录平铺本身不触发恢复。
+
+三者是**三种并列的 reference bundle**。在全局库范围内，物理目录与 frontmatter `kind` 字段双向对齐：
+
+多路径合成后的项目级 `design_spec.md` 也必须保留准确的 `kind`：同时具备身份段和结构段时为 `deck`，只有结构段时为 `layout`，只有身份段时为 `brand`。Strategist 确认页据此只对真正包含页面结构的 Deck/Layout 显示 `adaptive / strict`。
 
 ```yaml
-# templates/brands/anthropic/design_spec.md
+# templates/brands/anthropic/templates/design_spec.md
 ---
 kind: brand
 ...
 ---
 
-# templates/layouts/academic_defense/design_spec.md
+# templates/layouts/academic_defense/templates/design_spec.md
 ---
 kind: layout
+native_structure_mode: structured
 ...
 ---
 
-# templates/decks/招商银行/design_spec.md
+# templates/decks/招商银行/templates/design_spec.md
 ---
 kind: deck
+native_structure_mode: structured
 ...
 ---
 ```
+
+### 输出范围与 kind 相互独立
+
+`create-template` 会确认 Layout/Deck 工作区放在哪里。这个执行选择不会增加第四种 kind，也不会增加新的 PPTX 结构模式：
+
+| 范围 | 工作区根目录 | 核心结构 | 发现行为 |
+|---|---|---|---|
+| `library`（默认） | `skills/ppt-master/templates/<kind>/<id>/` | 必需 `templates/`；可选 `images/`、`icons/` 与按需 `exports/` | 写入对应全局索引 |
+| `project` | `projects/<name>/` | 完全相同的路由合同 | 不更新全局索引 |
+
+两种根目录都保持相同的核心形态：
+
+```text
+<template_workspace>/
+├── templates/
+│   ├── design_spec.md
+│   ├── *.svg
+│   └── icons/                  # 使用时保留 package / 校验副本
+├── images/                     # 可选；SVG 统一引用 ../images/<name>
+├── icons/                      # 可选；提取向量素材的运行期副本
+└── exports/                    # 可选；仅在按需生成审阅文件时创建
+    └── <id>_template_preview.pptx
+```
+
+空的可选目录直接省略，不添加占位文件。按需生成的预览 PPTX 是派生审阅证据，不是模板源资产。Step 3 读取工作区根目录，只消费 `templates/` 及实际存在的 `images/`、`icons/`，不会复制或使用 `exports/`；全局库下的 `exports/` 统一由 Git 忽略。
+
+原生形状 metadata 采用两级模型。完整导入 SVG 保存 native metadata、隐藏 carrier 和预览证据；轻量 authoring projection 移除大体积载荷与重复 carrier，只供模型检查，永远不是导出源。创作模式使用紧凑 canonical metadata。Mirror 可在未改的 Slide-local/slot 对象上复用转换器已经支持的 metadata；固定结构层保持直接原子，不支持或已修改的对象保留 SVG fallback。导出只编译声明的结构，不推断归属。
+
+两种范围都在可移植 frontmatter 中保留 `kind: layout` 或 `kind: deck`。`output_scope` 与 `target_project` 只属于工作流简报，不写入 `design_spec.md`。
+
+任何范围第一次写最终文件前，都必须解析工作区根目录、确认 `templates/` 为空，并检查全部计划写入的图片与图标文件名无冲突；只有明确要求预览导出时才检查预览 PPTX 目标。项目范围还必须确认目标项目已初始化。任一失败都在写入前停止，不合并、不覆盖。
 
 ### 三段的字段切分
 
@@ -48,9 +85,9 @@ kind: deck
 
 ### 为什么需要 Deck 这一类
 
-Deck 是一份现存 PPT 的"复刻全息"——SVG 几何为该套配色和字体画的，身份与结构在原 PPT 里已经实战搭配。它的价值是「已验证的整体感」，是 layout + brand 自由拼合未必能达到的成品。
+Deck 是从一份现存 PPT 或明确设计方向形成的完整身份与结构参考——配色、字体、视觉节奏与页面类型共同组成一个整体。它的价值是「已验证的整体感」，是 layout + brand 自由拼合未必能达到的成品。
 
-但 Deck **不是"不可篡改的复刻"**——它是"作为默认底图的复刻，可被显式 brand / layout 覆盖"。这给了用户最大自由度：默认拿到一份完整方案，需要时显式换身份或换结构。
+它的构建方式由 replication mode 决定：`standard` / `fidelity` 根据视觉参考创作新系统；mirror 一对一恢复来源身份与父子关系。打包完成后，两者都作为可被显式 brand / layout 覆盖的完整参考方案使用。
 
 ---
 
@@ -92,6 +129,7 @@ primary_color: "<HEX>"
 ---
 layout_id: <slug>
 kind: layout
+native_structure_mode: structured
 summary: <一句话描述用途>
 canvas_format: <ppt169 | ppt43 | a4 | ...>
 page_count: <N>
@@ -109,7 +147,7 @@ page_types: [<cover, toc, chapter, content, ending, ...>]
 | IV | Page Types | 每种页面的角色（cover / toc / chapter / content / ending …）与变体说明 |
 | V | SVG Page Roster | 文件清单 + 用途，每个文件对应 III/IV 哪一类 |
 
-**不允许出现**：品牌 logo、品牌 voice & tone、官方真值色（`provenance: fact`）——这些是 brand 的职责。Layout 自身没有兜底色/字体（这是定义：layout 不写身份段；色彩与字体在 Strategist 八项确认现场决策）。
+**不允许出现**：品牌 logo、品牌 voice & tone、官方真值色（`provenance: fact`）——这些是 brand 的职责。Layout 自身没有兜底色/字体（这是定义：layout 不写身份段；色彩与字体在 策略师确认阶段现场决策）。
 
 ### Deck schema
 
@@ -119,6 +157,7 @@ page_types: [<cover, toc, chapter, content, ending, ...>]
 ---
 deck_id: <slug>
 kind: deck
+native_structure_mode: structured
 summary: <一句话描述用途>
 canvas_format: <ppt169 | ...>
 page_count: <N>
@@ -148,6 +187,8 @@ primary_color: "<HEX>"
 ## 三、三套 index 文件
 
 每个 index 跟物理目录一一对应，字段按需精简（参照 [[project-charts-index-full-read-intentional]] 的"meta + summary"模式，但保留对 Strategist 选型有用的结构化元数据）。
+
+三套索引只覆盖全局库范围。项目根工作区有意不进入任何索引，仍可通过显式 `projects/<name>/` 路径使用。因为两种范围采用相同工作区形态，完整核心工作区可在两者之间移动或复制，不需要重写素材路径；只有全局库注册不同。
 
 ### `templates/brands/brands_index.json`
 
@@ -207,7 +248,7 @@ primary_color: "<HEX>"
 |---|---|
 | 无 | 跳过 Step 3，走自由设计 |
 | 只 brand | 复制 brand 全部，结构走自由设计 |
-| 只 layout | 复制 layout 全部，身份走自由设计（Strategist 八项确认 e/f/g 决策） |
+| 只 layout | 复制 layout 全部，身份走自由设计（策略师确认阶段 e/f/g 决策） |
 | 只 deck | 复制 deck 全部 |
 | brand + layout | brand 提供身份段 + layout 提供结构段，沿用 SKILL.md 现有 fusion 表 |
 | brand + deck | brand 段级覆盖 deck 的身份段，结构段与中间段从 deck 拿 |
@@ -218,7 +259,7 @@ primary_color: "<HEX>"
 
 合成默认是**段级整段替换**——例如 deck + brand 时，整个 Color Scheme / Typography / Logo / Voice / Icon Style 五段从 brand 拿，**不做字段级混搭**（即不会发生"primary 从 brand 拿、secondary 从 deck 拿"这类隐式混合）。
 
-字段级微调走 Strategist 八项确认这条已有路径——用户在 chat 里说"用 anthropic brand，但 primary 改成 #FF0000"，由 Strategist 在 e/g 现场调整，不在 Step 3 的 fusion 层加字段级语法。
+字段级微调走 策略师确认阶段这条已有路径——用户在 chat 里说"用 anthropic brand，但 primary 改成 #FF0000"，由 Strategist 在 e/g 现场调整，不在 Step 3 的 fusion 层加字段级语法。
 
 ### 同类多份 = git 冲突解决
 
@@ -258,21 +299,21 @@ AI: 你给了两个 brand，检测到段级冲突：
 
 ## 五、与 SKILL.md Step 3 的关系
 
-**触发规则不变** —— 仍然是「显式目录路径才触发」（见 [[feedback-template-explicit-path-only]]）。`kind` 字段决定**触发后 AI 怎么处理**：
+**触发规则仍以路径为准**——仍需显式工作区根目录路径（见 [[feedback-template-explicit-path-only]]），裸名称绝不触发。Step 3 先解析 `<workspace>/templates/design_spec.md`；为兼容旧包，也接受根目录直接包含 `<workspace>/design_spec.md` 的平铺形态。平铺只是目录兼容，不会触发 `restore-pptx-structure`；只有 SVG 合同仍使用 `native_structure_mode: template`、缺 Master 身份、原子 placeholder 或蒸馏时代标记时才需要恢复。唯一的窄例外是当前对话刚完成 `create-template`：验证通过后可把精确的工作区根目录直接交给 Step 3。`kind` 字段决定**触发后 AI 怎么处理**：
 
 | 用户路径指向 | Step 3 行为（按 kind 分支）|
 |---|---|
-| `kind: brand` | design_spec + 非图片资产 → `<project>/templates/`；logo / 插画 / 图标**位图** → `<project>/images/` |
-| `kind: layout` | design_spec + SVG roster → `<project>/templates/`；**位图**资产 → `<project>/images/` |
-| `kind: deck` | design_spec + 模板 SVG → `<project>/templates/`；logo / 背景 / 其它**位图** → `<project>/images/` |
-| 多路径 | 按上表合成单份 `design_spec.md`；SVG 进 `templates/`、位图进 `images/` 合并复制 |
-
-> 位图统一进项目 `images/`（和 AI / 网络 / 用户图片同一个运行期图片池，SVG 里走 `../images/`）；`templates/` 只放 spec 和模板 SVG 等供 Strategist/Executor 阅读、不被直接渲染的参考材料。
+| `kind: brand` | 把工作区 `templates/` 及实际存在的 `images/`、`icons/` 映射到项目同名目录；忽略 `exports/` |
+| `kind: layout` | 把工作区 `templates/` 及实际存在的 `images/`、`icons/` 映射到项目同名目录；忽略 `exports/` |
+| `kind: deck` | 把工作区 `templates/` 及实际存在的 `images/`、`icons/` 映射到项目同名目录；忽略 `exports/` |
+| 多路径 | 按上表合成单份 `design_spec.md`，解决冲突后再合并实际存在的可移植目录 |
 | 同类多份 | 按上节"git 冲突解决"问答，得到合成结果 |
 
-### Strategist 八项确认在不同 kind 下的收窄
+位图统一进入工作区 `images/`，模板 SVG 通过 `../images/` 引用。如果显式输入根目录本来就是目标项目根目录，Step 3 原地消费：不得复制到自身，也不得再次移动素材。除此之外，完整核心工作区是可移植的：可以从项目根复制到全局库根、从全局库复制到项目，或从另一个工作区直接复用，而不改变内部结构。注册是唯一与范围相关的步骤。
 
-Deck 路径下用户已经拿到完整方案，八项确认收窄到"目标受众 / 页数 / 大纲 / 调性微调"等 deck 内容相关字段；其他字段直接从锁定值复用。具体收窄规则落在 `references/strategist.md` 与 `spec_lock_reference.md`。
+### 策略师确认阶段在不同 kind 下的收窄
+
+Deck 路径下用户已经拿到完整方案，策略师确认阶段收窄到"目标受众 / 页数 / 大纲 / 调性微调"等 deck 内容相关字段；其他字段直接从锁定值复用。具体收窄规则落在 `references/strategist.md` 与 `spec_lock_reference.md`。
 
 ---
 
@@ -280,15 +321,16 @@ Deck 路径下用户已经拿到完整方案，八项确认收窄到"目标受�
 
 | 工作流 | 产出 |
 |---|---|
-| `workflows/create-brand.md` | brand 目录（identity-only），从品牌资产逆向提取 |
-| `workflows/create-template.md` | layout 或 deck 目录，内部按 kind 分支：默认走 deck（用户给了一份现存 PPT，提取完整身份 + 结构）；用户明说"只要结构 / 丢掉品牌色"时走 layout |
+| `workflows/create-brand.md` | 使用统一路由的 identity-only brand 工作区；空的可选目录省略 |
+| `workflows/create-template.md` | 完整 layout 或 deck 工作区。`standard` / `fidelity` 创作新语义 SVG，mirror 恢复来源合同。输出范围默认 `library`（`templates/<kind>/<id>/` + 注册），确认 `project` 时写 `projects/<name>/`（不注册）。两者使用相同的可选目录路由，预览 PPTX 按需生成；内部 kind 分支仍默认 deck，用户明说"只要结构 / 丢掉品牌色"时走 layout |
 
-产出后 frontmatter `kind` 字段决定文件落到 `templates/brands/` / `templates/layouts/` / `templates/decks/`。
+在全局库范围，frontmatter `kind` 字段决定工作区父目录位于 `templates/brands/` / `templates/layouts/` / `templates/decks/`。项目范围在项目工作区根目录保留同一 kind 语义。完整工作区可在两种范围之间迁移而不改形，只需增加或移除全局索引注册。
 
 ---
 
 ## 七、不做（与本文 framing 配套的拒绝列表）
 
-- **不在 fusion 层支持字段级覆盖语法** —— 字段级微调走 Strategist 八项确认这条已有路径
+- **不在 fusion 层支持字段级覆盖语法** —— 字段级微调走 策略师确认阶段这条已有路径
 - **不为同类三份及以上设计批量冲突解决** —— 用户先在 chat 里收敛到两份
 - **不引入双名映射表** —— 模板命名按其品牌/场景母语（中文模板用中文名，英文模板用 snake_case），不强制统一
+- **不为输出范围新增结构分支或 CLI flag** —— 输出范围是 `create-template` 简报里的执行选择；两种范围的 Layout/Deck 都声明 `native_structure_mode: structured`

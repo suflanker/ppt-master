@@ -1,6 +1,6 @@
 # PPT Master — AI 生成原生可编辑 PPTX，支持任意文档输入
 
-[![Version](https://img.shields.io/badge/version-v2.11.0-blue.svg)](https://github.com/hugohe3/ppt-master/releases)
+[![Version](https://img.shields.io/github/v/release/hugohe3/ppt-master?label=version&color=blue)](https://github.com/hugohe3/ppt-master/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![GitHub stars](https://img.shields.io/github/stars/hugohe3/ppt-master.svg)](https://github.com/hugohe3/ppt-master/stargazers)
 [![AtomGit stars](https://atomgit.com/hugohe3/ppt-master/star/badge.svg)](https://atomgit.com/hugohe3/ppt-master)
@@ -13,7 +13,17 @@
 [English](./README.md) | 中文
 
 <details open>
-<summary>本项目由 <a href="https://www.packyapi.com/register?aff=ppt-master">PackyCode</a>、<a href="https://apikey.fun/register?aff=PPT-MASTER">APIKEY.FUN</a>、<a href="https://runapi.co/register?aff=WMLJ">RunAPI</a>、<a href="https://www.compshare.cn/coding-plan?ytag=GPU_YY-git_pptmaster0624">优云智算</a> 等赞助方支持，得以持续免费开源。</summary>
+<summary>本项目由 <a href="https://www.kimi.com/code/?aff=ppt-master">Kimi</a>、<a href="https://www.packyapi.com/register?aff=ppt-master">PackyCode</a>、<a href="https://apikey.fun/register?aff=PPT-MASTER">APIKEY.FUN</a>、<a href="https://runapi.co/register?aff=WMLJ">RunAPI</a>、<a href="https://www.compshare.cn/coding-plan?ytag=GPU_YY-git_pptmaster0624">优云智算</a> 等赞助方支持，得以持续免费开源。</summary>
+
+<p align="center">
+  <a href="https://www.kimi.com/code/?aff=ppt-master"><img src="https://gcdn.moonshot.cn/growth-cdn/sponsor/kimi-zh.png" alt="Kimi" width="100%"></a>
+</p>
+
+感谢 [Kimi](https://www.kimi.com/code/?aff=ppt-master) 赞助本项目！[Kimi K2.7](https://platform.kimi.com/docs/guide/kimi-k2-7-code-quickstart) 是 Moonshot AI 推出的开源智能体模型。搭配 PPT Master，Kimi 可以理解 PDF、DOCX、网页等原始资料，提炼重点、规划演示逻辑，并生成可在 PowerPoint 中继续修改的原生可编辑 PPTX。
+
+**立即体验 [Kimi Code](https://www.kimi.com/code/?aff=ppt-master)，或通过 Kimi 开放平台（[中文站](https://platform.kimi.com?aff=ppt-master)｜[Global](https://platform.kimi.ai?aff=ppt-master)）使用 API。**
+
+<hr>
 
 <table>
   <tr>
@@ -30,27 +40,22 @@
   </tr>
   <tr>
     <td width="180"><a href="https://www.compshare.cn/coding-plan?ytag=GPU_YY-git_pptmaster0624"><img src="docs/assets/sponsors/youyun.png" alt="优云智算" width="150"></a></td>
-    <td>感谢优云智算赞助了本项目！优云智算是 UCloud 旗下 AI 云平台，一站式提供国内外主流模型的 API 服务，一个 Key 即可调用所有模型。主打高性价比国产模型 CodingPlan 套餐（GLM5.2、Deepseek-v4 等），同时提供官方转发的稳定海外模型通道，满足多场景开发需求。已兼容 Claude Code、Codex 等主流 AI 编程工具及通用 API 调用，支持企业级高并发、7×24 技术支持和自助开票。通过<a href="https://www.compshare.cn/coding-plan?ytag=GPU_YY-git_pptmaster0624">此链接</a>注册，最高可获得 <strong>¥10 免费体验金</strong>，即刻开始使用。</td>
+    <td>感谢优云智算赞助了本项目！优云智算是 UCloud 旗下 AI 云平台，一站式提供国内外主流模型的 API 服务，一个 Key 即可调用所有模型。主打高性价比国产模型 CodingPlan 套餐（GLM5.2、Deepseek-v4 等），同时提供官方转发的稳定海外模型通道，满足多场景开发需求。已兼容 Claude Code、Codex 等主流 AI 编程工具及通用 API 调用，支持企业级高并发、7×24 技术支持和自助开票。通过<a href="https://www.compshare.cn/coding-plan?ytag=GPU_YY-git_pptmaster0624">此链接</a>注册，最高可获得 <strong>¥10 免费体验金</strong>。该项目已制作成 Agent【PPT 制作大师】，无需本地部署即可使用。</td>
   </tr>
 </table>
 
 </details>
 
-> [!IMPORTANT]
-> ### 这是一个工具，不是一个许愿池
-> 别指望一把就给你一份完美的成品 PPT。它真正的价值是帮你把大部分枯燥的活儿干掉，剩下的打磨交给你——做原生可编辑的 PPT，本就是为了让你接着改，而不是甩给你一张改不动的图。模型越便宜，要补的人工就越多。成品好不好，最终取决于你操作这个项目和 PPT 的能力。
+> **AI 生成 PPT，不是 AI 套模板。** PPT Master 是一套在 AI IDE（Claude Code / Cursor / VS Code + Copilot 等）里运行的工作流：把 PDF / DOCX / 网页等材料交给 AI，它在你本机生成一份真正的 PowerPoint——每个元素都能在 PowerPoint 里点开修改，数据不出本地，不锁定任何平台和模型。工作原理与能力边界 → [产品定位](#产品定位)。
 
 <p align="center">
   <a href="https://hugohe3.github.io/ppt-master/"><strong>在线预览</strong></a> ·
-  <a href="https://www.hehugo.com/"><strong>关于何雨果</strong></a> ·
   <a href="./examples/"><strong>示例下载</strong></a> ·
   <a href="./docs/zh/faq.md"><strong>常见问题</strong></a> ·
-  <a href="./docs/zh/roadmap.md"><strong>路线图</strong></a> ·
-  <a href="mailto:heyug3@gmail.com"><strong>联系我</strong></a>
+  <a href="./docs/zh/roadmap.md"><strong>路线图</strong></a>
 </p>
 
 <h3 align="center">下载这份<a href="https://raw.githubusercontent.com/hugohe3/ppt-master/main/examples/ppt169_attention_is_all_you_need/exports/attention_is_all_you_need_narrated.pptx">带音频旁白的 <em>Attention Is All You Need</em> 论文精读 deck</a>，在 PowerPoint 里直接放映，每一页都会自己"读"给你听 —— 这只是 PPT Master 能力的冰山一角。</h3>
-<h3 align="center">当然，你也可以下载下面六份示例 .pptx 中的任意一份，在 PowerPoint 里打开是最快感受这个项目能力边界的方式。</h3>
 
 <table>
   <tr>
@@ -90,7 +95,7 @@
 </table>
 
 <p align="center">
-  <sub>生成模型：Claude Opus 4.7 + <code>gpt-image-2</code>。<a href="https://hugohe3.github.io/ppt-master/">在线翻看全部示例 →</a> · <a href="./examples/"><code>examples/</code> 目录</a> · <a href="./docs/zh/why-ppt-master.md">为什么选 PPT Master？</a></sub>
+  <sub>以上示例均为一次性生成、未经精修（生成模型：Claude Opus 4.7 + <code>gpt-image-2</code>）。下载任意一份 .pptx 在 PowerPoint 里打开，是感受真实产出水平最快的方式。<br/><a href="https://hugohe3.github.io/ppt-master/">在线翻看全部示例 →</a> · <a href="./examples/"><code>examples/</code> 目录</a> · <a href="./docs/zh/why-ppt-master.md">为什么选 PPT Master？</a></sub>
 </p>
 
 <p align="center">
@@ -99,24 +104,11 @@
 
 ---
 
-丢进你的原材料，拿回的是一份**真正的 PowerPoint**：可以直接修改，有 PPT 原生的转场与入场动画，演讲者备注能合成音频旁白，还能参考你自己的 PPT 模板——一份能直接拿去讲、回头还能改的真 PPT。每项能力怎么用 → [快速入门](./docs/zh/getting-started.md)。
+丢进原材料，拿回的这份 PPT **不只是能改**：它有 PPT 原生转场，也支持按需开启的入场动画（默认关闭），演讲者备注能直接合成音频旁白，图表和表格还能以带数据的 PowerPoint 原生对象形式导出，也能参考你自己的 PPT 模板来设计——一份能直接拿去讲、回头还能改的成品。每项能力怎么用 → [快速入门](./docs/zh/getting-started.md)。
 
-> **⚠️ PPT Master 是 harness，不是完整的 agent。** `harness + model = agent`——工具负责工作流，模型决定上限。要组成真正高质量的 agent，推荐组合是：**Claude 大上下文窗口（~100 万 token）+ AI 生图（`gpt-image-2`）**。其他模型能跑流程，但达不到同等质量上限。效果不理想，请先换模型，不要质疑 harness。
+## 产品定位
 
-> **运作方式** —— PPT Master 是一套在 AI IDE（Claude Code / Cursor / VS Code + Copilot / Codebuddy 等）里运行的工作流（一个 "skill"）。你在 IDE 的对话框里跟 AI 说"用这份 PDF 做一份 PPT"，AI 按这套工作流在你本机生成一个真正可编辑的 `.pptx`。你不写任何代码——IDE 只是你和 AI 对话的地方。
->
-> **你要做的**：装 Python、装一个 AI IDE、把资料放进来。
-
-> **为什么是这种形态** —— 未来，使用 Python 和 AI agent 的能力会越来越重要。这个项目就是要展示：仅凭这两样，你能走多远。代价是零基础上手有一段学习曲线，但走完这段，你就接上了未来。做 PPT 只是个借口——我真正想推广的是 Python 和 agent。
-
-PPT Master 不一样：
-
-- **真正的 PPT** — 如果一个文件在 PowerPoint 里打不开、不能编辑，它就不应该被叫做 PPT。PPT Master 输出的每个元素都能直接点击修改
-- **成本透明可控** — 工具免费开源，唯一成本是你自己的 AI 模型用量。当前主流 AI 工具都已转向按量计费，你用多少付多少——PPT Master 不在此之外增加任何额外订阅费用
-- **数据不出本地** — 你的文件不应该为了做一份 PPT 就被上传到别人的服务器。除与 AI 模型的对话外，全流程在你的电脑上完成
-- **不锁定平台** — 你的工作流不应该被任何一家公司绑架。Claude Code、Cursor、VS Code Copilot 等均可驱动；Claude、GPT、Gemini、Kimi 等模型均可使用
-
-市面上的 AI PPT 工具大致分四类，PPT Master 只做最后一类：
+**一个文件如果在 PowerPoint 里打不开、改不动，就不该被叫做 PPT。** 市面上的 AI PPT 工具大致分四类，PPT Master 只做最后一类：
 
 | 类型 | 产物形态 | 能在 PowerPoint 里逐元素改吗 |
 |---|---|:---:|
@@ -125,13 +117,19 @@ PPT Master 不一样：
 | HTML 演示 | 网页演示 | ❌ 不是 PPTX |
 | **原生可编辑（PPT Master）** | **真 DrawingML 形状、文本框、图表** | ✅ 每个元素都能点开改 |
 
----
+形态上，它不是网站也不是 App，而是一套在 AI IDE（Claude Code / Cursor / VS Code + Copilot / Codebuddy 等）里运行的工作流（一个 "skill"）：你在 IDE 的对话框里说"用这份 PDF 做一份 PPT"，AI 按这套工作流在你本机生成真正可编辑的 `.pptx`。你不写任何代码，要做的只有三件事——装 Python、装一个 AI IDE、把资料放进来。
 
-## 会用的人，比工具更关键
+这个形态换来三个别的工具很难同时给出的承诺：
 
-上面这些示例都是我用它一次性做出来的，甚至都没有精修——如果再花时间精修，那就是另一番样子了。同一个 PowerPoint，设计师能做出令人惊叹的作品，多数人只用到几个基础功能——差别不在工具，在用工具的人。如果你暂时做不到，多半是还没摸熟用法，请先翻一翻 [快速入门](./docs/zh/getting-started.md) 和示例工程。
+- **成本透明可控** — 工具免费开源，唯一成本是你自己的 AI 模型用量，你用多少付多少，不在此之外增加任何订阅费用
+- **数据不出本地** — 你的文件不应该为了做一份 PPT 就被上传到别人的服务器。除与 AI 模型的对话外，全流程在你的电脑上完成
+- **不锁定平台** — 你的工作流不应该被任何一家公司绑架。Claude Code、Cursor、VS Code Copilot 等均可驱动；Claude、GPT、Gemini、Kimi 等模型均可使用
 
-最好的效果确实需要 Claude。觉得贵之前，先想想同等水准的 PPT 请人做要花多少钱？项目本身也支持 GPT、Gemini、Kimi 等模型，只是效果有差异——想要顶配的产出、又只付最低的成本，本就不合常理。
+> [!IMPORTANT]
+> ### 这是一个工具，不是一个许愿池
+> `harness + model = agent`——PPT Master 只负责工作流，产出上限由模型决定。推荐 **Claude 大上下文窗口（~100 万 token）+ AI 生图（`gpt-image-2`）**；其他模型能跑通流程，但有质量差距。
+>
+> 也别指望一把就拿到完美成品。它的价值是帮你把大部分枯燥的活儿干掉，剩下的打磨交给你——做原生可编辑的 PPT，本就是为了让你接着改，而不是甩给你一张改不动的图。模型越便宜，要补的人工就越多；效果不理想，先升级模型，再对照[快速入门](./docs/zh/getting-started.md)和示例工程检查用法。
 
 ---
 
@@ -139,7 +137,48 @@ PPT Master 不一样：
 
 我是何雨果（Hugo He），投融资领域从业者（注册会计师 · 资产评估师 · 咨询工程师（投资）），工作中经常审阅和修改 PPT。我希望 AI 生成的幻灯片仍然能在 PowerPoint 里继续编辑，而不是被压成一张张图片——所以做了这个。
 
-🌐 [个人网站](https://www.hehugo.com/) · 📧 [heyug3@gmail.com](mailto:heyug3@gmail.com) · 🐙 [@hugohe3](https://github.com/hugohe3)
+未来，使用 Python 和 AI agent 的能力会越来越重要，这个项目也想展示：仅凭这两样，你能走多远。零基础上手有一段学习曲线，但走完这段，你就接上了未来——做 PPT 只是个借口，我真正想推广的是 Python 和 agent。
+
+---
+
+## 你可能也感兴趣
+
+### <a href="https://github.com/microsoft/ResearchStudio">ResearchStudio-<img src="https://raw.githubusercontent.com/ai-nuts/Storage/main/ResearchStudio/ResearchStudio-Reel/docs/figures/reel-wordmark.png" alt="Reel" height="16"></a>
+
+> 微软开源项目，我最近也参与其中——从**论文**到**演讲视频**、**海报**与**博客**，自动化科研传播的**最后一公里**。
+>
+> 📦 **仓库：**[microsoft/ResearchStudio](https://github.com/microsoft/ResearchStudio) · 📄 **论文：**[arXiv:2607.04438](https://arxiv.org/abs/2607.04438)
+
+<table align="center">
+<tr>
+<td align="center" valign="middle" width="53%">
+  <a href="https://aka.ms/ResearchStudio">
+    <img src="https://raw.githubusercontent.com/ai-nuts/Storage/main/ResearchStudio/ResearchStudio-Reel/docs/figures/reel_demo.gif" width="100%"
+    alt="ResearchStudio-Reel 演示" />
+  </a>
+</td>
+<td align="center" valign="middle" width="47%">
+  <a href="https://aka.ms/ResearchStudio">
+    <img src="https://raw.githubusercontent.com/ai-nuts/Storage/main/ResearchStudio/ResearchStudio-Reel/docs/examples/latent_diffusion_landscape/poster.png" width="100%" alt="ResearchStudio-Reel 生成的海报" />
+  </a>
+</td>
+</tr>
+</table>
+
+<details>
+<summary><strong>BibTeX</strong> —— 如果你在研究中使用了 ResearchStudio-Reel</summary>
+
+```bibtex
+@article{xiao2026researchstudioreel,
+  title   = {ResearchStudio-Reel: Automate the Last Mile of Research from Paper to Poster, Video, and Blog},
+  author  = {Lingao Xiao and Yalun Dai and Yangyu Huang and Qihao Zhao and Wenshan Wu and Hugo He and Ruishuo Chen and Jin Jiang and Qianli Ma and Jiahuan Zhang and Xin Zhang and Ying Xin and Yang Ou and Yan Xia and Scarlett Li and Longbo Huang and Zhipeng Zhang and Yang He and Yap Kim Hui and Yan Lu},
+  journal = {arXiv preprint arXiv:2607.04438},
+  year    = {2026},
+  url     = {https://arxiv.org/abs/2607.04438}
+}
+```
+
+</details>
 
 ---
 
@@ -147,22 +186,16 @@ PPT Master 不一样：
 
 ### 1. 前置条件
 
-**只需装 Python 即可。** 其余依赖通过 `pip install -r requirements.txt` 一次装齐。
+**只需安装 [Python](https://www.python.org/downloads/) 3.10+。** 其余依赖在第 3 步下载好项目后，用一行 `pip install -r requirements.txt` 装齐。
 
-| 依赖 | 是否必须 | 用途 |
-|------|:--------:|------|
-| [Python](https://www.python.org/downloads/) 3.10+ | ✅ **必需** | 核心运行时——唯一真正需要安装的东西 |
-
-> **一句话总结** — 装好 Python，跑一行 `pip install -r requirements.txt`，就可以开始生成 PPT 了。
-
-<details open>
-<summary><strong>Windows</strong> — 请看专门的手把手安装指南 ⚠️</summary>
+<details>
+<summary><strong>Windows</strong> — 请看专门的<a href="./docs/zh/windows-installation.md">手把手安装指南</a> ⚠️</summary>
 
 Windows 需要一些额外步骤（PATH 设置、执行策略等）。我们为 Windows 用户写了一份**手把手安装指南**：
 
 **📖 [Windows 安装指南](./docs/zh/windows-installation.md)** — 从零到跑通第一份 PPT，10 分钟搞定。
 
-简要流程：从 [python.org](https://www.python.org/downloads/) 下载 Python → **安装时勾选 "Add to PATH"** → `pip install -r requirements.txt` → 完成。
+简要流程：从 [python.org](https://www.python.org/downloads/) 下载 Python → **安装时勾选 "Add to PATH"** → 完成，依赖安装见第 3 步。
 </details>
 
 <details>
@@ -171,11 +204,9 @@ Windows 需要一些额外步骤（PATH 设置、执行策略等）。我们为 
 ```bash
 # macOS
 brew install python
-pip install -r requirements.txt
 
 # Ubuntu / Debian
 sudo apt install python3 python3-pip
-pip install -r requirements.txt
 ```
 </details>
 
@@ -197,29 +228,30 @@ sudo apt install pandoc
 
 PPT Master 在**任何具备 agent 能力**（可读写文件、执行命令、持续多轮对话）的工具里都能跑。
 
+没用过这类工具也不用担心：它们在本项目里只扮演一个角色——一个能读写文件的 AI 聊天窗口。从下表任选一款装好即可，全程只用它的聊天面板，不需要写任何代码。
+
+> **作者最推荐：[Claude Code](https://claude.ai/code)** ——本项目开发与测试最充分的环境，CLI 与 VS Code / JetBrains 扩展均可。
+
 | 类型 | 代表工具 | 说明 |
 |---|---|---|
-| **IDE 内置 agent** | • VS Code 架构（含 [VS Code](https://code.visualstudio.com/) 本体及分支与衍生）：[Cursor](https://cursor.sh/)、Trae、Codebuddy IDE、[Windsurf](https://codeium.com/windsurf)、Void 等<br>• 其他架构：[Zed](https://zed.dev/) 等 | 编辑器原生集成 agent |
-| **IDE 插件 / 扩展** | [GitHub Copilot](https://github.com/features/copilot)、[Claude Code](https://claude.ai/code)（VS Code / JetBrains 扩展）、[Cline](https://cline.bot/)、[Continue](https://continue.dev/)、Roo Code、通义灵码、CodeGeeX 等 | 装在 VS Code / JetBrains 等宿主里使用 |
-| **CLI agent** | [Claude Code](https://claude.ai/code) CLI、[Codex CLI](https://github.com/openai/codex)、[Aider](https://aider.chat/)、Gemini CLI 等 | 终端里运行，适合脚本化 / 远程 / 服务器场景 |
+| **IDE 内置 agent** | • VS Code 架构（含 [VS Code](https://code.visualstudio.com/) 本体及分支与衍生）：[Cursor](https://cursor.sh/)、Trae、Codebuddy IDE、[Windsurf](https://codeium.com/windsurf) 等<br>• 其他架构：[Zed](https://zed.dev/) 等 | 编辑器原生集成 agent |
+| **IDE 插件 / 扩展** | [Claude Code](https://claude.ai/code)（VS Code / JetBrains 扩展）、[GitHub Copilot](https://github.com/features/copilot)、[Cline](https://cline.bot/)、通义灵码 等 | 装在 VS Code / JetBrains 等宿主里使用 |
+| **CLI agent** | [Claude Code](https://claude.ai/code) CLI、[Codex CLI](https://github.com/openai/codex)、Gemini CLI 等 | 终端里运行，适合脚本化 / 远程 / 服务器场景 |
 
 > **模型推荐**：追求最佳效果选 **Claude Opus**，搭配 `gpt-image-2` 生图；**Gemini 3.5 Flash** 目前综合性价比很高，尤其速度很快，值得一试。
 
-**🔑 想用 Claude / GPT / Gemini 但还没有渠道？** 本项目赞助商 **[PackyCode](https://www.packyapi.com/register?aff=ppt-master)**、**[APIKEY.FUN](https://apikey.fun/register?aff=PPT-MASTER)** 与 **[RunAPI](https://runapi.co/register?aff=WMLJ)** 都能解决卡点——均支持按量调用 Claude、GPT、Gemini 等主流模型，无需订阅，支持国内支付。**PackyCode**：充值时填写优惠码 **`ppt-master`** 享 9 折。**APIKEY.FUN**：价格低至官方原价的 **7%**，通过专属链接注册可享受最高永久充值 95 折专属优惠。**RunAPI**：一个 API Key 即可访问 150+ 主流模型，价格低至官方原价的 **1 折**，注册并联系管理员可领取 **￥7 免费额度**。
+**🔑 想用 Claude / GPT / Gemini 但还没有渠道？** 本项目赞助商 **[PackyCode](https://www.packyapi.com/register?aff=ppt-master)**、**[APIKEY.FUN](https://apikey.fun/register?aff=PPT-MASTER)** 与 **[RunAPI](https://runapi.co/register?aff=WMLJ)** 均支持按量调用 Claude、GPT、Gemini 等主流模型，无需订阅、支持国内支付，并为本项目用户提供专属优惠（详情见页首）。
 
 **🔀 手上有多个渠道？** 拿到多家的 API Key 后，[cc-switch](https://github.com/farion1231/cc-switch)（跨平台桌面应用）可以一键切换 Claude Code、Codex、Gemini CLI 等工具的 API 供应商，免去手动改配置。
 
 ### 3. 配置项目
 
-**方式 A — 下载 ZIP**（无需安装 Git）：
-[GitHub](https://github.com/hugohe3/ppt-master) → **Code → Download ZIP** · [AtomGit](https://atomgit.com/hugohe3/ppt-master) → **克隆/下载 → 下载ZIP**（国内网速更快）
-
-**方式 B — Git clone**（需先安装 [Git](https://git-scm.com/downloads)）：
+**方式 A — Git clone**（推荐；需先安装 [Git](https://git-scm.com/downloads)）：首选这种方式，因为 clone 可以随时拉取最新版本。
 
 ```bash
 # GitHub
 git clone https://github.com/hugohe3/ppt-master.git
-# AtomGit（国内网速更快）
+# AtomGit（中国大陆地区网速更快）
 git clone https://atomgit.com/hugohe3/ppt-master.git
 cd ppt-master
 ```
@@ -230,7 +262,28 @@ cd ppt-master
 pip install -r requirements.txt
 ```
 
-日常更新（方式 A / B）：`python3 skills/ppt-master/scripts/update_repo.py`
+**方式 B — 下载 ZIP**（无需安装 Git，适合快速体验）：
+[GitHub](https://github.com/hugohe3/ppt-master) → **Code → Download ZIP** · [AtomGit](https://atomgit.com/hugohe3/ppt-master) → **克隆/下载 → 下载ZIP**（中国大陆地区访问 GitHub 下载不便时用这个，网速更快）；解压后同样用 `pip install -r requirements.txt` 装依赖。ZIP 没有 Git 历史，不能自动 `git pull`（更新见下）。
+
+如果完整仓库下载失败、或嫌体积太大，可以改到 [Releases](https://github.com/hugohe3/ppt-master/releases) 页面下载纯技能包 `ppt-master-skill-*.zip`（约 50 MB，功能完整，但不含内置示例 deck）。
+
+#### 日常更新
+
+**Git clone 安装：**
+
+```bash
+python3 skills/ppt-master/scripts/update_repo.py
+```
+
+脚本会拉取最新版；如果 `requirements.txt` 有变化，会自动同步 Python 依赖。
+
+**下载 ZIP 安装：**
+
+ZIP 目录没有 Git 历史，不能自动 `git pull`。更新时请重新下载最新版 ZIP，解压到新目录，然后把旧目录里的 `.env` 和 `projects/` 复制过去，再执行：
+
+```bash
+pip install -r requirements.txt
+```
 
 > **方式 C — Skill marketplace**：仓库已添加 `.claude-plugin/marketplace.json` 元数据，可通过 [Claude Code plugin marketplace](https://code.claude.com/docs/en/plugin-marketplaces) 生态一行安装：
 >
@@ -246,6 +299,8 @@ pip install -r requirements.txt
 > 上述两种安装方式都只会拉取 skill 文件本身（不含完整仓库），后处理脚本仍需在安装目录跑 `pip install -r requirements.txt`。
 
 ### 4. 开始创作
+
+**先在 Agent 里打开项目文件夹：** 目标是让 AI 工作在上一步解压 / 克隆出来的 `ppt-master` 目录里——IDE 类工具通过菜单 **文件 → 打开文件夹**（File → Open Folder）打开它，AI 聊天面板通常在侧边栏；CLI 类工具先 `cd ppt-master` 再启动。之后的一切都在聊天里完成。
 
 **提供原始材料（推荐）：** 将 PDF、DOCX、图片等文件放入 `projects/` 目录下，在 AI 聊天面板中告诉它使用哪些文件。获取路径的最快方式：在文件管理器或 IDE 侧边栏中右键文件 → **复制路径**（Copy Path / Copy Relative Path），直接粘贴进聊天框。
 
@@ -271,30 +326,33 @@ AI：好的，先确认设计规范：
 
 AI 全程处理——内容分析、视觉设计、SVG 生成、PPTX 导出。
 
-> **输出说明：** 原生形状版 `.pptx`（可直接编辑）保存至 `exports/<name>_<timestamp>.pptx`；`svg_output/` 始终镜像到 `backup/<timestamp>/svg_output/`，便于归档或后续重跑。加 `--svg-snapshot` 时，额外在 `exports/` 内并排生成 SVG 快照版 pptx（详见[常见问题](./docs/zh/faq.md)）。需要 Office 2016+。
+> **输出说明：** 标准导出从 `svg_output/` 经项目转换器生成原生 DrawingML `.pptx`，保存至 `exports/<name>_<timestamp>.pptx`；这是唯一的 PPTX 产物路线，文字和图形可直接编辑。`svg_output/` 始终镜像到 `backup/<timestamp>/svg_output/`，便于归档或后续重跑。流程仍会强制生成 `svg_final/`：它是一组自包含的视觉预览 SVG，可直接打开，也可作为 SVG 图片手动插入 PowerPoint；PowerPoint 手工“转换为形状”不在支持范围。图表和表格默认导出为 SVG 派生的 DrawingML 形状（在 PowerPoint / Keynote / WPS 间像素一致）；加 `--native-objects` 则在同一原生导出路线中改为**带数据、可直接编辑的 PowerPoint 原生图表 / 表格对象**（跨软件渲染可能略有差异），保存为 `exports/<name>_<timestamp>_native_charts.pptx`。
 
 > **已有一份想复用的 `.pptx`？** 把那份 deck 连同素材给 AI，说「套模板」即可——它会把新内容（文字、表格、图表数据）填进你现有的设计，只导出你挑选的页面，且保持原生可编辑。详见 [常见问题](./docs/zh/faq.md) 与 [套模板工作流](./skills/ppt-master/workflows/template-fill-pptx.md)。
 
-> **AI 迷失上下文？** 让它先读 `skills/ppt-master/SKILL.md`。
-
-> **遇到问题？** 查看 **[常见问题](./docs/zh/faq.md)** — 涵盖模型选择、排版问题、导出异常等，基于真实用户反馈持续更新。
+> **遇到问题？** AI 迷失上下文时，让它先读 `skills/ppt-master/SKILL.md`；其他问题查看 **[常见问题](./docs/zh/faq.md)** — 涵盖模型选择、排版问题、导出异常等，基于真实用户反馈持续更新。
 
 ### 5. 图片获取（可选）
 
-非用户自带图片有两条路径，可在同一份 deck 里按行混用：
+非用户自带图片有两条路径，可在同一份 deck 里按图混用：
 
-需要 API 的功能统一通过 `.env` 配置。clone 安装可以用 `cp .env.example .env`；skill marketplace 安装建议使用持久的用户级配置：
+**A) AI 生图** — `image_gen.py`。设置 `IMAGE_BACKEND` 和对应 `*_API_KEY`（`OPENAI_API_KEY`、`GEMINI_API_KEY` 等），流程会自动调用。`python3 skills/ppt-master/scripts/image_gen.py --list-backends` 查看完整后端清单。`gpt-image-2` 目前综合质量最佳。
+
+**B) 网络图片搜索** — `image_search.py`。**零配置**可用；建议配置 `PEXELS_API_KEY` / `PIXABAY_API_KEY`（都免费申请）以获得稳定的高质量结果：
+
+- 不配置时只使用 Openverse / Wikimedia Commons，适合作为兜底，但容易出现构图随意、清晰度不稳定的图片
+- 配置后默认搜索链会追加 Pexels / Pixabay，现代商业摄影、人物、办公、生活方式和插画类图片质量明显更稳定
+- 许可自动处理：默认把 CC0、公有领域、Pexels / Pixabay 免署名许可、CC BY、CC BY-SA 一起纳入候选；选中需署名的图片时，Executor 会在该幻灯片自动添加小字署名。只有明确不能出现署名时，才使用 `--strict-no-attribution` 限制为免署名图片
+- 对视觉要求高的封面、产品图、人物图和品牌场景，优先级建议：用户自带高清素材 / AI 生图 > 配置 Pexels / Pixabay 的网络搜索 > 零配置网络搜索
+
+上面提到的 API Key 统一通过 `.env` 配置。clone 安装可以用 `cp .env.example .env`；skill marketplace 安装建议使用持久的用户级配置：
 
 ```bash
 mkdir -p ~/.ppt-master
 cp /path/to/installed/ppt-master/.env.example ~/.ppt-master/.env
 ```
 
-PPT Master 会优先读取当前进程环境变量，然后按顺序读取第一个存在的 `.env`：当前工作目录、clone 仓库根目录、`~/.ppt-master/.env`。
-
-**A) AI 生图** — `image_gen.py`。设置 `IMAGE_BACKEND` 和对应 `*_API_KEY`（`OPENAI_API_KEY`、`GEMINI_API_KEY` 等），流程会自动调用。`python3 skills/ppt-master/scripts/image_gen.py --list-backends` 查看完整后端清单。`gpt-image-2` 目前综合质量最佳。
-
-**B) 网络图片搜索** — `image_search.py`。**零配置**可用，但高质量使用建议配置 `PEXELS_API_KEY` / `PIXABAY_API_KEY`（都免费申请）。不配置时只使用 Openverse / Wikimedia Commons，适合作为兜底，但容易出现普通用户上传、构图随意、清晰度不稳定的图片；配置后默认搜索链会追加 Pexels / Pixabay，现代商业摄影、人物、办公、生活方式和插画类图片质量会明显更稳定。默认以图片质量和匹配度优先，直接把 CC0、公有领域、Pexels / Pixabay 免署名许可、CC BY、CC BY-SA 一起纳入候选；如果选中的图片需要署名，Executor 会在该幻灯片自动添加小字署名。只有明确不能出现署名时，才使用 `--strict-no-attribution` 限制为免署名图片。对视觉要求高的封面、产品图、人物图和品牌场景，优先级建议是：用户自带高清素材 / AI 生图 > 配置 Pexels / Pixabay 的网络搜索 > 零配置网络搜索。
+PPT Master 会优先读取当前进程环境变量，然后按顺序读取第一个存在的 `.env`：当前工作目录、skill 安装目录（如 `~/.agents/skills/ppt-master/.env`）、clone 仓库根目录、`~/.ppt-master/.env`。
 
 > 完整说明：[`image-generator.md`](./skills/ppt-master/references/image-generator.md)（AI）·[`image-searcher.md`](./skills/ppt-master/references/image-searcher.md)（网络）。
 
@@ -330,7 +388,7 @@ PPT Master 会优先读取当前进程环境变量，然后按顺序读取第一
 
 ## 相关工具
 
-[cc-switch](https://github.com/farion1231/cc-switch) —— 跨平台桌面应用，统一管理并一键切换 Claude Code、Codex、Gemini CLI 等工具的 API 供应商。在这些 agent 里跑 PPT Master 时很顺手。
+[cc-switch](https://github.com/farion1231/cc-switch) —— 一键切换 Claude Code / Codex / Gemini CLI 等工具的 API 供应商。
 
 ## 联系与合作
 
@@ -338,7 +396,6 @@ PPT Master 会优先读取当前进程环境变量，然后按顺序读取第一
 
 - 💬 **提问与分享** — [GitHub Discussions](https://github.com/hugohe3/ppt-master/discussions)
 - 🐛 **Bug 反馈与功能建议** — [GitHub Issues](https://github.com/hugohe3/ppt-master/issues)
-- 🌐 **了解更多** — [www.hehugo.com](https://www.hehugo.com/)
 
 ---
 
@@ -360,6 +417,8 @@ PPT Master 目前主要由我开发维护。每个新模板、Bug 修复、文�
 
 **企业赞助方**
 
+<a href="https://www.kimi.com/code/?aff=ppt-master"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/sponsors/kimi-dark.svg"><img src="docs/assets/sponsors/kimi-light.svg" alt="Kimi" height="40" /></picture></a>
+&nbsp;
 <a href="https://www.packyapi.com/register?aff=ppt-master"><img src="docs/assets/sponsors/packycode.png" alt="PackyCode" height="40" /></a>
 &nbsp;
 <a href="https://apikey.fun/register?aff=PPT-MASTER"><img src="docs/assets/sponsors/apikey-fun.png" alt="APIKEY.FUN" height="40" /></a>
