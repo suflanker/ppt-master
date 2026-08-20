@@ -33,7 +33,19 @@ GROUP = "grpSp"
 GRAPHIC = "graphicFrame"
 
 _TITLE_PLACEHOLDER_TYPES = {"title", "ctrTitle"}
-_BODY_PLACEHOLDER_TYPES = {"body", "subTitle"}
+_BODY_PLACEHOLDER_TYPES = {
+    "body",
+    "chart",
+    "clipArt",
+    "dgm",
+    "media",
+    "obj",
+    "pic",
+    "subTitle",
+    "tbl",
+}
+_DEFAULT_PLACEHOLDER_TYPE = "obj"
+_DEFAULT_PLACEHOLDER_INDEX = "0"
 _TX_STYLE_TITLE_KEY = ("__txStyleTitle", None)
 _TX_STYLE_BODY_KEY = ("__txStyleBody", None)
 _TX_STYLE_OTHER_KEY = ("__txStyleOther", None)
@@ -59,8 +71,14 @@ class ShapeNode:
     name: str = ""
     spid: str = ""
     hidden: bool = False
+    hyperlink_rid: str = ""
+    hyperlink_action: str = ""
     placeholder: PlaceholderInfo | None = None
     inherited_lst_styles: tuple[ET.Element, ...] = ()
+    inherited_body_properties: tuple[ET.Element, ...] = ()
+    # Local plus ancestor group rotation; used for effect-fidelity decisions
+    # without applying the group transform twice to the rendered geometry.
+    effective_rotation: float = 0.0
     # GROUP only: children, in z-order
     children: list["ShapeNode"] = field(default_factory=list)
 
@@ -69,7 +87,10 @@ class ShapeNode:
 # Walker
 # ---------------------------------------------------------------------------
 
-def _read_nv_sp_pr(parent: ET.Element, nv_tag: str) -> tuple[str, str, bool, PlaceholderInfo | None]:
+def _read_nv_sp_pr(
+    parent: ET.Element,
+    nv_tag: str,
+) -> tuple[str, str, bool, PlaceholderInfo | None, str, str]:
     """Extract name/id/hidden/placeholder from an nvXXXPr container.
 
     nv_tag is one of nvSpPr / nvPicPr / nvCxnSpPr / nvGrpSpPr / nvGraphicFramePr.
@@ -79,8 +100,10 @@ def _read_nv_sp_pr(parent: ET.Element, nv_tag: str) -> tuple[str, str, bool, Pla
     spid = ""
     hidden = False
     ph: PlaceholderInfo | None = None
+    hyperlink_rid = ""
+    hyperlink_action = ""
     if container is None:
-        return name, spid, hidden, ph
+        return name, spid, hidden, ph, hyperlink_rid, hyperlink_action
 
     cnv = container.find("p:cNvPr", NS)
     if cnv is not None:
@@ -88,6 +111,10 @@ def _read_nv_sp_pr(parent: ET.Element, nv_tag: str) -> tuple[str, str, bool, Pla
         spid = cnv.attrib.get("id", "")
         if ooxml_bool(cnv.attrib.get("hidden")):
             hidden = True
+        hyperlink = cnv.find("a:hlinkClick", NS)
+        if hyperlink is not None:
+            hyperlink_rid = hyperlink.attrib.get(f"{{{NS['r']}}}id", "")
+            hyperlink_action = hyperlink.attrib.get("action", "")
 
     nv_pr = container.find("p:nvPr", NS)
     if nv_pr is not None:
@@ -100,7 +127,7 @@ def _read_nv_sp_pr(parent: ET.Element, nv_tag: str) -> tuple[str, str, bool, Pla
                 orient=ph_elem.attrib.get("orient"),
             )
 
-    return name, spid, hidden, ph
+    return name, spid, hidden, ph, hyperlink_rid, hyperlink_action
 
 
 def _resolve_xfrm(shape: ET.Element, kind: str) -> ET.Element | None:
@@ -203,8 +230,13 @@ def _resolve_alternate_content(wrapper: ET.Element) -> ET.Element | None:
 def _walk_container(
     container: ET.Element,
     parent_group_xfrm: Xfrm | None,
+    ancestor_rotation: float = 0.0,
     placeholder_xfrms: dict[tuple[str | None, str | None], Xfrm] | None = None,
     placeholder_lst_styles: dict[
+        tuple[str | None, str | None],
+        list[ET.Element],
+    ] | None = None,
+    placeholder_body_properties: dict[
         tuple[str | None, str | None],
         list[ET.Element],
     ] | None = None,
@@ -227,8 +259,16 @@ def _walk_container(
             continue
         kind, nv_tag = kind_info
 
-        name, spid, hidden, ph = _read_nv_sp_pr(child, nv_tag)
+        (
+            name,
+            spid,
+            hidden,
+            ph,
+            hyperlink_rid,
+            hyperlink_action,
+        ) = _read_nv_sp_pr(child, nv_tag)
         xfrm = parse_xfrm(_resolve_xfrm(child, kind))
+        effective_rotation = (ancestor_rotation + xfrm.rot) % 360.0
 
         # Placeholders without their own xfrm inherit geometry from a matching
         # placeholder in the layout, then the master. This is what PowerPoint
@@ -256,18 +296,29 @@ def _walk_container(
             inherited_lst_styles = _lookup_placeholder_lst_styles(
                 ph, placeholder_lst_styles,
             )
+        inherited_body_properties: tuple[ET.Element, ...] = ()
+        if ph is not None and placeholder_body_properties:
+            inherited_body_properties = _lookup_placeholder_body_properties(
+                ph,
+                placeholder_body_properties,
+            )
 
         node = ShapeNode(
             kind=kind, xml=child, xfrm=xfrm,
             name=name, spid=spid, hidden=hidden, placeholder=ph,
+            hyperlink_rid=hyperlink_rid,
+            hyperlink_action=hyperlink_action,
             inherited_lst_styles=inherited_lst_styles,
+            inherited_body_properties=inherited_body_properties,
+            effective_rotation=effective_rotation,
         )
 
         if kind == GROUP:
             node.children = _walk_container(
-                child, xfrm,
+                child, xfrm, effective_rotation,
                 placeholder_xfrms=placeholder_xfrms,
                 placeholder_lst_styles=placeholder_lst_styles,
+                placeholder_body_properties=placeholder_body_properties,
             )
 
         nodes.append(node)
@@ -278,14 +329,12 @@ def _lookup_placeholder_xfrm(
     ph: PlaceholderInfo,
     table: dict[tuple[str | None, str | None], Xfrm],
 ) -> Xfrm | None:
-    """Find an inherited xfrm for a placeholder. PowerPoint matches first by
-    (type, idx) exactly, then by type alone, then by idx alone — so a slide
-    body with idx="1" can pull from a layout body that omits idx, and a slide
-    title with no idx can pull from a master title that has idx="0"."""
+    """Find inherited geometry after applying the OOXML placeholder defaults."""
+    ph_type, ph_idx = _placeholder_identity(ph.type, ph.idx)
     for key in (
-        (ph.type, ph.idx),
-        (ph.type, None),
-        (None, ph.idx),
+        (ph_type, ph_idx),
+        (ph_type, None),
+        (None, ph_idx),
     ):
         hit = table.get(key)
         if hit is not None and (hit.w > 0 or hit.h > 0):
@@ -298,12 +347,13 @@ def _lookup_placeholder_lst_styles(
     table: dict[tuple[str | None, str | None], list[ET.Element]],
 ) -> tuple[ET.Element, ...]:
     """Find inherited txBody/lstStyle elements for a placeholder."""
+    ph_type, ph_idx = _placeholder_identity(ph.type, ph.idx)
     styles: list[ET.Element] = []
     seen: set[int] = set()
     for key in (
-        (ph.type, ph.idx),
-        (ph.type, None),
-        (None, ph.idx),
+        (ph_type, ph_idx),
+        (ph_type, None),
+        (None, ph_idx),
         _placeholder_tx_style_key(ph),
     ):
         for style in table.get(key, []):
@@ -315,14 +365,42 @@ def _lookup_placeholder_lst_styles(
     return tuple(styles)
 
 
+def _lookup_placeholder_body_properties(
+    ph: PlaceholderInfo,
+    table: dict[tuple[str | None, str | None], list[ET.Element]],
+) -> tuple[ET.Element, ...]:
+    """Find inherited txBody/bodyPr elements for a placeholder."""
+    ph_type, ph_idx = _placeholder_identity(ph.type, ph.idx)
+    exact = table.get((ph_type, ph_idx), [])
+    if exact:
+        return tuple(exact)
+    for key in ((ph_type, None), (None, ph_idx)):
+        candidates = table.get(key, [])
+        if candidates:
+            return (candidates[0],)
+    return ()
+
+
 def _placeholder_tx_style_key(
     ph: PlaceholderInfo,
 ) -> tuple[str | None, str | None]:
-    if ph.type in _TITLE_PLACEHOLDER_TYPES:
+    ph_type, _ph_idx = _placeholder_identity(ph.type, ph.idx)
+    if ph_type in _TITLE_PLACEHOLDER_TYPES:
         return _TX_STYLE_TITLE_KEY
-    if ph.type in _BODY_PLACEHOLDER_TYPES:
+    if ph_type in _BODY_PLACEHOLDER_TYPES:
         return _TX_STYLE_BODY_KEY
     return _TX_STYLE_OTHER_KEY
+
+
+def _placeholder_identity(
+    ph_type: str | None,
+    ph_idx: str | None,
+) -> tuple[str, str]:
+    """Resolve the schema defaults used for placeholder inheritance keys."""
+    return (
+        _DEFAULT_PLACEHOLDER_TYPE if ph_type is None else ph_type,
+        _DEFAULT_PLACEHOLDER_INDEX if ph_idx is None else ph_idx,
+    )
 
 
 def _build_placeholder_xfrm_table(
@@ -353,8 +431,10 @@ def _build_placeholder_xfrm_table(
             xfrm = parse_xfrm(xfrm_elem)
             if xfrm.w <= 0 and xfrm.h <= 0:
                 continue
-            ph_type = ph_elem.attrib.get("type")
-            ph_idx = ph_elem.attrib.get("idx")
+            ph_type, ph_idx = _placeholder_identity(
+                ph_elem.attrib.get("type"),
+                ph_elem.attrib.get("idx"),
+            )
             for key in ((ph_type, ph_idx),
                         (ph_type, None),
                         (None, ph_idx)):
@@ -382,13 +462,46 @@ def _build_placeholder_lst_style_table(
             lst_style = sp.find("p:txBody/a:lstStyle", NS)
             if lst_style is None:
                 continue
-            ph_type = ph_elem.attrib.get("type")
-            ph_idx = ph_elem.attrib.get("idx")
+            ph_type, ph_idx = _placeholder_identity(
+                ph_elem.attrib.get("type"),
+                ph_elem.attrib.get("idx"),
+            )
             for key in ((ph_type, ph_idx),
                         (ph_type, None),
                         (None, ph_idx)):
                 table.setdefault(key, []).append(lst_style)
         _append_master_tx_styles(table, part_xml)
+    return table
+
+
+def _build_placeholder_body_property_table(
+    *parts: ET.Element | None,
+) -> dict[tuple[str | None, str | None], list[ET.Element]]:
+    """Index placeholder txBody/bodyPr elements in priority order."""
+    table: dict[tuple[str | None, str | None], list[ET.Element]] = {}
+    for part_xml in parts:
+        if part_xml is None:
+            continue
+        sp_tree = part_xml.find("p:cSld/p:spTree", NS)
+        if sp_tree is None:
+            continue
+        for sp in sp_tree.iter():
+            if not isinstance(sp.tag, str) or sp.tag.split("}", 1)[-1] != "sp":
+                continue
+            ph_elem = sp.find("p:nvSpPr/p:nvPr/p:ph", NS)
+            body_pr = sp.find("p:txBody/a:bodyPr", NS)
+            if ph_elem is None or body_pr is None:
+                continue
+            ph_type, ph_idx = _placeholder_identity(
+                ph_elem.attrib.get("type"),
+                ph_elem.attrib.get("idx"),
+            )
+            for key in (
+                (ph_type, ph_idx),
+                (ph_type, None),
+                (None, ph_idx),
+            ):
+                table.setdefault(key, []).append(body_pr)
     return table
 
 
@@ -415,9 +528,9 @@ def walk_sp_tree(
     """Top-level entry: return shape nodes for a slide / layout / master XML.
 
     When ``slide_xml`` is a regular slide, pass its ``layout_xml`` and
-    ``master_xml`` so placeholders can inherit geometry and text list styles
-    from the layout/master. Layout and master walks pass neither — their own
-    placeholders are the source of truth.
+    ``master_xml`` so placeholders can inherit geometry, text list styles, and
+    body properties from the layout/master. Layout and master walks pass
+    neither — their own placeholders are the source of truth.
     """
     sp_tree = slide_xml.find("p:cSld/p:spTree", NS)
     if sp_tree is None:
@@ -426,10 +539,15 @@ def walk_sp_tree(
     placeholder_lst_styles = _build_placeholder_lst_style_table(
         layout_xml, master_xml,
     )
+    placeholder_body_properties = _build_placeholder_body_property_table(
+        layout_xml,
+        master_xml,
+    )
     return _walk_container(
         sp_tree, parent_group_xfrm=None,
         placeholder_xfrms=placeholder_xfrms or None,
         placeholder_lst_styles=placeholder_lst_styles or None,
+        placeholder_body_properties=placeholder_body_properties or None,
     )
 
 

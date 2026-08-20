@@ -231,16 +231,96 @@
             nav_last: "末页 (End)",
             nav_counter: "{current} / {total}",
             nav_empty: "— / —"
+        },
+        "zh-TW": {
+            page_title: "PPT Master - 即時預覽",
+            panel_slides: "投影片",
+            panel_annotations: "標註",
+            panel_edit_annotate: "編輯 / 標註",
+            placeholder_select_slide: "在左側選擇一張投影片開始",
+            label_selected_element: "已選元素",
+            empty_selected_element: "點選投影片中的元素進行選擇",
+            btn_select_group: "選擇父群組",
+            label_batch_edit: "批次編輯",
+            label_group_edit: "群組編輯",
+            section_geometry: "幾何",
+            section_style: "樣式",
+            section_text_style: "文字",
+            section_raw_attrs: "原始屬性",
+            label_edit_instruction: "修改說明",
+            pending_none: "沒有待套用修改",
+            pending_summary: "{edits} 筆直接修改、{annotations} 個頁面有 AI 標註待套用",
+            pending_pages: "頁面：{pages}",
+            quick_align: "對齊/移動",
+            quick_resize: "調整大小",
+            quick_replace_image: "換圖",
+            quick_copy: "改文案",
+            quick_relayout: "重排此區域",
+            placeholder_annotation: "描述希望 AI 如何修改該元素……",
+            placeholder_annotation_multi: "描述希望如何修改所選 {count} 個元素……",
+            btn_add_annotation: "新增標註",
+            label_annotations_on_slide: "本頁標註",
+            btn_submit_annotations: "套用修改",
+            btn_exit_preview: "結束預覽",
+            modal_submit: "提交",
+            modal_cancel: "取消",
+            empty_waiting_slides: "正在等待生成投影片……",
+            empty_no_slides: "未找到投影片",
+            placeholder_live_ready: "即時預覽已就緒，生成的投影片會在這裡出現。",
+            placeholder_slide_writing: "投影片仍在寫入，等待下次重新整理……",
+            empty_annotations: "尚無標註",
+            tooltip_remove_annotation: "刪除標註",
+            multi_selected: "已選 {count} 個元素",
+            multi_mixed: "混合",
+            err_load_slides: "載入投影片失敗：",
+            err_load_slide: "載入投影片失敗：",
+            err_add_annotation: "新增標註失敗：",
+            err_remove_annotation: "刪除標註失敗：",
+            err_save: "儲存失敗：",
+            err_edit: "編輯失敗：",
+            label_direct_edit: "物件屬性（點選套用修改後寫入）",
+            prop_multiline_hint: "多行文字——選取單行(tspan)編輯文字",
+            edit_saved_hint: "修改已暫存。點選「套用修改」後寫入 svg_output。",
+            btn_undo: "復原",
+            undo_done: "已復原上一筆暫存修改",
+            undo_empty: "沒有可復原的暫存修改",
+            overlap_caption: "此處元素重疊——請點選其中一個",
+            err_empty_svg: "投影片已載入但畫布為空。SVG 可能損壞或缺少根 <svg> 元素。",
+            warn_icon_inline: "{count} 個圖示渲染失敗：{names}",
+            warn_matrix_transform: "本次幾何修改會以 transform matrix 儲存。預覽是準確的；PPTX 匯出需要使用支援 matrix 的目前匯出器。",
+            modal_matrix_transform_note: "\n\n提示：至少有一筆暫存幾何修改使用了 transform matrix。請用目前 PPTX 匯出器重新匯出，確保 matrix 被套用。",
+            slide_error_tooltip: "該投影片解析失敗：",
+            reload_banner: "目前頁已在磁碟上更新，點此重新載入。",
+            modal_confirm_submit: "確認將暫存的直接修改和 AI 標註寫入磁碟？\n\n預覽服務會繼續執行。需要關閉時請點選結束預覽。",
+            modal_success_submit: "修改已儲存到 svg_output。\n\n預覽服務仍在執行。",
+            modal_success_direct_only: "修改已儲存到 svg_output。\n\n直接修改已經寫入 SVG 原始檔；需要重新整理 PPTX 時，請回到對話視窗要求重新匯出。預覽服務仍在執行。",
+            modal_success_annotations_only: "標註已儲存到 svg_output。\n\n需要 AI 理解並執行這些標註時，請回到對話視窗要求套用標註。預覽服務仍在執行。",
+            modal_success_mixed: "直接修改和標註已儲存到 svg_output。\n\n請回到對話視窗先套用需要 AI 判斷的標註，確認後再重新匯出 PPTX。預覽服務仍在執行。",
+            modal_confirm_exit: "結束預覽並停止本機服務？\n\n未套用的屬性修改和標註將被丟棄。",
+            modal_success_exit: "預覽已停止。\n\n可以關閉本分頁並回到對話視窗。",
+            modal_stopping: "正在停止預覽服務……",
+            lang_toggle_title: "切換語言",
+            nav_first: "第一頁 (Home)",
+            nav_prev: "上一頁 (←)",
+            nav_next: "下一頁 (→)",
+            nav_last: "末頁 (End)",
+            nav_counter: "{current} / {total}",
+            nav_empty: "— / —"
         }
     };
 
     var LANG = (function () {
         try {
             var stored = window.localStorage.getItem("ppt_lang");
-            if (stored === "zh" || stored === "en" || stored === "ja") return stored;
+            if (stored === "zh" || stored === "en" || stored === "ja" ||
+                stored === "zh-TW") return stored;
         } catch (e) { /* ignore */ }
         var nav = (navigator.language || navigator.userLanguage || "en").toLowerCase();
-        if (nav.indexOf("zh") === 0) return "zh";
+        if (nav.indexOf("zh") === 0) {
+            if (/\bhans\b/.test(nav)) return "zh";
+            if (/\bhant\b/.test(nav) || /\b(tw|hk|mo)\b/.test(nav)) return "zh-TW";
+            return "zh";
+        }
         if (nav.indexOf("ja") === 0) return "ja";
         return "en";
     })();
@@ -259,7 +339,7 @@
     }
 
     function applyI18n() {
-        document.documentElement.setAttribute("lang", LANG === "zh" ? "zh-CN" : (LANG === "ja" ? "ja" : "en"));
+        document.documentElement.setAttribute("lang", LANG === "zh" ? "zh-CN" : (LANG === "zh-TW" ? "zh-TW" : (LANG === "ja" ? "ja" : "en")));
         document.title = t("page_title");
         document.querySelectorAll("[data-i18n]").forEach(function (el) {
             el.textContent = t(el.getAttribute("data-i18n"));
@@ -273,7 +353,7 @@
         updateNavLabel();
     }
 
-    var LANG_NAMES = { zh: "中文", en: "English", ja: "日本語" };
+    var LANG_NAMES = { zh: "中文", en: "English", ja: "日本語", "zh-TW": "繁體中文" };
 
     function refreshLangUI(lang) {
         // Custom dropdown (OS-independent): button shows the CURRENT language.
@@ -289,7 +369,7 @@
     }
 
     function setLang(lang) {
-        if (lang !== "zh" && lang !== "en" && lang !== "ja") return;
+        if (lang !== "zh" && lang !== "en" && lang !== "ja" && lang !== "zh-TW") return;
         LANG = lang;
         try { window.localStorage.setItem("ppt_lang", lang); } catch (e) { /* ignore */ }
         applyI18n();
@@ -332,6 +412,7 @@
 
     // ---- State ------------------------------------------------------
     var currentSlide      = null;   // filename, e.g. "slide_01.svg"
+    var waitingForSlide   = null;   // current slide is temporarily unreadable in live mode
     var slideNames        = [];     // ordered slide filenames for navigation
     var selectedElementIds = new Set(); // id attrs of selected SVG elements
     var slideAnnotations  = {};     // {element_id: annotation_text} for current slide
@@ -451,6 +532,28 @@
         return "";
     });
 
+    function readSlideFromLocation() {
+        try {
+            var params = new URLSearchParams(window.location.hash.replace(/^#/, ""));
+            return params.get("slide");
+        } catch (err) {
+            return null;
+        }
+    }
+
+    function rememberSlideInLocation(name) {
+        if (!name) return;
+        var params;
+        try {
+            params = new URLSearchParams(window.location.hash.replace(/^#/, ""));
+        } catch (err) {
+            params = new URLSearchParams();
+        }
+        params.set("slide", name);
+        var url = window.location.pathname + window.location.search + "#" + params.toString();
+        window.history.replaceState(null, "", url);
+    }
+
     function currentSlideIndex() {
         if (!currentSlide) return -1;
         return slideNames.indexOf(currentSlide);
@@ -518,10 +621,12 @@
                 }
 
                 var currentExists = false;
+                var currentReady = false;
                 var currentMtimeChanged = false;
                 slides.forEach(function (s) {
                     if (s.name === currentSlide) {
                         currentExists = true;
+                        currentReady = s.ok !== false;
                         // Compare against the mtime we recorded when we last rendered this slide.
                         var lastSeen = slideMtimes[s.name];
                         if (lastSeen !== undefined && s.mtime && s.mtime !== lastSeen) {
@@ -561,7 +666,15 @@
                 });
 
                 if (!currentSlide || !currentExists) {
-                    selectSlide(slides[0].name);
+                    var rememberedSlide = readSlideFromLocation();
+                    var targetSlide = rememberedSlide && slideNames.indexOf(rememberedSlide) !== -1
+                        ? rememberedSlide
+                        : slides[0].name;
+                    selectSlide(targetSlide);
+                } else if (waitingForSlide === currentSlide) {
+                    if (currentReady) {
+                        selectSlide(currentSlide);
+                    }
                 } else if (currentMtimeChanged) {
                     showReloadBanner(currentSlide);
                 }
@@ -577,7 +690,18 @@
     // ================================================================
     //  2.  selectSlide  -- GET /api/slide/{name}
     // ================================================================
+    function waitForSlideRewrite(name) {
+        if (!liveMode || name !== currentSlide) return;
+        waitingForSlide = name;
+        svgPlaceholder.style.display = "block";
+        svgPlaceholder.textContent = t("placeholder_slide_writing");
+        svgContent.style.display = "none";
+    }
+
     function selectSlide(name, el) {
+        if (!el) {
+            el = slideListEl.querySelector('.slide-item[data-name="' + cssAttr(name) + '"]');
+        }
         // Update active class in sidebar
         document.querySelectorAll(".slide-item").forEach(function (it) {
             it.classList.remove("active");
@@ -585,6 +709,8 @@
         if (el) el.classList.add("active");
 
         currentSlide = name;
+        waitingForSlide = null;
+        rememberSlideInLocation(name);
         selectedElementIds.clear();
         slideAnnotations = {};
         updateNavLabel();
@@ -599,15 +725,11 @@
         fetch("/api/slide/" + encodeURIComponent(name))
             .then(function (res) { return res.json(); })
             .then(function (data) {
+                if (name !== currentSlide) return;
                 if (data.error) {
                     console.error("selectSlide:", data.error);
                     showError(t("err_load_slide") + data.error);
-                    if (liveMode) {
-                        currentSlide = null;
-                        svgPlaceholder.style.display = "block";
-                        svgPlaceholder.textContent = t("placeholder_slide_writing");
-                        svgContent.style.display = "none";
-                    }
+                    waitForSlideRewrite(name);
                     return;
                 }
                 // Render SVG
@@ -686,8 +808,10 @@
                 updatePendingStatus();
             })
             .catch(function (err) {
+                if (name !== currentSlide) return;
                 console.error("selectSlide:", err);
                 showError(t("err_load_slide") + err.message);
+                waitForSlideRewrite(name);
             });
     }
 
@@ -1730,10 +1854,10 @@
             Array.from(el.attributes).forEach(function (attr) {
                 if (attr.name.indexOf("on") === 0) el.removeAttribute(attr.name);
                 // Strip dangerous URI protocols from href/xlink:href
-                if ((attr.name === "href" || attr.name === "xlink:href") &&
+                if (attr.localName === "href" &&
                     (/^\s*javascript\s*:/i.test(attr.value) ||
                      /^\s*data\s*:/i.test(attr.value))) {
-                    el.removeAttribute(attr.name);
+                    el.removeAttributeNode(attr);
                 }
             });
         });

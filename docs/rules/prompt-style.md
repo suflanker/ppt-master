@@ -49,9 +49,9 @@ Role definition for the **web image acquisition path**: translate Strategist int
 | `Run X.` | `You should typically run X because ...` |
 | `Output: Y` | `The role outputs Y, which is important because ...` |
 | `MUST come from Z` | `It is recommended to source from Z` |
-| `Forbidden — values outside the lock` | `Anti-pattern: using values outside the lock` |
+| `Forbidden — unresolved image references` | `Anti-pattern: broken image links` |
 
-**Hard rule**: if a sentence explains *why*, demote it to a single `> Note` blockquote line OR cut it. The agent does not need motivation, only behavior.
+**Hard rule — retain failure predicates**: Cut narrative teaching and background motivation. Keep one compact protected invariant or failure predicate when it determines the rule's strength, scope, or safe generalization; attach it to the rule or one `> Note` line. Runtime prompts need the behavior and its objective failure boundary, not the full rationale.
 
 ---
 
@@ -74,11 +74,11 @@ Begin substantive paragraphs with a bolded short label. Reuse this fixed vocabul
 
 ✅ Good (from `executor-base.md`):
 ```
-**Hard rule**: Before generating **each** SVG page, `read_file <project_path>/spec_lock.md`.
+**Hard rule**: Reuse the complete Design Spec and lock while the active context remains valid. After compaction or fresh/resumed execution, read both once before continuing.
 
-**Forbidden — values outside the lock**:
-- Colors (fill / stroke / stop-color) MUST come from `colors`
-- Icons MUST come from `icons.inventory`
+**Forbidden — unresolved asset references**:
+- Icons MUST resolve to prepared project-local assets
+- Images MUST resolve to declared project assets
 ```
 
 **Choosing the strength** — before labeling a constraint, ask: *if a page violates it, does it objectively fail (text overlaps, overflows, misaligns, becomes unreadable, loses information, breaks across renderers), or could it merely look worse?*
@@ -91,7 +91,70 @@ Begin substantive paragraphs with a bolded short label. Reuse this fixed vocabul
 
 Boundary cases go by this test, not by how strong the verb feels: "never split a full sentence into bullets" stays near-MUST because splitting *loses the information that the block was continuous reasoning*, not because "never" sounds strict.
 
+**Hard rule**: A `Hard rule` or `Forbidden` label whose failure boundary is not self-evident retains one compact objective predicate. If no objective predicate exists, demote the instruction to `Default` or `Reference` instead of preserving only a strong verb.
+
 > Note: only a MUST with a concrete objective trigger may become a `svg_quality_checker.py` rule. SHOULD is at most a `warning`; MAY is never checked — encoding taste as a check turns the checker into a de-facto spec.
+
+### 4.1 Ownership Contract: Ingredients → Plan + Preparation → Realization
+
+Constraint strength and decision ownership are independent. Preserve this chain whenever writing, compressing, or reviewing the default multi-role Generate prompts:
+
+| Layer | Owns |
+|---|---|
+| User / initial materials | Supplied facts/assets, desired outcome, exclusions, and permission boundaries remain authoritative |
+| Strategist / plan + preparation | Assess material sufficiency; trigger permitted topic research and retain its research/provenance pair without expanding adopted webpage URLs; decide the approved content, resources, keys, identity anchors, and exact page roster. During that roster composition, resolve each page's semantic carrier mix—background, text/lettering, native-geometry/relationship jobs, imagery/symbols, and data carriers—in one pass before deriving external-resource rows. Recommend high-level composition, visual focus, and continuity as Reference when useful, without selecting a local authoring capability or element geometry; materialize the planned project-local inventory or record an explicit `Needs-Manual` dependency before execution. For icons, prepare a curated project pool with broad semantic fit rather than assigning files to pages |
+| Executor / realization | Use only prepared project-local assets; preserve approved content, resources, and identity anchors; realize each page by resolving the actual carrier combination, geometry, composition, hierarchy, and treatment together before coordinates. Discover and invoke local deterministic authoring capabilities without an upstream capability selection. Consider each field explicitly labeled `suggestion` or Reference, then adopt, adapt, or decline it while preserving its semantic job and every binding constraint. For icons, the complete `<project>/icons/` pool is prepared material; `icons.inventory` is a curated bundled-pool index, not a page-use plan or whitelist, and Executor chooses prepared icons per page without a coverage quota. Sparse local font/color garnish is allowed only while non-structural and non-recurring |
+
+**Hard rule — capability knowledge precedes selection**: physical file
+boundaries do not imply runtime lazy-loading. A role loads the complete decision
+authorities for every capability it owns before choosing among those
+capabilities; otherwise the load trigger circularly depends on a choice made
+without that capability. Default Strategist's fixed planning bundle covers
+resource/preparation and high-level expression options without local authoring
+parameters. Executor's fixed construction bundle covers locally callable
+authoring options. Quick loads both decision surfaces in its one context. Only
+post-selection mechanics whose trigger is independently observable may remain
+conditional. For example, an actual `ai` / `slice` resource row may trigger
+Image_Generator backend, prompt-assembly, and per-image type details after
+planning; those mechanics are not a missing Strategist capability.
+
+**Hard rule — native shapes are authoring capabilities, not prepared
+resources**: a prepared resource needs a stable project-local file/path before
+realization because page authoring cannot acquire or generate it in place.
+Office presets, SVG primitives, Connectors, Boolean helpers, and necessary
+freeform geometry are locally callable construction capabilities. Strategist
+never inventories them or promotes a concrete preset, primitive, Connector,
+Boolean/freeform operation, or authoring parameter into a binding planning
+selection. A macro Reference may mention a technique as optional inspiration
+without prescribing or gating construction. The Design Spec / lock create no
+native-shape field; Executor reads the complete current preset vocabulary and
+chooses the page-fit construction during realization.
+
+**Preparation timing**: In the default pipeline, topic research and import of
+its two-artifact research pair may run before final confirmation. Facts JSON
+URLs are not auto-expanded. AI / web / slice acquisition runs only from the
+completed `design_spec.md §VIII` and `spec_lock.md`, after final confirmation
+and before Executor. Only after normal image search fails may one relevant
+adopted page become a Markdown + companion-image source package; review it and
+promote accepted files individually, never the whole package. Image_Generator,
+Image_Searcher, and icon-sync tooling execute Strategist-owned preparation;
+they are not independent decision owners.
+
+**Post-motion sound exception**: optional transition/object sound is not a
+page-authoring ingredient and never enters Strategist planning,
+`design_spec.md`, or `spec_lock.md`. After the SVG roster and visual motion
+solution are complete, the active animation/export stage may discover bundled
+sound ids and sync only a concretely selected cue into the project. With no
+selected cue, it creates no `<project>/sounds/` directory. This exception does
+not permit Executor to acquire visual resources.
+
+**Hard rule — default pipeline**: downstream freedom exists only in dimensions left open upstream, including fields explicitly labeled `suggestion` or Reference. A named binding outcome retains identity; a broad semantic request or expression recommendation permits in-class choice. Executor may adopt, adapt, or decline a Reference without upstream repair unless an explicit user/template/resource constraint promotes the named property. Once the plan resolves a binding choice, execution cannot reopen or substitute it. For icons, library/stroke and the prepared-project boundary bind, while per-page choice within the prepared pool is realization. Executor never searches, generates, downloads, syncs, invents, or replaces a resource; missing material returns to Strategist-owned preparation or upstream repair.
+
+**Explicit Quick Generate exception**: [`quick-generate`](../../skills/ppt-master/workflows/profiles/quick-generate.md) removes the separate Strategist/confirmation handoff. The current main agent therefore owns both its active-context decisions and the preparation of project-local sources, images, icons, and provenance before it begins SVG realization; native formulas are authored directly from exact mathematical content rather than acquired as resources. This exception does not move acquisition into a default-pipeline Executor and does not permit resource reselection while a page is being realized. Explicit user facts, choices, exclusions, and permissions remain upstream authority; unspecified routine choices are resolved automatically without a confirmation stop.
+
+> Mnemonic — restaurant contract: the customer supplies initial ingredients and the desired dish; Strategist plans the dish and prepares the complete mise en place; Executor cooks from that prepared inventory. “Mapo tofu” cannot become tomato-and-eggs or tofu soup, while “a tofu dish” leaves deliberate in-class freedom.
+
+**Review gate**: treat any prompt refactor that erases the selected profile's ownership chain, moves acquisition into the default-pipeline Executor, turns a permission into a quota, or turns flexible realization into silent resource/identity reselection as a semantic regression even when the compressed wording is shorter.
 
 ---
 
@@ -201,7 +264,25 @@ The canonical exemplars to model new files after:
 
 | If you're writing... | Model after |
 |---|---|
-| A role reference (Image_X / Strategist-style) | [`image-searcher.md`](../skills/ppt-master/references/image-searcher.md), [`strategist.md`](../skills/ppt-master/references/strategist.md) |
-| A shared spec across roles | [`image-base.md`](../skills/ppt-master/references/image-base.md), [`shared-standards.md`](../skills/ppt-master/references/shared-standards.md) |
-| A technical / format spec | [`canvas-formats.md`](../skills/ppt-master/references/canvas-formats.md), [`svg-image-embedding.md`](../skills/ppt-master/references/svg-image-embedding.md), [`image-layout-spec.md`](../skills/ppt-master/references/image-layout-spec.md) |
-| Workflow runbook | [`workflows/verify-charts.md`](../skills/ppt-master/workflows/verify-charts.md) |
+| A role reference (Image_X / Strategist-style) | [`image-searcher.md`](../../skills/ppt-master/references/image-searcher.md), [`strategist.md`](../../skills/ppt-master/references/strategist.md) |
+| A shared spec across roles | [`image-base.md`](../../skills/ppt-master/references/image-base.md), [`shared-standards-core.md`](../../skills/ppt-master/references/shared-standards-core.md) |
+| A technical / format spec | [`canvas-formats.md`](../../skills/ppt-master/references/canvas-formats.md), [`svg-image-embedding.md`](../../skills/ppt-master/references/svg-image-embedding.md), [`image-layout-spec.md`](../../skills/ppt-master/references/image-layout-spec.md) |
+| Stage runbook | [`workflows/stages/verify-charts.md`](../../skills/ppt-master/workflows/stages/verify-charts.md) |
+
+---
+
+## 13. Prompt Refactor Review
+
+Prompt compression is complete only after reviewing token reduction and semantic change separately.
+
+| Check | Required evidence |
+|---|---|
+| Owner and consumer | Each moved field or capability still has one authority, and every runtime consumer loads or projects that authority |
+| Strength delta | Record `before → after` for deleted, moved, or rewritten `Hard rule`, `Forbidden`, `Default`, and `Reference` instructions |
+| Failure predicate | Preserve the compact objective invariant that justifies every non-self-evident hard boundary |
+| Freedom boundary | A permission did not become a quota, a reference did not become a lock, and flexible realization did not become silent reselection |
+| Preparation timing | Strategist-owned acquisition and materialization did not move into Executor or before final confirmation |
+| Capability discovery | Conditional deep specifications retain a short visible menu or an externally observable trigger before their load gate |
+| Token delta | Report route/file budget changes separately; a budget pass does not prove semantic equivalence |
+
+**Hard rule**: A shorter prompt that changes decision ownership, constraint strength, preparation timing, or capability discoverability is a semantic regression even when structural and token-budget audits pass.

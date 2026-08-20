@@ -42,6 +42,8 @@ from dataclasses import dataclass
 from typing import Any
 from xml.etree import ElementTree as ET
 
+from pptx_effects import txbody_has_run_effects
+
 from .color_resolver import ColorPalette, find_color_elem, resolve_color
 from .emu_units import (
     NS,
@@ -54,6 +56,7 @@ from .emu_units import (
 from .fill_to_svg import FillResult, resolve_fill
 from .ln_to_svg import resolve_stroke
 from .txbody_to_svg import _resolve_theme_typeface, convert_txbody
+from .txbody_to_svg import HyperlinkResolver
 
 
 BUILTIN_MEDIUM_STYLE_2_ACCENT_1 = "{5C22544A-7EE6-4342-B048-85BDC9FD1C3A}"
@@ -100,12 +103,13 @@ _BUILTIN_MEDIUM_STYLE_2_ACCENT_1_XML = ET.fromstring(
 
 @dataclass
 class TableResult:
-    """Composite render output plus optional native table metadata."""
+    """Composite render output, replacement metadata, and effect diagnostics."""
 
     svg: str = ""
     defs: list[str] = None
     native_payload: dict[str, Any] | None = None
     native_status: str | None = None
+    effect_reason: str | None = None
 
     def __post_init__(self) -> None:
         if self.defs is None:
@@ -276,6 +280,7 @@ def convert_tbl(
     id_prefix: str = "tbl",
     grad_seq: list[int] | None = None,
     marker_seq: list[int] | None = None,
+    hyperlink_resolver: HyperlinkResolver | None = None,
 ) -> TableResult:
     """Render an <a:tbl> at the given absolute xfrm into SVG markup."""
     grad_seq = grad_seq if grad_seq is not None else [0]
@@ -320,6 +325,14 @@ def convert_tbl(
     # gridSpan/rowSpan on the anchor cell + hMerge/vMerge on the dropped cells.
     cells = _build_cell_grid(rows, len(col_widths))
     merge_status = _canonical_native_merge_status(rows, len(col_widths))
+    effect_reason = (
+        "unsupported-run-effect-route:table-cell-text"
+        if any(
+            txbody_has_run_effects(tc.find("a:txBody", NS))
+            for tc in tbl.findall(".//a:tc", NS)
+        )
+        else None
+    )
     if xfrm.rot or xfrm.flip_h or xfrm.flip_v:
         native_status = "unsupported-native-transform"
     elif merge_status:
@@ -335,7 +348,10 @@ def convert_tbl(
         native_status = "unsupported-table-geometry"
     elif _table_has_unsupported_style(tbl):
         native_status = "unsupported-table-style"
-    elif _table_has_unsupported_direct_formatting(tbl, palette):
+    elif (
+        effect_reason
+        or _table_has_unsupported_direct_formatting(tbl, palette)
+    ):
         native_status = "unsupported-table-direct-formatting"
     else:
         native_status = None
@@ -400,6 +416,7 @@ def convert_tbl(
                 slide_number=slide_number,
                 id_prefix=f"{id_prefix}txt",
                 id_seq=grad_seq,
+                hyperlink_resolver=hyperlink_resolver,
             )
             defs.extend(text_result.defs)
             if text_result.svg:
@@ -434,6 +451,7 @@ def convert_tbl(
         defs=defs,
         native_payload=native_payload,
         native_status=native_status,
+        effect_reason=effect_reason,
     )
 
 
@@ -1141,7 +1159,7 @@ def _native_table_payload(
     palette: ColorPalette | None,
     theme_fonts: dict[str, str],
 ) -> dict[str, Any]:
-    """Build the SVG data-pptx-native payload for an unmerged table."""
+    """Build the SVG native Table replacement payload for an unmerged table."""
     tbl_pr = tbl.find("a:tblPr", NS)
     payload: dict[str, Any] = {
         "x": _round_payload_number(xfrm.x),
@@ -1534,6 +1552,7 @@ def _convert_cell_text(
     slide_number: int | None,
     id_prefix: str,
     id_seq: list[int] | None,
+    hyperlink_resolver: HyperlinkResolver | None,
 ):
     """Render cell text. PowerPoint's <a:tcPr> can override txBody insets via
     its own marL/marR/marT/marB attrs; convert_txbody reads from <a:bodyPr>,
@@ -1587,6 +1606,7 @@ def _convert_cell_text(
                 slide_number=slide_number,
                 id_prefix=id_prefix,
                 id_seq=id_seq,
+                hyperlink_resolver=hyperlink_resolver,
             )
         except (AttributeError, OverflowError, TypeError, ValueError):
             plain_tx_body = _plain_table_text_body(render_tx_body, overrides)
@@ -1596,6 +1616,7 @@ def _convert_cell_text(
                 slide_number=slide_number,
                 id_prefix=id_prefix,
                 id_seq=id_seq,
+                hyperlink_resolver=hyperlink_resolver,
             )
     finally:
         if overrides and body_pr is not None:

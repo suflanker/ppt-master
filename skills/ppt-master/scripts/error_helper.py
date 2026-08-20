@@ -22,8 +22,8 @@ class ErrorHelper:
             'message': 'Missing README.md file',
             'solutions': [
                 'Create a README.md file with project description, usage instructions, etc.',
-                'Reference template: examples/google_annual_report_ppt169_20251116/README.md',
-                'Or use command: cp examples/google_annual_report_ppt169_20251116/README.md <your_project>/'
+                'Document the project goal, source material, canvas, generated artifacts, and export path',
+                'Keep project-specific instructions local instead of copying a repository example'
             ],
             'severity': 'error'
         },
@@ -112,7 +112,7 @@ class ErrorHelper:
                 'Remove <foreignObject> elements',
                 'Use <text> + <tspan> for manual line wrapping',
                 'This is a project technical specification requirement',
-                'Reference: references/shared-standards.md'
+                'Reference: references/shared-standards-core.md'
             ],
             'severity': 'error'
         },
@@ -121,7 +121,7 @@ class ErrorHelper:
             'solutions': [
                 'Remove clip-path from shapes / groups / text',
                 'Draw the target geometry directly with the matching native element: <circle> / <ellipse> / <rect rx="..."> / <polygon> / <path>. A rect clipped to a circle is just a <circle>.',
-                'clip-path on <image> is conditionally allowed — see references/shared-standards.md §1.2'
+                'clip-path on <image> is conditionally allowed — see references/shared-standards-core.md §1.2'
             ],
             'severity': 'error'
         },
@@ -130,7 +130,7 @@ class ErrorHelper:
             'solutions': [
                 'Define the referenced <clipPath id="..."> inside <defs>',
                 'The clipPath must contain exactly one shape child (circle / ellipse / rect with rx,ry / path / polygon)',
-                'Reference: references/shared-standards.md §1.2'
+                'Reference: references/shared-standards-core.md §1.2'
             ],
             'severity': 'error'
         },
@@ -181,14 +181,14 @@ class ErrorHelper:
             'severity': 'error'
         },
         # Note: <marker> and marker-end are NO LONGER forbidden — they are
-        # conditionally allowed (see references/shared-standards.md §1.1).
+        # conditionally allowed (see references/shared-standards-core.md §1.1).
         # The converter maps qualifying markers to native DrawingML arrow heads.
         'marker_orphan_ref': {
             'message': 'marker-start/marker-end references a marker id, but no <marker> element is defined',
             'solutions': [
                 'Define the <marker> inside <defs>',
                 'Or remove the marker-start/marker-end attribute',
-                'See shared-standards.md §1.1 for marker constraints',
+                'See shared-standards-core.md §1.1 for marker constraints',
             ],
             'severity': 'error'
         },
@@ -231,7 +231,7 @@ class ErrorHelper:
             'message': 'Forbidden web font (@font-face) detected',
             'solutions': [
                 'Remove @font-face declarations',
-                'Use font-family stacks that export PPT-safe pre-installed typefaces',
+                'Use font-family stacks that export target-installed/approved PPT-safe typefaces',
                 'Example: font-family: "Microsoft YaHei", Arial, sans-serif'
             ],
             'severity': 'error'
@@ -257,8 +257,9 @@ class ErrorHelper:
         'invalid_font': {
             'message': 'Font stack exports non-PPT-safe typefaces to PPTX',
             'solutions': [
-                'Use stacks whose exported Latin / EA typefaces are pre-installed',
-                'CJK: "Microsoft YaHei", sans-serif  |  SimSun, serif',
+                'Use stacks whose exported Latin / EA faces are installed or approved on the delivery target',
+                'Do not choose PPTX faces from the authoring host font inventory',
+                'CJK: "Microsoft YaHei", "Noto Sans CJK SC", sans-serif  |  SimSun, "Noto Serif CJK SC", serif',
                 'Latin: Arial, sans-serif  |  "Times New Roman", serif',
                 'Mono: Consolas, "Courier New", monospace',
                 'See strategist.md §g for the full PPT-safe discipline'

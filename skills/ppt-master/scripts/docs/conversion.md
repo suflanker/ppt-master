@@ -1,6 +1,9 @@
 # Conversion Tools
 
-> Architecture rationale (why native-Python first with pandoc fallback, why curl_cffi for TLS impersonation): see [docs/technical-design.md "Source Content Conversion"](../../../../docs/technical-design.md#source-content-conversion).
+> **Design boundary**: use native-Python converters for supported formats,
+> invoke Pandoc only for explicit fallback formats, and let web conversion use
+> `curl_cffi` when available for sites that reject Python's default TLS
+> fingerprint.
 
 Source conversion tools turn PDFs, documents, slide decks, and web pages into Markdown before project creation.
 
@@ -52,9 +55,9 @@ Useful options:
 - `--json` prints a compact machine-readable result after success when the
   output path is known. With multiple inputs, each successful conversion prints
   its own JSON line after that source finishes.
-- `--images all|filtered|none`, `--no-images`, and `--filter-images` map to the
-  existing PDF image mode. They are intentionally PDF-only until other backends
-  expose the same behavior natively.
+- At the unified `source_to_md.py` entry, `--images all|filtered|none`,
+  `--no-images`, and `--filter-images` map to the PDF image mode. The web
+  backend exposes its own direct `--no-images` option described below.
 - Unknown backend-specific flags are passed through to each selected converter.
 - `-o/--output` selects one Markdown file for one input, or an output directory
   for multiple inputs / directory inputs.
@@ -197,6 +200,7 @@ Behavior:
 - preserves every readable chart dimension or series and emits `[Chart data warning: <reason>]` for missing caches/count mismatches; `[Chart data unavailable: <reason>]` is reserved for charts with no readable points (and unsupported ChartEx), so XY data is never flattened into a misleading category table
 - transcribes SmartArt semantic nodes as hierarchical Markdown; unreadable diagram data emits an explicit placeholder and conversion warning
 - exports embedded pictures to a sibling `_files/` directory
+- preserves supported run, table-cell, picture, and text-shape links as Markdown links, including `#slide-N` jumps
 - appends speaker notes when present
 - writes `<input>.conversion_profile.json` after successful conversion
 
@@ -223,7 +227,7 @@ Outputs (per source deck, prefixed by file stem):
 - `<stem>.slide_library.json` — text slots, geometry, native tables, native chart display caches, and SmartArt nodes/connections
 - `source_profile.json` — the single multi-deck index: a compact Strategist-facing digest per deck (over identity, tables, charts, SmartArt, and page types) under `decks[]`, with prefixed artifact pointers
 
-`project_manager.py import-sources` runs this automatically for PPTX/PPTM/PPSX/PPSM/POTX/POTM inputs and stores the bundle directly under `analysis/`. Multi-deck per project: importing several PPTX files gives each its own `<stem>.*` artifacts and a `decks[]` entry in the shared `source_profile.json` index (re-importing the same stem replaces its entry). The beautify / template-fill workflows stay single-deck and read one chosen deck's `<stem>.*` artifacts.
+`project_manager.py import-sources` runs this automatically for PPTX/PPTM/PPSX/PPSM/POTX/POTM inputs and stores the bundle directly under `analysis/`. Multi-deck per project: importing several PPTX files gives each its own `<stem>.*` artifacts and a `decks[]` entry in the shared `source_profile.json` index (re-importing the same stem replaces its entry). The beautify profile and Fill Native PPTX route stay single-deck and read one chosen deck's `<stem>.*` artifacts.
 
 Usage boundary:
 - Standard generation uses these fields as facts and recommendation candidates; it does not inherit source slide coordinates or page order by default.
@@ -238,6 +242,7 @@ Reconstruct a PPTX package as editable SVG views by reading OOXML directly.
 python3 scripts/pptx_to_svg.py deck.pptx --inheritance-mode both
 python3 scripts/pptx_to_svg.py deck.pptx --inheritance-mode layered
 python3 scripts/pptx_to_svg.py deck.pptx --inheritance-mode flat
+python3 scripts/pptx_to_svg.py deck.pptx --strict
 ```
 
 | Mode | Output |
@@ -246,27 +251,147 @@ python3 scripts/pptx_to_svg.py deck.pptx --inheritance-mode flat
 | `layered` | Only the layered `svg/` view and inheritance metadata |
 | `flat` | One self-contained slide SVG per page under `svg/` |
 
-Supported text-grid tables and conservative classic-chart caches carry
-`data-pptx-native` metadata beside their SVG fallback. Table import requires
+Every mode also writes a canonical `animations.json`. Its default transition
+is `none`, so slides without a source transition stay transition-free when the
+workspace is exported again.
+
+For Office pictures that carry both a raster compatibility preview on
+`a:blip` and an editable SVG relationship in `asvg:svgBlip`, import resolves
+the SVG relationship first. The raster relationship is used only when the SVG
+relationship or media part cannot be read. The template manifest uses the same
+relationship preference for asset identity; its existing missing-media gate
+remains strict rather than silently treating the raster preview as the
+template's canonical asset.
+
+Supported `a:hlinkClick` on shape/picture `p:cNvPr` and text `a:rPr` becomes
+the shared SVG `<a href>` form for absolute external URIs and final-roster
+`#slide-N` jumps. A source shape that also has linked inner runs uses the
+importer-only `data-pptx-shape-hyperlink` transport to avoid nested SVG anchors.
+Unsupported click actions produce a diagnostic; strict import stops.
+
+### Import compatibility and recovery boundary
+
+Import is tolerant by default because the source deck is user-owned or comes
+from third-party authoring tools. Recovery happens at the narrowest safe
+boundary: first omit only an unsupported property or feature; if that is not
+possible, replace only the affected object with a visible diagnostic
+placeholder; omit a background without discarding its page. Corrupt ZIP/XML or
+missing required package structure remains fatal because no safe local recovery
+exists. Pass `--strict` for parser development or contract verification when
+the first unsupported/malformed source construct should stop conversion.
+
+Every successful run writes `<output>/conversion-report.json`. Its stable
+top-level fields are `schemaVersion`, `source`, `mode`, `summary`, `artifacts`,
+and `diagnostics`; `artifacts.animationConfig` and
+`artifacts.animationMedia` identify the converter-owned sidecar and transition
+sounds. Each diagnostic records a reason `code`, source `message`, chosen
+`fallback`, package `part_path`, and—when available—`slide_index`, `shape_id`,
+`shape_name`, and `shape_kind`. The command also prints a bounded warning
+summary instead of a raw Python traceback.
+
+In the detailed native-object notes below, “fails closed” or “error” describes
+the native replacement claim or strict mode. Default tolerant deck import
+retains the usable fallback/object and records the degradation; it does not
+discard unrelated shapes, pages, or the entire deck.
+
+Source `p:transition` and `p:timing` nodes are never silently implied by the
+static SVG view. Supported page transitions and finite object-animation
+sequences are reconstructed in `animations.json`; source timing outside either
+closed contract emits `transition-not-reconstructed` or
+`animation-not-reconstructed` with the exact source slide. Direct PPTX
+Fill/Enhance workflows remain the source-preserving route for all other timing;
+`--strict` stops on the first unreconstructed node.
+
+### Page-transition reverse import
+
+The importer accepts exactly the current generated-transition registry and
+validates the source carrier with the same read-back contract used after
+SVG-to-PPTX export. It reconstructs the canonical effect and all effective
+options, exact `p14:dur`, optional `advTm`, and an internal WAV transition
+sound. Sound bytes are extracted under the selected media directory with a
+content-addressed filename and referenced from the sidecar.
+
+This is a PPT Master-owned semantic loop, not a general transition normalizer.
+Unknown effects, legacy `p:transition@spd`, visual effects without exact
+`p14:dur`, `advClick="0"`, malformed carriers, and unsupported or broken sound
+relationships produce `transition-not-reconstructed` in tolerant mode;
+`--strict` stops. The converter never substitutes `fade` for those cases.
+
+### Finite object-animation reverse import
+
+The importer accepts only rows that pass the current generated-animation
+behavior-tree validator and map both their target and optional click trigger to
+one unique top-level slide SVG group. It reconstructs the canonical registry
+effect, non-default effective options, Animation Pane order, Start trigger,
+exact native duration, and relative delay. Repeated targets use `effects[]`;
+shape-triggered rows restore `trigger_shape`.
+
+This exact-duration subset covers 199 of the 203 registered effects. The four
+native rows without a readable behavior duration—`emphasis_change_font`,
+`emphasis_change_font_style`, `emphasis_transparency`, and
+`emphasis_bold_reveal`—remain diagnosed because their authored scheduling span
+cannot be separated honestly from the following delay. Repeat/reverse/rewind,
+acceleration/bounce/restart, after-effects, animation sounds, paragraph or
+Chart/SmartArt builds, media commands, unknown behavior trees, and targets that
+do not map to a top-level SVG group likewise produce
+`animation-not-reconstructed`; `--strict` stops. The importer never invents a
+replacement timing tree.
+
+### Native formula reverse import
+
+The importer reconstructs formulas only from the closed OMML vocabulary owned
+by the native formula compiler. One formula-only `a14:m > m:oMathPara` text
+shape becomes a bounded `<g data-pptx-replace-with="formula">` with canonical
+LaTeX JSON and a visible linear SVG preview when its carrier is an ungrouped,
+unstyled, unrotated rectangular formula shape. Carrier styling, effects,
+hyperlinks, or placeholder ownership force diagnosed fallback rather than
+silent loss.
+Supported `a14:m > m:oMath` zones inside an ordinary paragraph become leaf
+`<tspan data-pptx-inline-formula="...">preview</tspan>` markers while retaining
+their surrounding text runs. The generated markers pass the same native-object
+and inline-formula validators used by SVG-to-PPTX export.
+
+This is normalized semantic read-back, not recovery of the author's original
+LaTeX spelling and not a general Office Math converter. Every OMML root must
+pass the compiler's namespace, element, attribute, structure, size, and depth
+gates, and the reconstructed LaTeX must compile again under the same profile.
+If any formula in one text body falls outside that boundary, tolerant import
+keeps all formulas in that body as readable linear text and retains the
+relationship-free source `txBody` as opaque metadata instead of partially
+claiming native reconstruction. It records `formula-not-reconstructed`;
+`--strict` stops on the same condition.
+
+### Native table and chart import claims
+
+Supported text-grid tables and conservative classic-chart caches carry a
+`data-pptx-replace-with` claim beside their SVG fallback, with the replacement
+payload in a child `<metadata type="application/json">`. The parent claim
+selects the table or chart schema. Table import requires
 exact physical row/grid topology and accepts canonical rectangular merges,
 safe solid/no-fill per-side borders, plain multi-paragraph cells, and a closed
 run-rich paragraph schema.
 Each run requires `text` and may use only `bold`, `italic`, `underline`,
 `strike`, `color`, `font_size`, one `font_family`, `lang`, and `alt_lang`.
-Presentation-only source run XML normalizes. Relationship-bearing text,
-extensions, noncanonical/overlapping merges, nonblank merge slaves, unsafe
-border XML, non-solid fills, structural line breaks/fields/tabs/bullets, and
-broken text topology remain fallback-only.
+Presentation-only source run XML without a non-empty `effectLst` / `effectDag`
+normalizes. A table-cell run effect disables native replacement and adds a
+blocking effect diagnostic. Relationship-bearing text, extensions,
+noncanonical/overlapping merges, nonblank merge slaves, unsafe border XML,
+non-solid fills, structural line breaks/fields/tabs/bullets, and broken text
+topology remain fallback-only.
 Markers remain dormant
-unless a later export uses `--native-objects`. That opt-in is editable-first:
-it may normalize styling or omit marker-local details not represented by the
+unless a later export uses `--native-charts-and-tables`. That opt-in is
+data-object-first: the default fallback still exports as editable DrawingML
+shapes, while the opt-in supplies a data source and PowerPoint's
+chart/table-specific object model.
+The native-object route may normalize styling or omit marker-local details not represented by the
 payload, and export reports that risk without disabling an otherwise supported
 active marker. Unsupported tables keep their
 rendered SVG table; unsupported charts keep a baked preview when one exists.
 For the currently supported parsed classic families (column/bar/line/area,
 pie/doughnut, scatter, and bubble), a chart without a baked preview receives a
 deterministic readable fallback marked
-`data-pptx-visual-status="normalized"`. Unknown style XML still fails closed;
+`data-pptx-fallback-kind="normalized"`. Unknown style XML disables the native
+replacement claim or falls back to a diagnostic object in tolerant mode;
 common solid/no-fill/line/marker forms and scheme colors are normalized for the
 SVG fallback and core payload colors, while native opt-in may still normalize
 unmodeled alpha, line, marker, or no-fill details. Common General, decimal,
@@ -274,27 +399,37 @@ grouped, percent, and simple currency-prefix data-label formats render
 deterministically; an unknown Excel format program keeps the active payload but
 does not claim a normalized fallback. Active types outside the current renderer
 continue to use an explicit placeholder marked
-`data-pptx-visual-status="placeholder"` and
-`data-pptx-route-status="reconstruction-only"`. Validation and export report
-that route as a warning. Default export keeps the placeholder; when the same
-group has a valid active native-chart payload, `--native-objects` may still
-reconstruct the editable chart. Invalid or contradictory status declarations
-remain errors.
-Fallback-only native capability uses `data-pptx-native-status` and remains a
-warning when the SVG fallback itself is complete.
+`data-pptx-fallback-kind="placeholder"`. Validation and export report that
+reconstruction-only fallback as a warning. Default export keeps the
+placeholder; when the same group has a valid active chart replacement payload,
+`--native-charts-and-tables` may still reconstruct the PowerPoint-native chart.
+Invalid or contradictory fallback declarations remain errors. Fallback-only
+replacement capability uses `data-pptx-replacement-status` and remains a
+warning when the SVG fallback itself is complete. Imported table/chart groups
+under this contract carry `data-pptx-import-source="pptx"`, whether active or
+fallback-only; generated authoring omits this provenance attribute.
 
 Active imported markers also carry `data-pptx-fallback-sha256`, computed over
 their canonical fallback plus reachable document-level SVG fragment definitions.
 A later visible edit, reachable definition change, local reference-target
-change, or marker transform makes the native metadata stale. The mandatory
+change, or marker transform makes the replacement metadata stale. The mandatory
 quality checker reports the mismatch; default export keeps the edited fallback,
-while `--native-objects` fails before replacement so it cannot discard that edit.
+while `--native-charts-and-tables` fails before replacement so it cannot discard that edit.
 `visibility:hidden` content, marker-local unused definitions, and explicitly
 referenced document-level target roots (even when hidden) are included
 conservatively; marker-local `display:none` subtrees are excluded, and external
 file bytes are not read.
-A legacy marker without the hash remains native-compatible and warns in the
-checker/native route that stale detection is unavailable.
+Generated authoring and reusable templates omit import provenance and do not
+preseed a static fallback hash; that state is normal and does not warn. A legacy
+imported marker that still carries PPTX import provenance but lacks the hash
+remains native-compatible and warns in the checker/native route that stale
+detection is unavailable.
+
+Legacy `data-pptx-native*`, `data-pptx-visual-status`, and
+`data-pptx-route-status` spellings remain read-compatible. New importer output
+and generated SVG use the replacement/fallback names above. The old
+`--native-objects` option remains a compatibility alias for
+`--native-charts-and-tables`.
 
 For table style `{5C22544A-7EE6-4342-B048-85BDC9FD1C3A}`, the importer resolves
 the normalized `wholeTbl`, `firstRow`, `band1H`/`band2H`, theme color/font, and
@@ -315,11 +450,12 @@ axis fields. The importer also accepts radar, safe `of_pie` `serLines`, the
 closed axis/title/legend normalization cases, and bar/column `gapWidth` /
 `overlap`. `gapWidth` must be one integer in `0..500` and `overlap` one integer
 in `-100..100`; both normalize in native output, while malformed, duplicate, or
-out-of-range values fail closed. These additions do not expand the normalized
+out-of-range values disable the native replacement claim in tolerant mode and
+stop strict import. These additions do not expand the normalized
 renderer.
 Safe stock series style may pass the structural gate, while stock series,
 `hiLowLines`, and up-down bar local styling can still normalize under the
-editable-first contract.
+data-object-first contract.
 ChartEx import accepts exactly the validated treemap, sunburst, histogram,
 pareto, box-whisker, waterfall, and funnel data models. Their supported
 hierarchy/category/value/series/subtotal topology round-trips to native output.
@@ -338,9 +474,142 @@ Concrete slide SVGs resolve `<a:fld type="slidenum">` using the presentation's
 `firstSlideNum` display numbering. Standalone master/layout SVGs keep the
 literal field fallback because one shared part can serve multiple slides.
 
+### Maintenance smoke checks
+
+Run these checks from the repository root after changing `pptx_to_svg/` or its
+CLI. They generate every required input under `/tmp`; do not replace them with
+a committed `test_*.py` suite.
+
+#### Healthy generated deck
+
+```bash
+python3 - <<'PY'
+from pptx import Presentation
+from pptx.enum.shapes import MSO_SHAPE
+from pptx.util import Inches
+
+presentation = Presentation()
+slide = presentation.slides.add_slide(presentation.slide_layouts[6])
+shape = slide.shapes.add_shape(
+    MSO_SHAPE.RECTANGLE,
+    Inches(1),
+    Inches(1),
+    Inches(3),
+    Inches(1),
+)
+shape.text = "PPTX import smoke check"
+presentation.save("/tmp/ppt-master-smoke-healthy.pptx")
+PY
+
+python3 "skills/ppt-master/scripts/pptx_to_svg.py" \
+  "/tmp/ppt-master-smoke-healthy.pptx" \
+  --inheritance-mode flat \
+  -o "/tmp/ppt-master-smoke-healthy"
+python3 -c "import json; from pathlib import Path; report = json.loads(Path('/tmp/ppt-master-smoke-healthy/conversion-report.json').read_text()); assert report['summary'] == {'slides': 1, 'warnings': 0}, report['summary']; print('OK: 1 slide, 0 warnings')"
+```
+
+Expected: both commands exit `0`; the assertion prints
+`OK: 1 slide, 0 warnings`.
+
+#### Tolerant/strict color-structure probe
+
+Generate a two-shape PPTX, then add one foreign attribute to the first shape's
+valid `a:srgbClr` node:
+
+```bash
+python3 -c '
+from pathlib import Path
+from zipfile import ZIP_DEFLATED, ZipFile
+
+from pptx import Presentation
+from pptx.dml.color import RGBColor
+from pptx.enum.shapes import MSO_SHAPE
+from pptx.util import Inches
+
+base = Path("/tmp/ppt-master-color-smoke-base.pptx")
+target = Path("/tmp/ppt-master-color-smoke.pptx")
+presentation = Presentation()
+slide = presentation.slides.add_slide(presentation.slide_layouts[6])
+for left, color in ((1, (0x44, 0x72, 0xC4)), (4, (0xED, 0x7D, 0x31))):
+    shape = slide.shapes.add_shape(
+        MSO_SHAPE.RECTANGLE,
+        Inches(left),
+        Inches(1),
+        Inches(2),
+        Inches(1),
+    )
+    shape.fill.solid()
+    shape.fill.fore_color.rgb = RGBColor(*color)
+presentation.save(base)
+
+with ZipFile(base) as source, ZipFile(target, "w", ZIP_DEFLATED) as destination:
+    patched = False
+    for member in source.infolist():
+        payload = source.read(member)
+        if member.filename == "ppt/slides/slide1.xml":
+            old = b"<a:srgbClr val=\"4472C4\"/>"
+            new = b"<a:srgbClr val=\"4472C4\" legacy=\"1\"/>"
+            if old not in payload:
+                raise RuntimeError("probe color node was not generated")
+            payload = payload.replace(old, new, 1)
+            patched = True
+        destination.writestr(member, payload)
+if not patched:
+    raise RuntimeError("slide XML was not patched")
+print(target)
+'
+```
+
+Run tolerant import and verify both the recovery report and the visible SVG:
+
+```bash
+python3 "skills/ppt-master/scripts/pptx_to_svg.py" \
+  "/tmp/ppt-master-color-smoke.pptx" \
+  --inheritance-mode flat \
+  -o "/tmp/ppt-master-smoke-color-tolerant"
+python3 -c '
+import json
+from pathlib import Path
+
+output = Path("/tmp/ppt-master-smoke-color-tolerant")
+report = json.loads((output / "conversion-report.json").read_text())
+diagnostics = report["diagnostics"]
+svg = (output / "svg" / "slide_01.svg").read_text()
+assert report["summary"] == {"slides": 1, "warnings": 1}, report["summary"]
+assert len(diagnostics) == 1, diagnostics
+assert diagnostics[0]["code"] == "color-structure-normalized", diagnostics[0]
+assert diagnostics[0]["fallback"] == "retain recognized color attributes and modifiers", diagnostics[0]
+assert diagnostics[0]["slide_index"] == 1, diagnostics[0]
+assert diagnostics[0]["shape_name"] == "Rectangle 1", diagnostics[0]
+assert "#4472C4" in svg and "#ED7D31" in svg
+print("OK: tolerant import recovered #4472C4 and preserved #ED7D31")
+'
+```
+
+Expected: both commands exit `0`; the importer reports one
+`color-structure-normalized` warning and the assertion prints
+`OK: tolerant import recovered #4472C4 and preserved #ED7D31`.
+
+Run the same probe in strict mode:
+
+```bash
+python3 "skills/ppt-master/scripts/pptx_to_svg.py" \
+  "/tmp/ppt-master-color-smoke.pptx" \
+  --inheritance-mode flat \
+  --strict \
+  -o "/tmp/ppt-master-smoke-color-strict"
+```
+
+Expected: exit `1`, no traceback, and one error line:
+
+```text
+Error: PPTX-to-SVG conversion failed: Invalid DrawingML sRGB color structure
+```
+
 ## `source_to_md/web_to_md.py`
 
-Convert web pages to Markdown and download images locally.
+Convert web pages to Markdown and download images locally by default. Use
+`--no-images` to retain remote image links without downloading their files.
 
 ```bash
 python3 scripts/source_to_md/web_to_md.py https://example.com/article
@@ -348,6 +617,7 @@ python3 scripts/source_to_md/web_to_md.py https://url1.com https://url2.com
 python3 scripts/source_to_md/web_to_md.py -f urls.txt
 python3 scripts/source_to_md/web_to_md.py https://example.com -o output.md
 python3 scripts/source_to_md/web_to_md.py https://example.com --emit-result /tmp/result.json
+python3 scripts/source_to_md/web_to_md.py https://example.com -o evidence.md --no-images
 ```
 
 When `curl_cffi` is installed (included in `requirements.txt`), this script
@@ -362,14 +632,43 @@ Markdown output.
 when the converter derives a title-based filename.
 
 
-## `rotate_images.py`
+## Image Orientation Review
 
-Fix image EXIF orientation in downloaded or imported assets.
+Run this review when the user requests orientation correction, converted text
+asks the reader to rotate the device, or a downloaded asset is visibly
+sideways. EXIF and dimensions may trigger review, but they cannot determine the
+semantic direction of pixels that are already stored sideways.
+
+Generate a labeled static contact sheet. This command previews the first frame
+after EXIF normalization and does not modify source images:
 
 ```bash
-python3 scripts/rotate_images.py auto projects/xxx_files
-python3 scripts/rotate_images.py gen projects/xxx_files
-python3 scripts/rotate_images.py fix fixes.json
+python3 ${SKILL_DIR}/scripts/rotate_images.py sheet <images_directory>
 ```
 
-Use this when extracted photos appear sideways after conversion or import.
+The default output is
+`<images_directory>/../analysis/<directory>_orientation_contact_sheet.jpg`.
+Inspect it with the current multimodal agent, identify only visually confirmed
+rotations, and write a temporary JSON list. `rotation` is clockwise degrees and
+must be `90`, `180`, or `270`:
+
+```json
+[
+  {"path": "/absolute/path/to/sideways.jpg", "rotation": 270}
+]
+```
+
+Apply the confirmed fixes and regenerate image facts:
+
+```bash
+python3 ${SKILL_DIR}/scripts/rotate_images.py fix /tmp/orientation_fixes.json
+python3 ${SKILL_DIR}/scripts/analyze_images.py <images_directory>
+```
+
+GIF files are excluded: `sheet` does not list them, and `fix` rejects a batch
+that references one so all GIF files remain unchanged.
+
+Do not infer a rotation from prose, EXIF, or aspect ratio alone, and do not
+launch the HTML `gen` command in source intake. `auto` remains an in-place EXIF
+normalizer. `gen` is a compatibility UI that runs the same normalization before
+writing HTML; neither belongs to source intake.
