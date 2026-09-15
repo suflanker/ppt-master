@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+  width="1280" height="720" viewBox="0 0 1280 720"
+  data-pptx-master="ceec_master" data-pptx-master-name="CEEC"
+  data-pptx-layout="cover" data-pptx-layout-name="Cover">
+  <rect id="ceec-master-background" x="0" y="0" width="1280" height="720" fill="#FFFFFF"
+    data-pptx-layer="master" data-pptx-editable="false"/>
+
+  <svg id="cover-background-photo" x="0.44" y="164.27" width="1281.29" height="555.73"
+    viewBox="0 0.22815 1 0.77185" preserveAspectRatio="none"
+    data-pptx-layer="layout" data-pptx-editable="false">
+    <image href="../images/cover_bg.png" x="0" y="0" width="1" height="1"
+      preserveAspectRatio="none"/>
+  </svg>
+  <image id="cover-logo" x="466.12" y="27.85" width="374.82" height="98.04"
+    href="../images/brand_logo.png" preserveAspectRatio="none"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+
+  <g id="cover-title-slot" data-pptx-placeholder="title"
+    data-pptx-bounds="140 268 1000 90">
+    <text id="cover-title-carrier" data-pptx-carrier="true"
+      x="640" y="330" text-anchor="middle"
+      font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="53.33"
+      fill="#FFFFFF" font-weight="bold">{{TITLE}}</text>
+  </g>
+  <g id="cover-subtitle-slot" data-pptx-placeholder="subtitle"
+    data-pptx-bounds="240 362 800 52">
+    <text id="cover-subtitle-carrier" data-pptx-carrier="true"
+      x="640" y="400" text-anchor="middle"
+      font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="30"
+      fill="#FFFFFF">{{SUBTITLE}}</text>
+  </g>
+  <g id="cover-date-slot" data-pptx-placeholder="date"
+    data-pptx-bounds="440 610 400 40">
+    <text id="cover-date-carrier" data-pptx-carrier="true"
+      x="640" y="640" text-anchor="middle"
+      font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="20"
+      fill="#FFFFFF" fill-opacity="0.8">{{DATE}}</text>
+  </g>
+</svg>

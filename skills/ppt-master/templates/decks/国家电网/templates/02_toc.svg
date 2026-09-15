@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+  width="1280" height="720" viewBox="0 0 1280 720"
+  data-pptx-master="sgcc_light_master" data-pptx-master-name="SGCC Light"
+  data-pptx-layout="agenda" data-pptx-layout-name="Agenda">
+  <defs>
+    <linearGradient id="bgGrad" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0" stop-color="#F1F9FC"/>
+      <stop offset="1" stop-color="#D4F4F2"/>
+    </linearGradient>
+    <linearGradient id="panelGrad" x1="1" y1="0.5" x2="0" y2="0.5">
+      <stop offset="0" stop-color="#249087"/>
+      <stop offset="1" stop-color="#1D8578"/>
+    </linearGradient>
+    <linearGradient id="highlightGrad" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#D4F4F2"/>
+    </linearGradient>
+    <filter id="cardShadow" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="14" stdDeviation="22" flood-color="#7DDFD6" flood-opacity="0.4"/>
+    </filter>
+    <filter id="highlightShadow" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="16" stdDeviation="35" flood-color="#249087" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <rect id="sgcc-light-master-background" x="0" y="0" width="1280" height="720" fill="#F1F9FC"
+    data-pptx-layer="master" data-pptx-editable="false"/>
+
+  <rect id="toc-background" x="0" y="0" width="1280" height="720" fill="url(#bgGrad)"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <rect id="toc-side-panel" x="0" y="0" width="418" height="720" fill="url(#panelGrad)"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <image id="toc-background-photo" x="0" y="0" width="1280" height="720"
+    href="../images/toc_bg.png" preserveAspectRatio="xMidYMid slice"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <image id="toc-header-icon" x="1100" y="23" width="134" height="52"
+    href="../images/header_icon.png" preserveAspectRatio="none"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+
+  <rect id="toc-card-1" x="502" y="176" width="488" height="85" rx="14" ry="14"
+    fill="url(#highlightGrad)" stroke="#FFFFFF" stroke-width="3" filter="url(#highlightShadow)"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <polygon id="toc-card-1-chevron-1" points="873,198 888,198 903,219 888,240 873,240 888,219"
+    fill="#249087" fill-opacity="0.06" data-pptx-layer="layout" data-pptx-editable="false"/>
+  <polygon id="toc-card-1-chevron-2" points="898,198 913,198 928,219 913,240 898,240 913,219"
+    fill="#249087" fill-opacity="0.15" data-pptx-layer="layout" data-pptx-editable="false"/>
+  <polygon id="toc-card-1-chevron-3" points="924,198 939,198 954,219 939,240 924,240 939,219"
+    fill="#249087" fill-opacity="0.40" data-pptx-layer="layout" data-pptx-editable="false"/>
+  <rect id="toc-card-2" x="502" y="320" width="488" height="86" rx="12" ry="12" fill="#FFFFFF"
+    filter="url(#cardShadow)" data-pptx-layer="layout" data-pptx-editable="false"/>
+  <rect id="toc-card-3" x="502" y="464" width="488" height="86" rx="12" ry="12" fill="#FFFFFF"
+    filter="url(#cardShadow)" data-pptx-layer="layout" data-pptx-editable="false"/>
+  <rect id="toc-card-4" x="502" y="609" width="488" height="86" rx="12" ry="12" fill="#FFFFFF"
+    filter="url(#cardShadow)" data-pptx-layer="layout" data-pptx-editable="false"/>
+
+  <g id="toc-item-1-slot" data-pptx-placeholder="body" data-pptx-idx="1"
+    data-pptx-bounds="514 190 460 58">
+    <text id="toc-item-1-carrier" data-pptx-carrier="true"
+      x="514" y="227" text-anchor="start" xml:space="preserve"
+      font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="32"
+      fill="#249087" font-weight="bold">{{TOC_ITEM_1_TITLE}}</text>
+  </g>
+  <g id="toc-item-2-slot" data-pptx-placeholder="body" data-pptx-idx="2"
+    data-pptx-bounds="514 334 460 58">
+    <text id="toc-item-2-carrier" data-pptx-carrier="true"
+      x="514" y="371" text-anchor="start" xml:space="preserve"
+      font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="32"
+      fill="#18605A">{{TOC_ITEM_2_TITLE}}</text>
+  </g>
+  <g id="toc-item-3-slot" data-pptx-placeholder="body" data-pptx-idx="3"
+    data-pptx-bounds="514 478 460 58">
+    <text id="toc-item-3-carrier" data-pptx-carrier="true"
+      x="514" y="515" text-anchor="start" xml:space="preserve"
+      font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="32"
+      fill="#18605A">{{TOC_ITEM_3_TITLE}}</text>
+  </g>
+  <g id="toc-item-4-slot" data-pptx-placeholder="body" data-pptx-idx="4"
+    data-pptx-bounds="514 623 460 58">
+    <text id="toc-item-4-carrier" data-pptx-carrier="true"
+      x="514" y="660" text-anchor="start" xml:space="preserve"
+      font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="32"
+      fill="#18605A">{{TOC_ITEM_4_TITLE}}</text>
+  </g>
+</svg>

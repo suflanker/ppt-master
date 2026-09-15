@@ -5,10 +5,22 @@
     "page_count": 5,
     "primary_color": "#C00000"
   },
+  "中国能建": {
+    "summary": "中国能建集团企业汇报、战略规划与项目总结，用于说明方案并对齐决策和下一步；采用深蓝稳重、结构清晰的央企视觉。",
+    "canvas_format": "ppt169",
+    "page_count": 5,
+    "primary_color": "#0068B7"
+  },
   "中汽研": {
     "summary": "中汽研认证展示、评测汇报与技术交流，用于建立可信理解并推进评审或合作；采用专业的深蓝工程视觉。",
     "canvas_format": "ppt169",
     "page_count": 5,
     "primary_color": "#004098"
+  },
+  "国家电网": {
+    "summary": "国家电网内部汇报、项目进展与技术方案，用于说明进展并对齐决策和下一步；采用青绿稳重、左侧结构栏的央企视觉。",
+    "canvas_format": "ppt169",
+    "page_count": 4,
+    "primary_color": "#249087"
   }
 }

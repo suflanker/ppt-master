@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+  width="1280" height="720" viewBox="0 0 1280 720"
+  data-pptx-master="sgcc_light_master" data-pptx-master-name="SGCC Light"
+  data-pptx-layout="content" data-pptx-layout-name="Title and Content">
+  <defs>
+    <linearGradient id="bgGrad" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0" stop-color="#F1F9FC"/>
+      <stop offset="1" stop-color="#F3F9FC"/>
+    </linearGradient>
+    <linearGradient id="bannerGrad" x1="0.4" y1="-0.07" x2="0.6" y2="1.07">
+      <stop offset="0" stop-color="#F1F9FC"/>
+      <stop offset="0" stop-color="#1D8578"/>
+      <stop offset="1" stop-color="#18665C"/>
+    </linearGradient>
+    <filter id="cardShadow" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="4" stdDeviation="12" flood-color="#278375" flood-opacity="0.32"/>
+    </filter>
+  </defs>
+
+  <rect id="sgcc-light-master-background" x="0" y="0" width="1280" height="720" fill="#F1F9FC"
+    data-pptx-layer="master" data-pptx-editable="false"/>
+
+  <rect id="content-background" x="0" y="0" width="1280" height="720" fill="url(#bgGrad)"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <image id="content-header-icon" x="1100" y="23" width="134" height="52"
+    href="../images/header_icon.png" preserveAspectRatio="none"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <rect id="content-banner" x="0" y="91" width="1280" height="301" fill="url(#bannerGrad)"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <svg id="content-banner-photo" x="0" y="92" width="1280" height="301"
+    viewBox="0 0.46613 1 0.35362" preserveAspectRatio="none"
+    data-pptx-layer="layout" data-pptx-editable="false">
+    <image href="../images/content_banner.jpeg" x="0" y="0" width="1" height="1"
+      opacity=".2" preserveAspectRatio="none"/>
+  </svg>
+  <rect id="content-card" x="54" y="174" width="1180" height="509" rx="19" ry="19" fill="#FFFFFF"
+    filter="url(#cardShadow)" data-pptx-layer="layout" data-pptx-editable="false"/>
+
+  <g id="content-title-slot" data-pptx-placeholder="title"
+    data-pptx-bounds="24 20 900 56">
+    <text id="content-title-carrier" data-pptx-carrier="true"
+      x="31" y="55" text-anchor="start" xml:space="preserve"
+      font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="37"
+      fill="#000000" font-weight="bold">{{PAGE_TITLE}}</text>
+  </g>
+  <g id="content-section-slot" data-pptx-placeholder="body" data-pptx-idx="1"
+    data-pptx-bounds="30 96 900 48">
+    <text id="content-section-carrier" data-pptx-carrier="true"
+      x="37" y="124" text-anchor="start" xml:space="preserve"
+      font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="27"
+      fill="#FFFFFF" font-weight="bold">{{SECTION_NAME}}</text>
+  </g>
+  <g id="content-object-slot" data-pptx-placeholder="object" data-pptx-idx="2"
+    data-pptx-bounds="90 210 1100 440">
+    <text id="content-object-carrier" data-pptx-carrier="true"
+      x="640" y="440" text-anchor="middle" xml:space="preserve"
+      font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="24"
+      fill="#000000">{{CONTENT_AREA}}</text>
+  </g>
+</svg>

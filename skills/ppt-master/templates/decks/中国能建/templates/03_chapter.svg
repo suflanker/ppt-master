@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+  width="1280" height="720" viewBox="0 0 1280 720"
+  data-pptx-master="ceec_master" data-pptx-master-name="CEEC"
+  data-pptx-layout="section" data-pptx-layout-name="Section Header">
+  <rect id="ceec-master-background" x="0" y="0" width="1280" height="720" fill="#FFFFFF"
+    data-pptx-layer="master" data-pptx-editable="false"/>
+
+  <image id="section-background-photo" x="0" y="0" width="1280" height="720"
+    href="../images/chapter_bg.jpeg" preserveAspectRatio="xMidYMid slice"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <rect id="section-left-panel" x="0" y="0" width="640" height="720" fill="#0067B4"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <polygon id="section-divider-chevron" points="540,270 682,360 540,450" fill="#0067B4"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <circle id="section-number-ring" cx="319" cy="337" r="115" fill="none" stroke="#FFFFFF"
+    stroke-width="1.33" stroke-dasharray="1.77,1.77"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <circle id="section-number-disc" cx="319" cy="337" r="109" fill="#FFFFFF"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+
+  <g id="section-number-slot" data-pptx-placeholder="body" data-pptx-idx="1"
+    data-pptx-bounds="204 222 230 230">
+    <text id="section-number-carrier" data-pptx-carrier="true"
+      x="319" y="370" text-anchor="middle"
+      font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="128"
+      fill="#0070C0" font-weight="bold">{{CHAPTER_NUM}}</text>
+  </g>
+  <g id="section-title-slot" data-pptx-placeholder="title"
+    data-pptx-bounds="700 316 500 76">
+    <text id="section-title-carrier" data-pptx-carrier="true"
+      x="700" y="370"
+      font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="40"
+      fill="#0068B7" font-weight="bold">{{CHAPTER_TITLE}}</text>
+  </g>
+</svg>

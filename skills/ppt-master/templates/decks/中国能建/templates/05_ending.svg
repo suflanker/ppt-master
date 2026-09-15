@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+  width="1280" height="720" viewBox="0 0 1280 720"
+  data-pptx-master="ceec_master" data-pptx-master-name="CEEC"
+  data-pptx-layout="closing" data-pptx-layout-name="Closing">
+  <rect id="ceec-master-background" x="0" y="0" width="1280" height="720" fill="#FFFFFF"
+    data-pptx-layer="master" data-pptx-editable="false"/>
+
+  <image id="closing-logo" x="413.88" y="90.69" width="423.69" height="110.83"
+    href="../images/brand_logo.png" preserveAspectRatio="none"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <line id="closing-rule-top" x1="309.31" y1="270.16" x2="925.4" y2="270.16" stroke="#F2F2F2"
+    stroke-width="0.667" data-pptx-layer="layout" data-pptx-editable="false"/>
+  <rect id="closing-band" x="0.03" y="272.3" width="1279.94" height="283.47" fill="#0068B7"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <text id="closing-message" x="640" y="430" text-anchor="middle"
+    font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="64"
+    fill="#FFFFFF" letter-spacing="2"
+    data-pptx-layer="layout" data-pptx-editable="false">敬请批评指正！</text>
+  <line id="closing-rule-bottom" x1="320.65" y1="507.96" x2="925.41" y2="507.96" stroke="#F2F2F2"
+    stroke-width="0.667" data-pptx-layer="layout" data-pptx-editable="false"/>
+</svg>

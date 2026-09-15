@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+  width="1280" height="720" viewBox="0 0 1280 720"
+  data-pptx-master="sgcc_photo_master" data-pptx-master-name="SGCC Photo"
+  data-pptx-layout="closing" data-pptx-layout-name="Closing">
+  <defs>
+    <linearGradient id="bottomFade" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0.45"/>
+    </linearGradient>
+  </defs>
+
+  <image id="sgcc-photo-master-background" x="0" y="-2" width="1292.93" height="725.07"
+    href="../images/cover_bg.png" preserveAspectRatio="none"
+    data-pptx-layer="master" data-pptx-editable="false"/>
+  <rect id="sgcc-photo-master-scrim" x="0" y="360" width="1280" height="360"
+    fill="url(#bottomFade)" data-pptx-layer="master" data-pptx-editable="false"/>
+  <image id="sgcc-photo-master-logo" x="80" y="58" width="170" height="56"
+    href="../images/logo_small.png" preserveAspectRatio="none"
+    data-pptx-layer="master" data-pptx-editable="false"/>
+
+  <g id="closing-title-slot" data-pptx-placeholder="title"
+    data-pptx-bounds="140 280 1000 96">
+    <text id="closing-title-carrier" data-pptx-carrier="true"
+      x="640" y="340" text-anchor="middle" xml:space="preserve"
+      font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="72"
+      fill="#FFFFFF" font-weight="bold" letter-spacing="7">{{THANK_YOU}}</text>
+  </g>
+  <g id="closing-subtitle-slot" data-pptx-placeholder="subtitle" data-pptx-idx="1"
+    data-pptx-bounds="240 396 800 48">
+    <text id="closing-subtitle-carrier" data-pptx-carrier="true"
+      x="640" y="430" text-anchor="middle" xml:space="preserve"
+      font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="28"
+      fill="#FFFFFF" opacity="0.8">{{CLOSING_MESSAGE}}</text>
+  </g>
+</svg>

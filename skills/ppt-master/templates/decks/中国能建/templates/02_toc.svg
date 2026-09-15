@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+  width="1280" height="720" viewBox="0 0 1280 720"
+  data-pptx-master="ceec_master" data-pptx-master-name="CEEC"
+  data-pptx-layout="agenda" data-pptx-layout-name="Agenda">
+  <defs>
+    <linearGradient id="toc-card-fill" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0" stop-color="#F8F8F8"/>
+      <stop offset="1" stop-color="#EAEAEA"/>
+    </linearGradient>
+  </defs>
+
+  <rect id="ceec-master-background" x="0" y="0" width="1280" height="720" fill="#FFFFFF"
+    data-pptx-layer="master" data-pptx-editable="false"/>
+
+  <line id="toc-top-rule" x1="54.4" y1="80" x2="1237.39" y2="80" stroke="#002F7B"
+    stroke-width="1.333" data-pptx-layer="layout" data-pptx-editable="false"/>
+  <rect id="toc-top-accent" x="-0.07" y="17.93" width="24.73" height="62.07" fill="#0068B7"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <rect id="toc-divider-outer" x="465.75" y="100.24" width="3.53" height="576.18" fill="#808080"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <rect id="toc-divider-inner" x="473.32" y="100.24" width="1.27" height="576.18" fill="#808080"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <image id="toc-logo" x="985.09" y="5.71" width="252.31" height="66"
+    href="../images/brand_logo.png" preserveAspectRatio="none"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <image id="toc-title-graphic" x="81" y="287" width="324.8" height="156.8"
+    href="../images/toc.png" preserveAspectRatio="xMidYMid slice"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+
+  <rect id="toc-card-1" x="527" y="237.71" width="635.77" height="50.34" rx="5.52"
+    fill="url(#toc-card-fill)" data-pptx-layer="layout" data-pptx-editable="false"/>
+  <polygon id="toc-card-1-corner" points="551.07,228.97 620.93,228.97 629.26,237.04 542.74,237.04"
+    fill="#C9C9C9" data-pptx-layer="layout" data-pptx-editable="false"/>
+  <rect id="toc-card-1-number-plate" x="551.07" y="228.97" width="69.87" height="52.77"
+    fill="#0068B7" data-pptx-layer="layout" data-pptx-editable="false"/>
+  <text id="toc-card-1-number" x="584" y="265" text-anchor="middle"
+    font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="27.47"
+    fill="#FFFFFF" font-weight="bold" data-pptx-layer="layout" data-pptx-editable="false">01</text>
+
+  <rect id="toc-card-2" x="527" y="349.79" width="635.77" height="50.26" rx="5.51"
+    fill="url(#toc-card-fill)" data-pptx-layer="layout" data-pptx-editable="false"/>
+  <polygon id="toc-card-2-corner" points="551.07,342.12 620.93,342.12 629.26,350.17 542.74,350.17"
+    fill="#C9C9C9" data-pptx-layer="layout" data-pptx-editable="false"/>
+  <rect id="toc-card-2-number-plate" x="551.07" y="342.12" width="69.87" height="52.7"
+    fill="#0068B7" data-pptx-layer="layout" data-pptx-editable="false"/>
+  <text id="toc-card-2-number" x="584" y="378" text-anchor="middle"
+    font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="27.47"
+    fill="#FFFFFF" font-weight="bold" data-pptx-layer="layout" data-pptx-editable="false">02</text>
+
+  <rect id="toc-card-3" x="527.07" y="462.85" width="635.77" height="50.27" rx="5.51"
+    fill="url(#toc-card-fill)" data-pptx-layer="layout" data-pptx-editable="false"/>
+  <polygon id="toc-card-3-corner" points="551.14,454.12 620.99,454.12 629.33,462.17 542.8,462.17"
+    fill="#C9C9C9" data-pptx-layer="layout" data-pptx-editable="false"/>
+  <rect id="toc-card-3-number-plate" x="551.13" y="454.12" width="69.87" height="52.7"
+    fill="#0068B7" data-pptx-layer="layout" data-pptx-editable="false"/>
+  <text id="toc-card-3-number" x="584" y="490" text-anchor="middle"
+    font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="27.47"
+    fill="#FFFFFF" font-weight="bold" data-pptx-layer="layout" data-pptx-editable="false">03</text>
+
+  <g id="toc-item-1-slot" data-pptx-placeholder="body" data-pptx-idx="1"
+    data-pptx-bounds="620 240 500 48">
+    <text id="toc-item-1-carrier" data-pptx-carrier="true"
+      x="621.49" y="268.28"
+      font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="24"
+      fill="#0068B7" font-weight="bold">{{TOC_ITEM_1_TITLE}}</text>
+  </g>
+  <g id="toc-item-2-slot" data-pptx-placeholder="body" data-pptx-idx="2"
+    data-pptx-bounds="620 352 500 48">
+    <text id="toc-item-2-carrier" data-pptx-carrier="true"
+      x="621.49" y="379.72"
+      font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="24"
+      fill="#0068B7" font-weight="bold">{{TOC_ITEM_2_TITLE}}</text>
+  </g>
+  <g id="toc-item-3-slot" data-pptx-placeholder="body" data-pptx-idx="3"
+    data-pptx-bounds="620 464 500 48">
+    <text id="toc-item-3-carrier" data-pptx-carrier="true"
+      x="621.56" y="492.79"
+      font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="24"
+      fill="#0068B7" font-weight="bold">{{TOC_ITEM_3_TITLE}}</text>
+  </g>
+</svg>
