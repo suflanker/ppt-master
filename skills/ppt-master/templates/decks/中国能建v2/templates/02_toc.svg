@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+  width="1280" height="720" viewBox="0 0 1280 720"
+  data-pptx-master="ceec_v2_plain_master" data-pptx-master-name="CEEC v2 Plain"
+  data-pptx-layout="agenda" data-pptx-layout-name="Agenda">
+  <rect id="plain-master-background" x="0" y="0" width="1280" height="720" fill="#FFFFFF"
+    data-pptx-layer="master" data-pptx-editable="false"/>
+
+  <line id="agenda-header-rule" x1="1" y1="102.83" x2="522.67" y2="102.83" stroke="#5B9BD5"
+    stroke-width="2.66667" data-pptx-layer="layout" data-pptx-editable="false"/>
+  <text id="agenda-title" x="113.43" y="65.33" xml:space="preserve"
+    font-family="Microsoft YaHei, sans-serif" font-size="58.67" fill="#2F5597"
+    font-weight="bold" data-pptx-layer="layout" data-pptx-editable="false">目录/<tspan font-size="37.33">CONTENTS</tspan></text>
+
+  <rect id="agenda-item-1-badge" x="83.53" y="184.33" width="77" height="87.8" fill="#558ED5"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <rect id="agenda-item-1-plate" x="185.73" y="184.33" width="397" height="87.8" fill="#558ED5"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <text id="agenda-item-1-ordinal" x="123.43" y="241.53" text-anchor="middle"
+    font-family="Microsoft YaHei, sans-serif" font-size="40" fill="#FFFFFF" font-weight="bold"
+    data-pptx-layer="layout" data-pptx-editable="false">一</text>
+
+  <rect id="agenda-item-2-badge" x="84.47" y="303.73" width="76.07" height="87.67" fill="#558ED5"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <rect id="agenda-item-2-plate" x="185.8" y="303.6" width="396.93" height="87.8" fill="#558ED5"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <text id="agenda-item-2-ordinal" x="122.5" y="360.73" text-anchor="middle"
+    font-family="Microsoft YaHei, sans-serif" font-size="40" fill="#FFFFFF" font-weight="bold"
+    data-pptx-layer="layout" data-pptx-editable="false">二</text>
+
+  <rect id="agenda-item-3-badge" x="84.53" y="423" width="77.2" height="87.67" fill="#558ED5"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <rect id="agenda-item-3-plate" x="185.73" y="422.87" width="397" height="87.8" fill="#558ED5"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <text id="agenda-item-3-ordinal" x="123.1" y="474.8" text-anchor="middle"
+    font-family="Microsoft YaHei, sans-serif" font-size="42.67" fill="#FFFFFF" font-weight="bold"
+    data-pptx-layer="layout" data-pptx-editable="false">三</text>
+
+  <rect id="agenda-item-4-badge" x="645.2" y="183.53" width="77" height="87.8" fill="#558ED5"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <rect id="agenda-item-4-plate" x="747.4" y="183.53" width="397" height="87.8" fill="#558ED5"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <text id="agenda-item-4-ordinal" x="685.1" y="240.73" text-anchor="middle"
+    font-family="Microsoft YaHei, sans-serif" font-size="40" fill="#FFFFFF" font-weight="bold"
+    data-pptx-layer="layout" data-pptx-editable="false">四</text>
+
+  <rect id="agenda-item-5-badge" x="646.13" y="302.93" width="76.07" height="87.67" fill="#558ED5"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <rect id="agenda-item-5-plate" x="747.47" y="302.8" width="396.93" height="87.8" fill="#558ED5"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <text id="agenda-item-5-ordinal" x="684.17" y="359.93" text-anchor="middle"
+    font-family="Microsoft YaHei, sans-serif" font-size="40" fill="#FFFFFF" font-weight="bold"
+    data-pptx-layer="layout" data-pptx-editable="false">五</text>
+
+  <text id="agenda-motto" x="1019.9" y="45.97" xml:space="preserve"
+    font-family="&quot;思源黑体 CN Normal&quot;, sans-serif" font-size="18.67"
+    fill="#0070C0" data-pptx-layer="layout" data-pptx-editable="false">守正｜创新｜实干｜担当</text>
+
+  <g id="agenda-item-1-slot" data-pptx-placeholder="body" data-pptx-idx="1"
+    data-pptx-bounds="203.53 199.47 673 58.07">
+    <text id="agenda-item-1-carrier" data-pptx-carrier="true"
+      x="213.13" y="238.27" xml:space="preserve"
+      font-family="Microsoft YaHei, sans-serif" font-size="40" fill="#FFFFFF"
+      font-weight="bold">{{TOC_ITEM_1_TITLE}}</text>
+  </g>
+  <g id="agenda-item-2-slot" data-pptx-placeholder="body" data-pptx-idx="2"
+    data-pptx-bounds="203.47 321.93 673 58.07">
+    <text id="agenda-item-2-carrier" data-pptx-carrier="true"
+      x="213.07" y="360.73" xml:space="preserve"
+      font-family="Microsoft YaHei, sans-serif" font-size="40" fill="#FFFFFF"
+      font-weight="bold">{{TOC_ITEM_2_TITLE}}</text>
+  </g>
+  <g id="agenda-item-3-slot" data-pptx-placeholder="body" data-pptx-idx="3"
+    data-pptx-bounds="203.53 441.27 673 58.07">
+    <text id="agenda-item-3-carrier" data-pptx-carrier="true"
+      x="213.13" y="480.07" xml:space="preserve"
+      font-family="Microsoft YaHei, sans-serif" font-size="40" fill="#FFFFFF"
+      font-weight="bold">{{TOC_ITEM_3_TITLE}}</text>
+  </g>
+  <g id="agenda-item-4-slot" data-pptx-placeholder="body" data-pptx-idx="4"
+    data-pptx-bounds="765.2 198.67 480 58.07">
+    <text id="agenda-item-4-carrier" data-pptx-carrier="true"
+      x="774.8" y="237.47" xml:space="preserve"
+      font-family="Microsoft YaHei, sans-serif" font-size="40" fill="#FFFFFF"
+      font-weight="bold">{{TOC_ITEM_4_TITLE}}</text>
+  </g>
+  <g id="agenda-item-5-slot" data-pptx-placeholder="body" data-pptx-idx="5"
+    data-pptx-bounds="765.13 321.13 480 58.07">
+    <text id="agenda-item-5-carrier" data-pptx-carrier="true"
+      x="774.73" y="359.93" xml:space="preserve"
+      font-family="Microsoft YaHei, sans-serif" font-size="40" fill="#FFFFFF"
+      font-weight="bold">{{TOC_ITEM_5_TITLE}}</text>
+  </g>
+</svg>

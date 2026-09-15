@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+  width="1280" height="720" viewBox="0 0 1280 720"
+  data-pptx-master="ceec_v2_page_master" data-pptx-master-name="CEEC v2 Page"
+  data-pptx-layout="closing" data-pptx-layout-name="Closing">
+  <image id="page-master-background" x="0" y="0" width="1280" height="720"
+    href="../images/page_background.png" preserveAspectRatio="none"
+    data-pptx-layer="master" data-pptx-editable="false"/>
+
+  <image id="closing-contact-block" x="96" y="540" width="293.2" height="112.93"
+    href="../images/contact_block.png" preserveAspectRatio="none"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <text id="closing-motto" x="1057.57" y="45.97" xml:space="preserve"
+    font-family="&quot;思源黑体 CN Normal&quot;, sans-serif" font-size="18.67"
+    fill="#0070C0" data-pptx-layer="layout" data-pptx-editable="false">守正｜创新｜实干｜担当</text>
+
+  <g id="closing-title-slot" data-pptx-placeholder="title" data-pptx-bounds="140 261.73 1000 113">
+    <text id="closing-title-carrier" data-pptx-carrier="true"
+      x="640" y="339.07" text-anchor="middle" xml:space="preserve"
+      font-family="Microsoft YaHei, sans-serif" font-size="85.33"
+      fill="#0068B7" font-weight="bold">{{THANK_YOU}}</text>
+  </g>
+</svg>

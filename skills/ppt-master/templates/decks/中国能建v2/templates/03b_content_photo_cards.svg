@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+  width="1280" height="720" viewBox="0 0 1280 720"
+  data-pptx-master="ceec_v2_page_master" data-pptx-master-name="CEEC v2 Page"
+  data-pptx-layout="photo_cards" data-pptx-layout-name="Photo and Numbered Cards">
+  <defs>
+    <filter id="photo-shadow" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="3.77123617" dy="3.77123617" stdDeviation="8" flood-color="#000000"
+        flood-opacity="0.08"/>
+    </filter>
+  </defs>
+
+  <image id="page-master-background" x="0" y="0" width="1280" height="720"
+    href="../images/page_background.png" preserveAspectRatio="none"
+    data-pptx-layer="master" data-pptx-editable="false"/>
+
+  <image id="photo-cards-brand-mark" x="14.67" y="22.86" width="47.08" height="34.02"
+    href="../images/ceec_mark.png" preserveAspectRatio="none"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+
+  <rect id="photo-cards-block-1-badge" x="622.12" y="100.93" width="66.96" height="64.02"
+    rx="10.67" fill="#0068B7" data-pptx-layer="layout" data-pptx-editable="false"/>
+  <text id="photo-cards-block-1-ordinal" x="655.63" y="140.58" text-anchor="middle"
+    font-family="Microsoft YaHei, sans-serif" font-size="32" fill="#FFFFFF"
+    data-pptx-layer="layout" data-pptx-editable="false">01</text>
+  <rect id="photo-cards-block-2-badge" x="622.12" y="295.27" width="66.96" height="64.02"
+    rx="10.67" fill="#0068B7" data-pptx-layer="layout" data-pptx-editable="false"/>
+  <text id="photo-cards-block-2-ordinal" x="655.63" y="334.92" text-anchor="middle"
+    font-family="Microsoft YaHei, sans-serif" font-size="32" fill="#FFFFFF"
+    data-pptx-layer="layout" data-pptx-editable="false">02</text>
+  <rect id="photo-cards-block-3-badge" x="622.12" y="489.6" width="66.96" height="64.02"
+    rx="10.67" fill="#0068B7" data-pptx-layer="layout" data-pptx-editable="false"/>
+  <text id="photo-cards-block-3-ordinal" x="655.63" y="529.25" text-anchor="middle"
+    font-family="Microsoft YaHei, sans-serif" font-size="32" fill="#FFFFFF"
+    data-pptx-layer="layout" data-pptx-editable="false">03</text>
+
+  <text id="photo-cards-motto" x="1057.57" y="45.97" xml:space="preserve"
+    font-family="&quot;思源黑体 CN Normal&quot;, sans-serif" font-size="18.67"
+    fill="#0070C0" data-pptx-layer="layout" data-pptx-editable="false">守正｜创新｜实干｜担当</text>
+
+  <g id="photo-cards-title-slot" data-pptx-placeholder="title"
+    data-pptx-bounds="66.07 7 1140 67.73">
+    <text id="photo-cards-title-carrier" data-pptx-carrier="true"
+      x="75.67" y="39" xml:space="preserve"
+      font-family="Microsoft YaHei, sans-serif" font-size="32" fill="#0068B7"
+      font-weight="bold">{{PAGE_TITLE}}</text>
+  </g>
+  <g id="photo-cards-picture-slot" data-pptx-placeholder="picture" data-pptx-idx="1"
+    data-pptx-bounds="74.2 113.27 468.33 308.2">
+    <image id="photo-cards-picture-carrier" data-pptx-carrier="true"
+      x="74.2" y="113.27" width="468.33" height="308.2" preserveAspectRatio="none"
+      filter="url(#photo-shadow)"
+      href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR4nGNgYGBgAAAABQABpfZFQAAAAABJRU5ErkJggg=="/>
+  </g>
+  <g id="photo-cards-caption-slot" data-pptx-placeholder="body" data-pptx-idx="2"
+    data-pptx-bounds="67.8 458.93 474.67 118.6">
+    <text id="photo-cards-caption-carrier" data-pptx-carrier="true"
+      x="77.4" y="480.73" xml:space="preserve"
+      font-family="Microsoft YaHei, sans-serif" font-size="20" fill="#4472C4">{{CAPTION}}</text>
+  </g>
+  <g id="photo-cards-block-1-title-slot" data-pptx-placeholder="body" data-pptx-idx="3"
+    data-pptx-bounds="689.07 80.33 547.87 105.13">
+    <text id="photo-cards-block-1-title-carrier" data-pptx-carrier="true"
+      x="698.67" y="139.57" xml:space="preserve"
+      font-family="Microsoft YaHei, sans-serif" font-size="26.67" fill="#0068B7"
+      font-weight="bold">{{BLOCK_1_TITLE}}</text>
+  </g>
+  <g id="photo-cards-block-1-body-slot" data-pptx-placeholder="body" data-pptx-idx="4"
+    data-pptx-bounds="630.07 176.07 607.07 105">
+    <text id="photo-cards-block-1-body-carrier" data-pptx-carrier="true"
+      x="630.07" y="193.07" xml:space="preserve"
+      font-family="Microsoft YaHei, sans-serif" font-size="20"
+      fill="#000000">{{BLOCK_1_BODY}}</text>
+  </g>
+  <g id="photo-cards-block-2-title-slot" data-pptx-placeholder="body" data-pptx-idx="5"
+    data-pptx-bounds="689.07 274.67 547.87 105.13">
+    <text id="photo-cards-block-2-title-carrier" data-pptx-carrier="true"
+      x="698.67" y="333.9" xml:space="preserve"
+      font-family="Microsoft YaHei, sans-serif" font-size="26.67" fill="#0068B7"
+      font-weight="bold">{{BLOCK_2_TITLE}}</text>
+  </g>
+  <g id="photo-cards-block-2-body-slot" data-pptx-placeholder="body" data-pptx-idx="6"
+    data-pptx-bounds="630.07 370.4 603.13 105">
+    <text id="photo-cards-block-2-body-carrier" data-pptx-carrier="true"
+      x="630.07" y="387.4" xml:space="preserve"
+      font-family="Microsoft YaHei, sans-serif" font-size="20"
+      fill="#000000">{{BLOCK_2_BODY}}</text>
+  </g>
+  <g id="photo-cards-block-3-title-slot" data-pptx-placeholder="body" data-pptx-idx="7"
+    data-pptx-bounds="689.07 469 567.27 105.13">
+    <text id="photo-cards-block-3-title-carrier" data-pptx-carrier="true"
+      x="698.67" y="528.23" xml:space="preserve"
+      font-family="Microsoft YaHei, sans-serif" font-size="26.67" fill="#0068B7"
+      font-weight="bold">{{BLOCK_3_TITLE}}</text>
+  </g>
+  <g id="photo-cards-block-3-body-slot" data-pptx-placeholder="body" data-pptx-idx="8"
+    data-pptx-bounds="630.07 564.73 613 105">
+    <text id="photo-cards-block-3-body-carrier" data-pptx-carrier="true"
+      x="630.07" y="581.73" xml:space="preserve"
+      font-family="Microsoft YaHei, sans-serif" font-size="20"
+      fill="#000000">{{BLOCK_3_BODY}}</text>
+  </g>
+</svg>

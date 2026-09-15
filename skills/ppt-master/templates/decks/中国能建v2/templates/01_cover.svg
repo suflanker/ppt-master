@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+  width="1280" height="720" viewBox="0 0 1280 720"
+  data-pptx-master="ceec_v2_plain_master" data-pptx-master-name="CEEC v2 Plain"
+  data-pptx-layout="cover" data-pptx-layout-name="Cover">
+  <rect id="plain-master-background" x="0" y="0" width="1280" height="720" fill="#FFFFFF"
+    data-pptx-layer="master" data-pptx-editable="false"/>
+
+  <image id="cover-artwork" x="0" y="-7.53" width="1280" height="727.53"
+    href="../images/cover_artwork.png" preserveAspectRatio="none"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <rect id="cover-motto-plate" x="360.73" y="121.53" width="576.93" height="38.73" fill="#FFFFFF"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <text id="cover-motto" x="459.8" y="149" xml:space="preserve"
+    font-family="&quot;思源黑体 CN Normal&quot;, sans-serif" font-size="26.67"
+    fill="#0070C0" font-weight="bold"
+    data-pptx-layer="layout" data-pptx-editable="false">守正 ｜ 创新 ｜ 实干 ｜ 担当</text>
+
+  <g id="cover-title-slot" data-pptx-placeholder="title" data-pptx-bounds="336 264 680 114">
+    <text id="cover-title-carrier" data-pptx-carrier="true"
+      x="676.56" y="317.69" text-anchor="middle" xml:space="preserve"
+      font-family="&quot;思源黑体 CN Bold&quot;, sans-serif" font-size="56.87"
+      fill="#FFFFFF">{{TITLE}}</text>
+  </g>
+  <g id="cover-date-slot" data-pptx-placeholder="date" data-pptx-bounds="476.56 596 400 52">
+    <text id="cover-date-carrier" data-pptx-carrier="true"
+      x="676.56" y="634.44" text-anchor="middle" xml:space="preserve"
+      font-family="&quot;思源黑体 CN Bold&quot;, sans-serif" font-size="32"
+      fill="#FFFFFF">{{DATE}}</text>
+  </g>
+</svg>
