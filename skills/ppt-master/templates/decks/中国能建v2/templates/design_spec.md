@@ -14,7 +14,7 @@ source_canvas_height: 720
 source_viewbox: "0 0 1280 720"
 replication_mode: standard
 native_structure_mode: structured
-page_count: 5
+page_count: 6
 placeholders:
   01_cover: ["{{TITLE}}", "{{DATE}}"]
   02_toc:
@@ -23,8 +23,9 @@ placeholders:
     - "{{TOC_ITEM_3_TITLE}}"
     - "{{TOC_ITEM_4_TITLE}}"
     - "{{TOC_ITEM_5_TITLE}}"
-  03a_content_section_list: ["{{PAGE_TITLE}}", "{{CONTENT_AREA}}"]
-  03b_content_photo_cards:
+  03_chapter_section_list: ["{{CHAPTER_TITLE}}", "{{CHAPTER_ITEMS}}"]
+  04a_content_simple: ["{{PAGE_TITLE}}", "{{CONTENT_AREA}}"]
+  04b_content_photo_cards:
     - "{{PAGE_TITLE}}"
     - "{{CAPTION}}"
     - "{{BLOCK_1_TITLE}}"
@@ -33,7 +34,7 @@ placeholders:
     - "{{BLOCK_2_BODY}}"
     - "{{BLOCK_3_TITLE}}"
     - "{{BLOCK_3_BODY}}"
-  04_ending: []
+  05_ending: []
 ---
 
 # 中国能建 v2 — Design Specification
@@ -45,7 +46,7 @@ placeholders:
 | Recurring presentation family | 集团与项目部的工作汇报、方案评审、专项治理与专题汇报 |
 | Intended audiences and outcomes | 面向集团管理层、项目部与外部评审方；帮助受众理解背景、结论与实施安排，并推进评审或下一步决策 |
 | Delivery and reading assumptions | 以现场讲解为主，同时需要会后流转与复核；页面保留关键结论与必要上下文 |
-| Representative narrative/page roles | 当前原型覆盖封面、目录、章节概览、三点论述内容页与结束语；具体选页、重复、顺序与内容处理由当前项目的 Strategist 根据材料决定 |
+| Representative narrative/page roles | 当前原型覆盖封面、目录、章节页、通用内容页、照片卡片内容页与结束语；具体选页、重复、顺序与内容处理由当前项目的 Strategist 根据材料决定 |
 
 - 视觉基调为企业蓝标题与编号、浅色底图（页脚红蓝条）、银色横幅和编号卡片，强调稳重、清晰与工程秩序。
 - 结构上分为两个可复用 Master：CEEC v2 Page 承载内容页与结束页的浅色底图，CEEC v2 Plain 承载封面与目录的白底；两个家族按底图分工，不是按单个版式拆分出的重复 Master。
@@ -77,10 +78,11 @@ placeholders:
 
 - 封面用整幅企业底图承载白顶带、标识与红蓝斜切分隔；白色底板承托页眉口号，标题与日期沿中轴居中排布。
 - 目录页为白底：左上「目录/CONTENTS」深蓝标题配天蓝分隔线，右侧 3+2 两列条目，条条由蓝色序号牌、蓝色底板与白色条目文字组成。
-- 内容页与结束页共用浅色底图（含页脚红蓝条）作为页面底色；章节页在浅色底图上压整幅银色横幅承托白色大标题，正文列表左对齐。
-- 三点卡片页：左上企业箭头标识、右上口号；左侧为带柔和外阴影的照片框与下方蓝色说明，右侧为三段编号卡片（圆角编号牌 + 蓝色标题 + 正文）。
+- 内容页与结束页共用浅色底图（含页脚红蓝条）作为页面底色；章节页在浅色底图上压整幅银色横幅承托白色大标题，横幅下方左对齐排布本章章节列表。
+- 通用内容页承载没有固定图文结构的自由论述：沿用照片卡片页的页眉与标题样式（左上企业箭头标识、右上口号、左对齐蓝色加粗页标题），标题下方整幅留白作为自由内容区，不预设卡片、图片框或装饰线。
+- 照片卡片页：左上企业箭头标识、右上口号；左侧为带柔和外阴影的照片框与下方蓝色说明，右侧为三段编号卡片（圆角编号牌 + 蓝色标题 + 正文）。
 - 结束页保持大留白：居中大号蓝色结束语（固定文案「感谢聆听，敬请指正」）、左下透明底企业联系栏、右上口号。
-- 图片说明与卡片正文均从槽位左上角开始排布；封面标题与结束语属于短焦点内容，在完整边界内居中。
+- 图片说明、卡片正文与通用内容页内容区均从槽位左上角开始排布；封面标题与结束语属于短焦点内容，在完整边界内居中。
 
 ## V. Page Roster
 
@@ -88,9 +90,10 @@ placeholders:
 | --- | --- | --- | --- | --- | --- |
 | `01_cover.svg` | CEEC v2 Plain | cover | Cover | 整幅企业底图、白底口号板、居中标题簇 | 标题、日期 |
 | `02_toc.svg` | CEEC v2 Plain | agenda | Agenda | 白底、深蓝目录标题、两列编号条目 | 五个目录条目 |
-| `03a_content_section_list.svg` | CEEC v2 Page | section_list | Section List | 银色横幅承托白色大标题、左对齐章节列表 | 页面标题、章节列表 |
-| `03b_content_photo_cards.svg` | CEEC v2 Page | photo_cards | Photo and Numbered Cards | 左照片与说明、右三张编号卡片 | 页面标题、图片、图片说明、三组卡片标题与正文 |
-| `04_ending.svg` | CEEC v2 Page | closing | Closing | 居中大号固定结束语、左下透明底联系栏 | 无（固定结束语） |
+| `03_chapter_section_list.svg` | CEEC v2 Page | chapter | Chapter | 银色横幅承托白色大标题、横幅下方章节列表 | 章节标题、章节列表 |
+| `04a_content_simple.svg` | CEEC v2 Page | content | Content | 页眉标识与口号、左对齐蓝色页标题、标题下整幅自由内容区 | 页面标题、内容区 |
+| `04b_content_photo_cards.svg` | CEEC v2 Page | photo_cards | Photo and Numbered Cards | 左照片与说明、右三张编号卡片 | 页面标题、图片、图片说明、三组卡片标题与正文 |
+| `05_ending.svg` | CEEC v2 Page | closing | Closing | 居中大号固定结束语、左下透明底联系栏 | 无（固定结束语） |
 
 ## VI. Assets
 
@@ -99,14 +102,16 @@ placeholders:
 | cover_artwork.png | 封面整幅企业底图（含白顶带、标识与红蓝斜切分隔） |
 | page_background.png | 内容页与结束页的浅色底图（含页脚红蓝条） |
 | banner_strip.png | 章节页蓝调横幅色带：源图片的双色调效果（黑→`#0A86FC`）与 `#2683C6` 底填充、左侧 9.36% 裁切一并烘焙为成品位图 |
-| ceec_mark.png | 三点卡片页左上企业箭头标识 |
+| ceec_mark.png | 内容页（通用内容页、照片卡片页）左上企业箭头标识 |
 | contact_block.png | 结束页左下企业联系栏；白底已抠除，按透明背景合成在页面底图上 |
 
 ## VII. Placeholder Overrides
 
 | Placeholder | Meaning |
 | --- | --- |
-| `{{CONTENT_AREA}}` | 章节页的章节列表；两行章节名承载于同一文本框中，序号写在文本内 |
+| `{{CHAPTER_TITLE}}` | 章节页横幅内的章节名 |
+| `{{CHAPTER_ITEMS}}` | 章节页横幅下方的章节列表；多行承载于同一文本框中，序号写在文本内 |
+| `{{CONTENT_AREA}}` | 通用内容页标题下方的自由内容区 |
 | `{{CAPTION}}` | 照片下方的蓝色图片说明 |
 | `{{BLOCK_1_TITLE}}` / `{{BLOCK_1_BODY}}` | 第一张编号卡片的标题与正文；编号牌 01/02/03 为固定装饰 |
 | `{{BLOCK_2_TITLE}}` / `{{BLOCK_2_BODY}}` | 第二张编号卡片的标题与正文 |

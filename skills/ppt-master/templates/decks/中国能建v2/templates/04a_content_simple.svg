@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+  width="1280" height="720" viewBox="0 0 1280 720"
+  data-pptx-master="ceec_v2_page_master" data-pptx-master-name="CEEC v2 Page"
+  data-pptx-layout="content" data-pptx-layout-name="Content">
+  <image id="page-master-background" x="0" y="0" width="1280" height="720"
+    href="../images/page_background.png" preserveAspectRatio="none"
+    data-pptx-layer="master" data-pptx-editable="false"/>
+
+  <image id="content-brand-mark" x="14.67" y="22.86" width="47.08" height="34.02"
+    href="../images/ceec_mark.png" preserveAspectRatio="none"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <text id="content-motto" x="1057.57" y="45.97" xml:space="preserve"
+    font-family="&quot;思源黑体 CN Normal&quot;, sans-serif" font-size="18.67"
+    fill="#0070C0" data-pptx-layer="layout" data-pptx-editable="false">守正｜创新｜实干｜担当</text>
+
+  <g id="content-title-slot" data-pptx-placeholder="title"
+    data-pptx-bounds="66.07 7 1140 67.73">
+    <text id="content-title-carrier" data-pptx-carrier="true"
+      x="75.67" y="39" xml:space="preserve"
+      font-family="Microsoft YaHei, sans-serif" font-size="32" fill="#0068B7"
+      font-weight="bold">{{PAGE_TITLE}}</text>
+  </g>
+  <g id="content-body-slot" data-pptx-placeholder="body" data-pptx-idx="1"
+    data-pptx-bounds="74.2 113.27 1131.6 566.73">
+    <text id="content-body-carrier" data-pptx-carrier="true"
+      x="74.2" y="140.07" xml:space="preserve"
+      font-family="Microsoft YaHei, sans-serif" font-size="20"
+      fill="#404040">{{CONTENT_AREA}}</text>
+  </g>
+</svg>
