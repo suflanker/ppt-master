@@ -98,7 +98,7 @@ placeholders:
 | --- | --- |
 | cover_artwork.png | 封面整幅企业底图（含白顶带、标识与红蓝斜切分隔） |
 | page_background.png | 内容页与结束页的浅色底图（含页脚红蓝条） |
-| banner_strip.png | 章节页银色横幅，按源 `viewBox` 裁切铺满 |
+| banner_strip.png | 章节页蓝调横幅色带：源图片的双色调效果（黑→`#0A86FC`）与 `#2683C6` 底填充、左侧 9.36% 裁切一并烘焙为成品位图 |
 | ceec_mark.png | 三点卡片页左上企业箭头标识 |
 | contact_block.png | 结束页左下企业联系栏；白底已抠除，按透明背景合成在页面底图上 |
 

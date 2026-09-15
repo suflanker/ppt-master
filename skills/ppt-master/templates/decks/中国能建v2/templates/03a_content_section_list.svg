@@ -7,12 +7,9 @@
     href="../images/page_background.png" preserveAspectRatio="none"
     data-pptx-layer="master" data-pptx-editable="false"/>
 
-  <svg id="section-list-banner-strip" x="0" y="109.58" width="1569.9" height="122.84"
-    viewBox="0.0936 0 0.9064 1" preserveAspectRatio="none"
-    data-pptx-layer="layout" data-pptx-editable="false">
-    <image href="../images/banner_strip.png" x="0" y="0" width="1" height="1"
-      preserveAspectRatio="none"/>
-  </svg>
+  <image id="section-list-banner-strip" x="0" y="109.58" width="1280" height="122.84"
+    href="../images/banner_strip.png" preserveAspectRatio="none"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
   <text id="section-list-motto" x="1019.9" y="45.97" xml:space="preserve"
     font-family="&quot;思源黑体 CN Normal&quot;, sans-serif" font-size="18.67"
     fill="#0070C0" data-pptx-layer="layout" data-pptx-editable="false">守正｜创新｜实干｜担当</text>
