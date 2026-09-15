@@ -33,7 +33,7 @@ placeholders:
     - "{{BLOCK_2_BODY}}"
     - "{{BLOCK_3_TITLE}}"
     - "{{BLOCK_3_BODY}}"
-  04_ending: ["{{THANK_YOU}}"]
+  04_ending: []
 ---
 
 # 中国能建 v2 — Design Specification
@@ -79,7 +79,7 @@ placeholders:
 - 目录页为白底：左上「目录/CONTENTS」深蓝标题配天蓝分隔线，右侧 3+2 两列条目，条条由蓝色序号牌、蓝色底板与白色条目文字组成。
 - 内容页与结束页共用浅色底图（含页脚红蓝条）作为页面底色；章节页在浅色底图上压整幅银色横幅承托白色大标题，正文列表左对齐。
 - 三点卡片页：左上企业箭头标识、右上口号；左侧为带柔和外阴影的照片框与下方蓝色说明，右侧为三段编号卡片（圆角编号牌 + 蓝色标题 + 正文）。
-- 结束页保持大留白：居中大号蓝色结束语、左下企业联系栏、右上口号。
+- 结束页保持大留白：居中大号蓝色结束语（固定文案「感谢聆听，敬请指正」）、左下透明底企业联系栏、右上口号。
 - 图片说明与卡片正文均从槽位左上角开始排布；封面标题与结束语属于短焦点内容，在完整边界内居中。
 
 ## V. Page Roster
@@ -90,7 +90,7 @@ placeholders:
 | `02_toc.svg` | CEEC v2 Plain | agenda | Agenda | 白底、深蓝目录标题、两列编号条目 | 五个目录条目 |
 | `03a_content_section_list.svg` | CEEC v2 Page | section_list | Section List | 银色横幅承托白色大标题、左对齐章节列表 | 页面标题、章节列表 |
 | `03b_content_photo_cards.svg` | CEEC v2 Page | photo_cards | Photo and Numbered Cards | 左照片与说明、右三张编号卡片 | 页面标题、图片、图片说明、三组卡片标题与正文 |
-| `04_ending.svg` | CEEC v2 Page | closing | Closing | 居中大号结束语、左下联系栏 | 结束语 |
+| `04_ending.svg` | CEEC v2 Page | closing | Closing | 居中大号固定结束语、左下透明底联系栏 | 无（固定结束语） |
 
 ## VI. Assets
 
@@ -100,7 +100,7 @@ placeholders:
 | page_background.png | 内容页与结束页的浅色底图（含页脚红蓝条） |
 | banner_strip.png | 章节页银色横幅，按源 `viewBox` 裁切铺满 |
 | ceec_mark.png | 三点卡片页左上企业箭头标识 |
-| contact_block.png | 结束页左下企业联系栏 |
+| contact_block.png | 结束页左下企业联系栏；白底已抠除，按透明背景合成在页面底图上 |
 
 ## VII. Placeholder Overrides
 

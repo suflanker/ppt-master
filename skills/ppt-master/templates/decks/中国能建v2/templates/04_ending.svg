@@ -13,11 +13,8 @@
   <text id="closing-motto" x="1057.57" y="45.97" xml:space="preserve"
     font-family="&quot;思源黑体 CN Normal&quot;, sans-serif" font-size="18.67"
     fill="#0070C0" data-pptx-layer="layout" data-pptx-editable="false">守正｜创新｜实干｜担当</text>
-
-  <g id="closing-title-slot" data-pptx-placeholder="title" data-pptx-bounds="140 261.73 1000 113">
-    <text id="closing-title-carrier" data-pptx-carrier="true"
-      x="640" y="339.07" text-anchor="middle" xml:space="preserve"
-      font-family="Microsoft YaHei, sans-serif" font-size="85.33"
-      fill="#0068B7" font-weight="bold">{{THANK_YOU}}</text>
-  </g>
+  <text id="closing-thanks" x="640" y="339.07" text-anchor="middle" xml:space="preserve"
+    font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="85.33"
+    fill="#0068B7" font-weight="bold"
+    data-pptx-layer="layout" data-pptx-editable="false">感谢聆听，敬请指正</text>
 </svg>
