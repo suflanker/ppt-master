@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" font-family="Microsoft YaHei, Arial, sans-serif" data-pptx-master="guowang-plain" data-pptx-master-name="Guowang Plain" data-pptx-layout="ending" data-pptx-layout-name="Closing">
+  <rect id="master-background" x="0" y="0" width="1280" height="720" fill="#FFFFFF" data-pptx-layer="master" data-pptx-editable="false"/>
+  <image id="ending-background" x="0" y="0" width="1280" height="720" href="../images/content_background.png" preserveAspectRatio="xMidYMid meet" data-pptx-layer="layout" data-pptx-editable="false"/>
+  <image id="ending-brand" x="954.35" y="-36.09" width="376.47" height="180.99" href="../images/brand_lockup.png" preserveAspectRatio="xMidYMid meet" data-pptx-layer="layout" data-pptx-editable="false"/>
+  <g id="ending-title-slot" data-pptx-placeholder="title" data-pptx-bounds="200 245 880 140"><text id="ending-title" data-pptx-carrier="true" x="640" y="334" text-anchor="middle" font-size="64" font-weight="bold" fill="#00706B">汇报完毕，谢谢！</text></g>
+</svg>

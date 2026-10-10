@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" font-family="Microsoft YaHei, Arial, sans-serif" data-pptx-master="guowang-plain" data-pptx-master-name="Guowang Plain" data-pptx-layout="content" data-pptx-layout-name="Title and Free Content">
+  <rect id="master-background" x="0" y="0" width="1280" height="720" fill="#FFFFFF" data-pptx-layer="master" data-pptx-editable="false"/>
+  <image id="content-background" x="0" y="0" width="1280" height="720" href="../images/content_background.png" preserveAspectRatio="xMidYMid meet" data-pptx-layer="layout" data-pptx-editable="false"/>
+  <image id="content-brand" x="954.35" y="-36.09" width="376.47" height="180.99" href="../images/brand_lockup.png" preserveAspectRatio="xMidYMid meet" data-pptx-layer="layout" data-pptx-editable="false"/>
+  <rect id="content-marker" x="0" y="26.37" width="20.33" height="59.27" fill="#00706A" data-pptx-layer="layout" data-pptx-editable="false"/>
+  <line id="content-rule" x1="0" y1="97.44" x2="1280" y2="97.44" stroke="#DFDFD7" stroke-width="3" data-pptx-layer="layout" data-pptx-editable="false"/>
+  <g id="content-title-slot" data-pptx-placeholder="title" data-pptx-bounds="67 27 880 65"><text id="content-title" data-pptx-carrier="true" x="77" y="70" font-size="34" font-weight="bold" fill="#00706B">{{PAGE_TITLE}}</text></g>
+  <g id="content-body-slot" data-pptx-placeholder="body" data-pptx-idx="1" data-pptx-bounds="76 130 1128 440"><text id="content-body" data-pptx-carrier="true" x="76" y="155" font-size="24" fill="#333333">{{CONTENT_AREA}}</text></g>
+  <g id="content-page-slot" data-pptx-placeholder="slide-number" data-pptx-idx="2" data-pptx-bounds="1120 666 85 28"><text id="content-page" data-pptx-carrier="true" x="1195" y="687" text-anchor="end" font-size="16" fill="#666666">{{PAGE_NUM}}</text></g>
+</svg>

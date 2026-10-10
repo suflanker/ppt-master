@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" font-family="Microsoft YaHei, Arial, sans-serif" data-pptx-master="guowang-plain" data-pptx-master-name="Guowang Plain" data-pptx-layout="cover" data-pptx-layout-name="Cover">
+  <rect id="master-background" x="0" y="0" width="1280" height="720" fill="#FFFFFF" data-pptx-layer="master" data-pptx-editable="false"/>
+  <image id="cover-background" x="0" y="0" width="1280" height="720" href="../images/cover_background.png" preserveAspectRatio="xMidYMid meet" data-pptx-layer="layout" data-pptx-editable="false"/>
+  <image id="cover-brand" x="-78.47" y="-44.13" width="644.07" height="309.53" href="../images/brand_lockup.png" preserveAspectRatio="xMidYMid meet" data-pptx-layer="layout" data-pptx-editable="false"/>
+  <rect id="cover-date-rule" x="0" y="498.53" width="1000" height="17.13" fill="#DFDFD7" data-pptx-layer="layout" data-pptx-editable="false"/>
+  <g id="cover-title-slot" data-pptx-placeholder="title" data-pptx-bounds="532 265 700 125"><text id="cover-title" data-pptx-carrier="true" x="882" y="319" text-anchor="middle" font-size="44" font-weight="bold" fill="#FFFFFF">{{TITLE}}</text></g>
+  <g id="cover-author-slot" data-pptx-placeholder="subtitle" data-pptx-bounds="600 135 620 70"><text id="cover-author" data-pptx-carrier="true" x="1210" y="172" text-anchor="end" font-size="24" fill="#666666">{{AUTHOR}}</text></g>
+  <g id="cover-date-slot" data-pptx-placeholder="date" data-pptx-bounds="1030 487 210 62"><text id="cover-date" data-pptx-carrier="true" x="1050" y="522" font-size="28" font-weight="bold" fill="#00706B">{{DATE}}</text></g>
+</svg>

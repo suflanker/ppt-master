@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" font-family="Microsoft YaHei, Arial, sans-serif" data-pptx-master="guowang-plain" data-pptx-master-name="Guowang Plain" data-pptx-layout="toc" data-pptx-layout-name="Table of Contents">
+  <rect id="master-background" x="0" y="0" width="1280" height="720" fill="#FFFFFF" data-pptx-layer="master" data-pptx-editable="false"/>
+  <image id="toc-background" x="0" y="0" width="1280" height="720" href="../images/content_background.png" preserveAspectRatio="xMidYMid meet" data-pptx-layer="layout" data-pptx-editable="false"/>
+  <image id="toc-brand" x="954.35" y="-36.09" width="376.47" height="180.99" href="../images/brand_lockup.png" preserveAspectRatio="xMidYMid meet" data-pptx-layer="layout" data-pptx-editable="false"/>
+  <text id="toc-label" x="100" y="303" font-size="64" font-weight="bold" fill="#00706B" data-pptx-layer="layout" data-pptx-editable="false">目录</text>
+  <text id="toc-english" x="102" y="349" font-size="24" fill="#666666" data-pptx-layer="layout" data-pptx-editable="false">CONTENTS</text>
+  <text id="toc-number-1" x="410" y="157" font-size="30" font-weight="bold" fill="#00706B" data-pptx-layer="layout" data-pptx-editable="false">一、</text>
+  <text id="toc-number-2" x="410" y="216" font-size="30" font-weight="bold" fill="#00706B" data-pptx-layer="layout" data-pptx-editable="false">二、</text>
+  <text id="toc-number-3" x="410" y="275" font-size="30" font-weight="bold" fill="#00706B" data-pptx-layer="layout" data-pptx-editable="false">三、</text>
+  <text id="toc-number-4" x="410" y="334" font-size="30" font-weight="bold" fill="#00706B" data-pptx-layer="layout" data-pptx-editable="false">四、</text>
+  <text id="toc-number-5" x="410" y="393" font-size="30" font-weight="bold" fill="#00706B" data-pptx-layer="layout" data-pptx-editable="false">五、</text>
+  <text id="toc-number-6" x="410" y="452" font-size="30" font-weight="bold" fill="#00706B" data-pptx-layer="layout" data-pptx-editable="false">六、</text>
+  <text id="toc-number-7" x="410" y="511" font-size="30" font-weight="bold" fill="#00706B" data-pptx-layer="layout" data-pptx-editable="false">七、</text>
+  <text id="toc-number-8" x="410" y="570" font-size="30" font-weight="bold" fill="#00706B" data-pptx-layer="layout" data-pptx-editable="false">八、</text>
+  <g id="toc-item-1" data-pptx-placeholder="body" data-pptx-idx="1" data-pptx-bounds="480 125 650 48"><text data-pptx-carrier="true" x="480" y="157" font-size="30" fill="#333333">{{TOC_ITEM_1_TITLE}}</text></g>
+  <g id="toc-item-2" data-pptx-placeholder="body" data-pptx-idx="2" data-pptx-bounds="480 184 650 48"><text data-pptx-carrier="true" x="480" y="216" font-size="30" fill="#333333">{{TOC_ITEM_2_TITLE}}</text></g>
+  <g id="toc-item-3" data-pptx-placeholder="body" data-pptx-idx="3" data-pptx-bounds="480 243 650 48"><text data-pptx-carrier="true" x="480" y="275" font-size="30" fill="#333333">{{TOC_ITEM_3_TITLE}}</text></g>
+  <g id="toc-item-4" data-pptx-placeholder="body" data-pptx-idx="4" data-pptx-bounds="480 302 650 48"><text data-pptx-carrier="true" x="480" y="334" font-size="30" fill="#333333">{{TOC_ITEM_4_TITLE}}</text></g>
+  <g id="toc-item-5" data-pptx-placeholder="body" data-pptx-idx="5" data-pptx-bounds="480 361 650 48"><text data-pptx-carrier="true" x="480" y="393" font-size="30" fill="#333333">{{TOC_ITEM_5_TITLE}}</text></g>
+  <g id="toc-item-6" data-pptx-placeholder="body" data-pptx-idx="6" data-pptx-bounds="480 420 650 48"><text data-pptx-carrier="true" x="480" y="452" font-size="30" fill="#333333">{{TOC_ITEM_6_TITLE}}</text></g>
+  <g id="toc-item-7" data-pptx-placeholder="body" data-pptx-idx="7" data-pptx-bounds="480 479 650 48"><text data-pptx-carrier="true" x="480" y="511" font-size="30" fill="#333333">{{TOC_ITEM_7_TITLE}}</text></g>
+  <g id="toc-item-8" data-pptx-placeholder="body" data-pptx-idx="8" data-pptx-bounds="480 538 650 48"><text data-pptx-carrier="true" x="480" y="570" font-size="30" fill="#333333">{{TOC_ITEM_8_TITLE}}</text></g>
+</svg>
