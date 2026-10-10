@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" data-pptx-master="ceec_v2_plain_master" data-pptx-master-name="CEEC v2 Plain" data-pptx-layout="expert_welcome" data-pptx-layout-name="Expert Welcome">
+  <rect id="plain-master-background" x="0" y="0" width="1280" height="720" fill="#FFFFFF" data-pptx-layer="master" data-pptx-editable="false"/>
+  <image id="expert-background" x="0" y="0" width="1280" height="720" href="../images/expert_red_background.png" preserveAspectRatio="xMidYMid meet" data-pptx-layer="layout" data-pptx-editable="false"/>
+  <rect id="expert-brand-plate" x="70.44" y="7.11" width="1139.11" height="171.56" fill="#FFFFFF" data-pptx-layer="layout" data-pptx-editable="false"/>
+  <image id="expert-brand-motto" x="453.56" y="52.44" width="373.11" height="104.89" href="../images/brand_motto_updated.png" preserveAspectRatio="xMidYMid meet" data-pptx-layer="layout" data-pptx-editable="false"/>
+  <text id="expert-message" font-family="&quot;思源黑体 CN Bold&quot;, &quot;微软雅黑&quot;, sans-serif" x="640" y="350.84" text-anchor="middle" font-size="56.87" fill="#FFFFFF" data-pptx-layer="layout" data-pptx-editable="false">热烈欢迎专家莅临检查指导</text>
+  <g id="expert-date-slot" data-pptx-placeholder="date" data-pptx-bounds="421.33 373.77 437.33 62"><text id="expert-date-carrier" font-family="&quot;思源黑体 CN Bold&quot;, &quot;微软雅黑&quot;, sans-serif" data-pptx-carrier="true" x="640" y="410.4" text-anchor="middle" font-size="32" fill="#FFFFFF">{{DATE}}</text></g>
+  <g id="expert-author-slot" data-pptx-placeholder="subtitle" data-pptx-bounds="400 613.11 480 64"><text id="expert-author-carrier" font-family="&quot;思源黑体 CN Bold&quot;, &quot;微软雅黑&quot;, sans-serif" data-pptx-carrier="true" x="640" y="649.73" text-anchor="middle" font-size="32" fill="#FFFFFF">{{AUTHOR}}</text></g>
+</svg>

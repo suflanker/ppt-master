@@ -1,20 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg"
-  width="1280" height="720" viewBox="0 0 1280 720"
-  data-pptx-master="ceec_v2_page_master" data-pptx-master-name="CEEC v2 Page"
-  data-pptx-layout="closing" data-pptx-layout-name="Closing">
-  <image id="page-master-background" x="0" y="0" width="1280" height="720"
-    href="../images/page_background.png" preserveAspectRatio="none"
-    data-pptx-layer="master" data-pptx-editable="false"/>
-
-  <image id="closing-contact-block" x="96" y="540" width="293.2" height="112.93"
-    href="../images/contact_block.png" preserveAspectRatio="none"
-    data-pptx-layer="layout" data-pptx-editable="false"/>
-  <text id="closing-motto" x="1057.57" y="45.97" xml:space="preserve"
-    font-family="&quot;思源黑体 CN Normal&quot;, sans-serif" font-size="18.67"
-    fill="#0070C0" data-pptx-layer="layout" data-pptx-editable="false">守正｜创新｜实干｜担当</text>
-  <text id="closing-thanks" x="640" y="339.07" text-anchor="middle" xml:space="preserve"
-    font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="85.33"
-    fill="#0068B7" font-weight="bold"
-    data-pptx-layer="layout" data-pptx-editable="false">感谢聆听，敬请指正</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" data-pptx-master="ceec_v2_plain_master" data-pptx-master-name="CEEC v2 Plain" data-pptx-layout="closing" data-pptx-layout-name="Closing">
+  <rect id="plain-master-background" x="0" y="0" width="1280" height="720" fill="#FFFFFF" data-pptx-layer="master" data-pptx-editable="false"/>
+  <image id="closing-artwork" x="0.23" y="0" width="1279.56" height="720" href="../images/ending_updated.png" preserveAspectRatio="xMidYMid meet" data-pptx-layer="layout" data-pptx-editable="false"/>
+  <text id="closing-thanks" font-family="&quot;思源黑体 CN Bold&quot;, &quot;微软雅黑&quot;, sans-serif" x="98.36" y="320.18" font-size="85.33" fill="#0068B7" data-pptx-layer="layout" data-pptx-editable="false">谢谢 Thanks！</text>
+  <image id="closing-wordmark" x="95.77" y="486.89" width="292.23" height="38" href="../images/ending_wordmark_updated.png" preserveAspectRatio="xMidYMid meet" data-pptx-layer="layout" data-pptx-editable="false"/>
+  <text id="closing-contact" x="96.57" y="559.51" font-family="&quot;思源黑体 CN Regular&quot;, &quot;微软雅黑&quot;, sans-serif" font-size="14.22" fill="#7F7F7F" data-pptx-layer="layout" data-pptx-editable="false">地址：中国北京市朝阳区西大望路26号1号楼   邮编：100022<tspan x="96.57" dy="17.07">电话：010-59099999  传真：010-59098888</tspan><tspan x="96.57" dy="17.07">Add:Building 1, No. 26, XIDAWANG Road, </tspan><tspan x="96.57" dy="17.07">Chaoyang District, Beijing 100022,China</tspan><tspan x="96.57" dy="17.07">Tel：+86 10 5909 9999   Fax：+86 10 5909 8888 </tspan><tspan x="96.57" dy="17.07">www.ceec.net.cn</tspan></text>
+  <g id="closing-date-slot" data-pptx-placeholder="date" data-pptx-bounds="85.56 352.89 240 57"><text id="closing-date-carrier" data-pptx-carrier="true" x="98.36" y="385.96" font-family="&quot;思源黑体 CN Medium&quot;, Calibri, &quot;微软雅黑&quot;, sans-serif" font-size="28.44" fill="#808080">{{DATE}}</text></g>
 </svg>
