@@ -128,6 +128,10 @@ Native path (no external binary required):
 
 Pandoc fallback (only if you need these):
 - `.doc`, `.odt`, `.rtf`, `.tex`/`.latex`, `.rst`, `.org`, `.typ`
+- `.typ` evaluates under pandoc, so a real project file that imports its template,
+  a package, or a custom function fails there; it then (or without pandoc) keeps the
+  source text with `=` headings mapped to Markdown and raw blocks, markup, math, and
+  code calls verbatim, recorded as a conversion-profile warning.
 
 ```bash
 python3 scripts/source_to_md/doc_to_md.py lecture.docx
@@ -174,13 +178,15 @@ python3 scripts/source_to_md/excel_to_md.py report.xlsx budget.xlsm
 python3 scripts/source_to_md/excel_to_md.py ./workbooks
 python3 scripts/source_to_md/excel_to_md.py ./workbooks -o ./markdown  # explicit separate output directory
 python3 scripts/source_to_md/excel_to_md.py report.xlsm --max-rows 200 --max-cols 40
+python3 scripts/source_to_md/excel_to_md.py report.xlsx --include-hidden  # also export hidden sheets
 ```
 
 Behavior:
 - preserves workbook and sheet structure in Markdown
-- exports visible sheets only
+- exports visible sheets by default; skipped hidden sheets are named in a warning, and `--include-hidden` exports them with a `(hidden)` heading
 - trims empty outer rows and columns
-- propagates merged-cell labels for readable Markdown tables
+- propagates merged-cell values for readable Markdown tables; merged numeric regions are noted below the table (`> Merged cells: A2:A3 (shared value)`) so a shared amount is not counted twice
+- shows percent formats as percentages and keeps leading zeros of zero-padded identifiers; other number formats keep the stored value at Excel's 15-digit precision
 - exports formula cells as cached values; it does not recalculate formulas
 - uses the shared best-effort conversion-profile contract after success
 
@@ -280,7 +286,7 @@ remains strict rather than silently treating the raster preview as the
 template's canonical asset.
 
 Supported `a:hlinkClick` on shape/picture `p:cNvPr` and text `a:rPr` becomes
-the shared SVG `<a href>` form for absolute external URIs and final-roster
+the shared SVG `<a href>` form for absolute external URIs and source-roster
 `#slide-N` jumps. A source shape that also has linked inner runs uses the
 importer-only `data-pptx-shape-hyperlink` transport to avoid nested SVG anchors.
 Unsupported click actions produce a diagnostic; strict import stops.
@@ -646,7 +652,6 @@ On success, the converter uses the shared best-effort sidecar contract for
 `<stem>.conversion_profile.json` beside the Markdown output.
 `--emit-result` is for wrapper scripts that need the actual saved Markdown path
 when the converter derives a title-based filename.
-
 
 ## Image Orientation Review
 

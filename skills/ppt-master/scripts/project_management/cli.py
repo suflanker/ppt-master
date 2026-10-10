@@ -809,6 +809,7 @@ class ProjectManager:
         source_items: list[str],
         move: bool = False,
         copy: bool = False,
+        propagate_images: bool = True,
     ) -> dict[str, list[str]]:
         if move and copy:
             raise ValueError("--move and --copy are mutually exclusive")
@@ -883,7 +884,8 @@ class ProjectManager:
                     continue
 
                 summary["markdown"].append(str(markdown_path))
-                self._propagate_companion_image_assets(markdown_path, project_dir)
+                if propagate_images:
+                    self._propagate_companion_image_assets(markdown_path, project_dir)
                 continue
 
             source_path = Path(item)
@@ -947,10 +949,18 @@ class ProjectManager:
             if suffix in {".md", ".markdown"}:
                 duplicate_markdown = self._find_equivalent_markdown(source_path, sources_dir)
                 if duplicate_markdown is not None:
-                    summary["markdown"].append(str(duplicate_markdown))
-                    self._propagate_companion_image_assets(duplicate_markdown, project_dir)
+                    if str(duplicate_markdown) not in summary["markdown"]:
+                        summary["markdown"].append(str(duplicate_markdown))
+                    if propagate_images:
+                        self._propagate_companion_image_assets(duplicate_markdown, project_dir)
+                    # A moved source must leave projects/ even when its content
+                    # already sits in the project under another name.
+                    removed = ""
+                    if effective_move and source_path.resolve() != duplicate_markdown.resolve():
+                        source_path.unlink()
+                        removed = "; the moved duplicate was removed"
                     summary["notes"].append(
-                        f"{item}: skipped duplicate markdown import because equivalent content already exists as {duplicate_markdown.name}"
+                        f"{item}: skipped duplicate markdown import because equivalent content already exists as {duplicate_markdown.name}{removed}"
                     )
                     continue
 
@@ -982,7 +992,8 @@ class ProjectManager:
                         moved_web_sources[web_sources] = target
                 if asset_dir is not None:
                     summary["assets"].append(str(asset_dir))
-                    self._propagate_image_assets(asset_dir, project_dir)
+                    if propagate_images:
+                        self._propagate_image_assets(asset_dir, project_dir)
                 if note:
                     summary["notes"].append(note)
                 continue
@@ -1014,7 +1025,8 @@ class ProjectManager:
                     continue
                 if canonical_markdown_path.exists():
                     summary["markdown"].append(str(canonical_markdown_path))
-                    self._propagate_companion_image_assets(canonical_markdown_path, project_dir)
+                    if propagate_images:
+                        self._propagate_companion_image_assets(canonical_markdown_path, project_dir)
                     summary["notes"].append(
                         f"{item}: skipped PDF auto-conversion because {canonical_markdown_path.name} already exists"
                     )
@@ -1023,7 +1035,8 @@ class ProjectManager:
                 try:
                     self._import_pdf(archived_path, markdown_path)
                     summary["markdown"].append(str(markdown_path))
-                    self._propagate_companion_image_assets(markdown_path, project_dir)
+                    if propagate_images:
+                        self._propagate_companion_image_assets(markdown_path, project_dir)
                 except Exception as exc:  # pragma: no cover - summary path
                     summary["skipped"].append(f"{item}: PDF conversion failed ({exc})")
             elif suffix in PRESENTATION_SUFFIXES:
@@ -1042,7 +1055,8 @@ class ProjectManager:
                     continue
                 if canonical_markdown_path.exists():
                     summary["markdown"].append(str(canonical_markdown_path))
-                    self._propagate_companion_image_assets(canonical_markdown_path, project_dir)
+                    if propagate_images:
+                        self._propagate_companion_image_assets(canonical_markdown_path, project_dir)
                     summary["notes"].append(
                         f"{item}: skipped presentation auto-conversion because {canonical_markdown_path.name} already exists"
                     )
@@ -1051,7 +1065,8 @@ class ProjectManager:
                 try:
                     self._import_presentation(archived_path, markdown_path)
                     summary["markdown"].append(str(markdown_path))
-                    self._propagate_companion_image_assets(markdown_path, project_dir)
+                    if propagate_images:
+                        self._propagate_companion_image_assets(markdown_path, project_dir)
                 except Exception as exc:  # pragma: no cover - summary path
                     summary["skipped"].append(f"{item}: presentation conversion failed ({exc})")
             elif suffix in EXCEL_SUFFIXES:
@@ -1063,7 +1078,8 @@ class ProjectManager:
                     continue
                 if canonical_markdown_path.exists():
                     summary["markdown"].append(str(canonical_markdown_path))
-                    self._propagate_companion_image_assets(canonical_markdown_path, project_dir)
+                    if propagate_images:
+                        self._propagate_companion_image_assets(canonical_markdown_path, project_dir)
                     summary["notes"].append(
                         f"{item}: skipped Excel auto-conversion because {canonical_markdown_path.name} already exists"
                     )
@@ -1072,7 +1088,8 @@ class ProjectManager:
                 try:
                     self._import_excel(archived_path, markdown_path)
                     summary["markdown"].append(str(markdown_path))
-                    self._propagate_companion_image_assets(markdown_path, project_dir)
+                    if propagate_images:
+                        self._propagate_companion_image_assets(markdown_path, project_dir)
                 except Exception as exc:  # pragma: no cover - summary path
                     summary["skipped"].append(f"{item}: Excel conversion failed ({exc})")
             elif suffix in LEGACY_EXCEL_SUFFIXES:
@@ -1093,7 +1110,8 @@ class ProjectManager:
                     continue
                 if canonical_markdown_path.exists():
                     summary["markdown"].append(str(canonical_markdown_path))
-                    self._propagate_companion_image_assets(canonical_markdown_path, project_dir)
+                    if propagate_images:
+                        self._propagate_companion_image_assets(canonical_markdown_path, project_dir)
                     summary["notes"].append(
                         f"{item}: skipped document auto-conversion because {canonical_markdown_path.name} already exists"
                     )
@@ -1102,7 +1120,8 @@ class ProjectManager:
                 try:
                     self._import_doc(archived_path, markdown_path)
                     summary["markdown"].append(str(markdown_path))
-                    self._propagate_companion_image_assets(markdown_path, project_dir)
+                    if propagate_images:
+                        self._propagate_companion_image_assets(markdown_path, project_dir)
                 except Exception as exc:  # pragma: no cover - summary path
                     summary["skipped"].append(f"{item}: document conversion failed ({exc})")
             elif suffix == ".txt":
@@ -1222,6 +1241,10 @@ def build_parser() -> argparse.ArgumentParser:
     )
     import_sources.add_argument("project_path", help="Project directory")
     import_sources.add_argument("sources", nargs="+", help="Source files, directories, or URLs")
+    import_sources.add_argument(
+        "--no-image-propagation", action="store_true",
+        help="Keep extracted companion images in sources/ without copying them into images/",
+    )
     mode = import_sources.add_mutually_exclusive_group()
     mode.add_argument(
         "--move",
@@ -1328,6 +1351,7 @@ def main(argv: list[str] | None = None) -> int:
                 args.sources,
                 move=args.move,
                 copy=args.copy,
+                propagate_images=not args.no_image_propagation,
             )
             import_complete = _has_usable_import(summary)
             if import_complete:

@@ -48,6 +48,7 @@ import shutil
 import sys
 import tempfile
 import threading
+import warnings
 from dataclasses import dataclass, replace
 from datetime import datetime, timezone
 from pathlib import Path
@@ -487,6 +488,55 @@ def _normalize_multi_frame_jpeg(path: Path) -> bool:
     return True
 
 
+def _fit_pixel_budget(path: Path) -> Optional[tuple[tuple[int, int], tuple[int, int]]]:
+    """Halve in place an original above Pillow's decompression-warning size.
+
+    Wikimedia and similar hosts serve 100+ megapixel originals. Every later
+    Pillow reader (checker, finalizer, exporter) would warn and decode hundreds
+    of megabytes for a picture no slide shows at that size. The saved copy is
+    reduced by the smallest power of two that fits — decoded at that scale for
+    JPEG — keeping its format, EXIF, and ICC data. Returns the old and new sizes
+    when the file was rewritten.
+    """
+    try:
+        from PIL import Image  # type: ignore
+    except ImportError:
+        return None
+    limit = Image.MAX_IMAGE_PIXELS
+    if not limit:
+        return None
+    try:
+        with Image.open(path) as source:
+            width, height = source.size
+            if width * height <= limit:
+                return None
+            factor = 2
+            while (width // factor) * (height // factor) > limit:
+                factor *= 2
+            fmt = source.format or "JPEG"
+            save_kwargs: dict[str, object] = {"quality": 90} if fmt in ("JPEG", "WEBP") else {}
+            for key in ("exif", "icc_profile"):
+                value = source.info.get(key)
+                if value:
+                    save_kwargs[key] = value
+            source.draft(source.mode, (width // factor, height // factor))
+            reduced = source.reduce(max(1, source.size[0] // (width // factor)))
+    except (OSError, ValueError, SyntaxError):
+        return None
+    fd, temp_name = tempfile.mkstemp(prefix=f".{path.stem}.fit.", suffix=path.suffix, dir=str(path.parent))
+    os.close(fd)
+    temp_path = Path(temp_name)
+    try:
+        reduced.save(temp_path, fmt, **save_kwargs)
+        os.replace(temp_path, path)
+    except (OSError, ValueError):
+        temp_path.unlink(missing_ok=True)
+        return None
+    finally:
+        reduced.close()
+    return (width, height), reduced.size
+
+
 def _stage_and_validate_image(
     output_path: Path,
     materialize: Callable[[Path], object],
@@ -508,6 +558,17 @@ def _stage_and_validate_image(
     keep_temp = False
     try:
         materialize(temp_path)
+        with warnings.catch_warnings():
+            # The oversized original is exactly what the next call removes.
+            warnings.filterwarnings("ignore", message=r"Image size \(\d+ pixels\) exceeds limit")
+            fitted = _fit_pixel_budget(temp_path)
+        if fitted is not None:
+            (old_w, old_h), (new_w, new_h) = fitted
+            print(
+                f"    downscaled a {old_w}x{old_h} original to {new_w}x{new_h}: "
+                "above Pillow's decompression-warning size",
+                file=sys.stderr,
+            )
         if _normalize_multi_frame_jpeg(temp_path):
             print(
                 "    normalized a multi-frame camera JPEG (MPO) to its primary frame",
@@ -2301,11 +2362,16 @@ def run_search_manifest(
                     elif selection_required:
                         item["status"] = SEARCH_STATUS_NEEDS_SELECTION
                         _clear_candidate_selection_outputs(item)
+                        # The row's own `provider` is the caller's pin; the
+                        # next candidate page must search the same provider.
+                        pinned_provider = item.get("provider")
                         if manifest_item is not None:
                             item.update(manifest_item)
                         item.pop("last_error", None)
                         item.pop("provider", None)
                         item.pop("license_tier", None)
+                        if pinned_provider:
+                            item["provider"] = pinned_provider
                         needs_selection_count += 1
                         print(f"  [REVIEW] {item['filename']} — {error}")
                     elif retryable:
