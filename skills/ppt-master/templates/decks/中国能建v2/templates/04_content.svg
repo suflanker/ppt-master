@@ -14,6 +14,10 @@
     font-family="&quot;思源黑体 CN Normal&quot;, sans-serif" font-size="18.67"
     fill="#0070C0" data-pptx-layer="layout" data-pptx-editable="false">守正｜创新｜实干｜担当</text>
 
+  <line id="content-title-rule" x1="48" y1="80" x2="1232" y2="80"
+    stroke="#C9DAE8" stroke-width="2"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+
   <g id="content-title-slot" data-pptx-placeholder="title"
     data-pptx-bounds="66.07 7 1140 67.73">
     <text id="content-title-carrier" data-pptx-carrier="true"
@@ -22,9 +26,9 @@
       font-weight="bold">{{PAGE_TITLE}}</text>
   </g>
   <g id="content-body-slot" data-pptx-placeholder="body" data-pptx-idx="1"
-    data-pptx-bounds="74.2 113.27 1131.6 566.73">
+    data-pptx-bounds="48 113.27 1184 566.73">
     <text id="content-body-carrier" data-pptx-carrier="true"
-      x="74.2" y="140.07" xml:space="preserve"
+      x="48" y="140.07" xml:space="preserve"
       font-family="Microsoft YaHei, sans-serif" font-size="20"
       fill="#404040">{{CONTENT_AREA}}</text>
   </g>
