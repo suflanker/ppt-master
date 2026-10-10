@@ -2502,17 +2502,26 @@ def _compose_template(
                     if len(atoms) == 1:
                         atoms[0].set("id", item.get("id"))
                         item = atoms[0]
-                if _local_name(item.tag) == "g" and _visible_leaf(item):
+                if _local_name(item.tag) == "g":
                     bounds = _frame(item)
-                    if bounds is None:
+                    if bounds is None and _visible_leaf(item):
                         raise MirrorMaterializationError(
                             f"Slide {slide['index']} root group "
                             f"{item.get('id')!r} has no positive source frame"
                         )
-                    item.set(
-                        "data-pptx-bounds",
-                        " ".join(format_coordinate(value) for value in bounds),
-                    )
+                    if bounds is not None:
+                        # Keep the source frame unchanged; module bounds describe
+                        # only the part of that frame inside the page canvas.
+                        x, y, frame_width, frame_height = bounds
+                        left, top = max(0.0, x), max(0.0, y)
+                        right = min(width, x + frame_width)
+                        bottom = min(height, y + frame_height)
+                        if right > left and bottom > top:
+                            bounds = (left, top, right - left, bottom - top)
+                        item.set(
+                            "data-pptx-bounds",
+                            " ".join(format_coordinate(value) for value in bounds),
+                        )
                 slide_content.append(item)
         if len(slide_backgrounds) > 1:
             raise MirrorMaterializationError(
@@ -2657,6 +2666,10 @@ def _sanitize_connector_references(root: ET.Element) -> int:
 def _local_asset_path(value: str, base_dir: Path) -> Path | None:
     if not value or value.startswith("#"):
         return None
+    # A Windows drive prefix is a filesystem path, not a URI scheme.
+    direct_path = Path(unquote(value))
+    if direct_path.is_absolute():
+        return direct_path.resolve()
     parsed = urlsplit(value)
     if parsed.scheme == "file":
         return Path(unquote(parsed.path)).resolve()
