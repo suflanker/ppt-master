@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+  width="1280" height="720" viewBox="0 0 1280 720"
+  font-family="Microsoft YaHei, PingFang SC, sans-serif"
+  data-pptx-master="sgcc-institute" data-pptx-master-name="SGCC Institute"
+  data-pptx-layout="cover" data-pptx-layout-name="Cover">
+  <rect id="master-background" x="0" y="0" width="1280" height="720" fill="#FFFFFF"
+    data-pptx-layer="master" data-pptx-editable="false"/>
+  <image id="cover-map" x="0" y="0" width="1280" height="720"
+    href="../images/world_map_bg.png" preserveAspectRatio="none" opacity="0.6"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <line id="cover-top-rule" x1="56" y1="132" x2="1224" y2="132"
+    stroke="#D9E4E1" stroke-width="1"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <image id="cover-logo" x="56" y="30" width="300" height="92"
+    href="../images/logo_lockup.png" preserveAspectRatio="none"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <rect id="cover-brand-band" x="0" y="150" width="1280" height="440" fill="#00746F"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <image id="cover-wave" x="0" y="150" width="981" height="440"
+    href="../images/wave_ribbon.png" preserveAspectRatio="none"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <line id="cover-band-top" x1="0" y1="150" x2="1280" y2="150"
+    stroke="#FFFFFF" stroke-opacity="0.18" stroke-width="2"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <line id="cover-band-bottom" x1="0" y1="590" x2="1280" y2="590"
+    stroke="#FFFFFF" stroke-opacity="0.18" stroke-width="2"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+
+  <g id="cover-title-slot" data-pptx-placeholder="body" data-pptx-idx="1"
+    data-pptx-bounds="120 190 1040 150">
+    <text id="cover-title-carrier" data-pptx-carrier="true"
+      x="640" y="270" text-anchor="middle" xml:space="preserve"
+      font-size="54" fill="#FFFFFF" font-weight="bold">{{TITLE}}</text>
+  </g>
+  <g id="cover-subtitle-slot" data-pptx-placeholder="subtitle" data-pptx-idx="2"
+    data-pptx-bounds="120 350 1040 60">
+    <text id="cover-subtitle-carrier" data-pptx-carrier="true"
+      x="640" y="398" text-anchor="middle" xml:space="preserve"
+      font-size="32" fill="#FFFFFF" font-weight="bold">{{SUBTITLE}}</text>
+  </g>
+  <g id="cover-author-slot" data-pptx-placeholder="body" data-pptx-idx="3"
+    data-pptx-bounds="440 592 400 52">
+    <text id="cover-author-carrier" data-pptx-carrier="true"
+      x="640" y="632" text-anchor="middle" xml:space="preserve"
+      font-size="28" fill="#00746F" font-weight="bold">{{AUTHOR}}</text>
+  </g>
+  <g id="cover-date-slot" data-pptx-placeholder="date" data-pptx-idx="4"
+    data-pptx-bounds="440 644 400 44">
+    <text id="cover-date-carrier" data-pptx-carrier="true"
+      x="640" y="676" text-anchor="middle" xml:space="preserve"
+      font-size="26" fill="#00746F" font-weight="bold">{{DATE}}</text>
+  </g>
+</svg>

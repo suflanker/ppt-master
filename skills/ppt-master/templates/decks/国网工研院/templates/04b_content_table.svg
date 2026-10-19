@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+  width="1280" height="720" viewBox="0 0 1280 720"
+  font-family="Microsoft YaHei, PingFang SC, sans-serif"
+  data-pptx-master="sgcc-institute" data-pptx-master-name="SGCC Institute"
+  data-pptx-layout="content-table" data-pptx-layout-name="Content – Table">
+  <rect id="master-background" x="0" y="0" width="1280" height="720" fill="#FFFFFF"
+    data-pptx-layer="master" data-pptx-editable="false"/>
+  <image id="content-map" x="0" y="0" width="1280" height="720"
+    href="../images/world_map_bg.png" preserveAspectRatio="none" opacity="0.72"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <path id="content-header-mark" d="M 0 16 L 0 78 L 52 47 Z" fill="#076654"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <rect id="content-header-rule" x="0" y="88" width="1280" height="6" fill="#007671"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <image id="content-logo" x="1024" y="8" width="200" height="61"
+    href="../images/logo_lockup.png" preserveAspectRatio="none"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <rect id="content-footer-rule" x="0" y="712" width="1280" height="8" fill="#00746F"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+
+  <g id="content-title-slot" data-pptx-placeholder="title" data-pptx-bounds="64 24 900 58">
+    <text id="content-title-carrier" data-pptx-carrier="true"
+      x="68" y="64" text-anchor="start" xml:space="preserve"
+      font-size="32" fill="#00746F" font-weight="bold">{{PAGE_TITLE}}</text>
+  </g>
+  <g id="content-subtitle-slot" data-pptx-placeholder="subtitle" data-pptx-idx="1"
+    data-pptx-bounds="64 112 1144 44">
+    <text id="content-subtitle-carrier" data-pptx-carrier="true"
+      x="68" y="146" text-anchor="start" xml:space="preserve"
+      font-size="22" fill="#076654" font-weight="bold">{{SUBTITLE}}</text>
+  </g>
+
+  <g id="content-table-slot" data-pptx-placeholder="table"
+    data-pptx-bounds="68 174 1144 456">
+    <g id="content-table" data-pptx-replace-with="table" data-pptx-carrier="true"
+      data-pptx-native-authority="json">
+      <metadata type="application/json">
+        {
+          "schema": "ppt-master.semantic-table.v2",
+          "name": "content-table",
+          "x": 68,
+          "y": 174,
+          "width": 1144,
+          "height": 456,
+          "column_widths": [110, 190, 560, 284],
+          "row_heights": [56, 133, 133, 134],
+          "style": {
+            "font_family": "Microsoft YaHei",
+            "font_size": 19,
+            "header_font_size": 19,
+            "header_fill": "#00746F",
+            "header_text": "#FFFFFF",
+            "body_fill": "#FFFFFF",
+            "body_text": "#1F2A28",
+            "band_fill": "#F3F8F6",
+            "border_color": "#D6E2DF",
+            "border_width": 1,
+            "valign": "middle"
+          },
+          "columns": [
+            {"text": "序号", "fill": "#00746F", "color": "#FFFFFF", "bold": true, "font_size": 19, "align": "ctr", "valign": "middle", "border_color": "#00746F", "border_width": 1},
+            {"text": "时间节点", "fill": "#00746F", "color": "#FFFFFF", "bold": true, "font_size": 19, "align": "ctr", "valign": "middle", "border_color": "#00746F", "border_width": 1},
+            {"text": "工作内容", "fill": "#00746F", "color": "#FFFFFF", "bold": true, "font_size": 19, "align": "ctr", "valign": "middle", "border_color": "#00746F", "border_width": 1},
+            {"text": "成果指标", "fill": "#00746F", "color": "#FFFFFF", "bold": true, "font_size": 19, "align": "ctr", "valign": "middle", "border_color": "#00746F", "border_width": 1}
+          ],
+          "rows": [
+            [
+              {"text": "1", "fill": "#FFFFFF", "color": "#1F2A28", "align": "ctr", "valign": "middle", "font_size": 19, "border_color": "#D6E2DF", "border_width": 1},
+              {"text": "2026.03—2026.06", "fill": "#FFFFFF", "color": "#1F2A28", "align": "ctr", "valign": "middle", "font_size": 19, "border_color": "#D6E2DF", "border_width": 1},
+              {"text": "完成总体实施方案，明确任务分工与进度计划。", "fill": "#FFFFFF", "color": "#1F2A28", "align": "l", "valign": "middle", "font_size": 19, "border_color": "#D6E2DF", "border_width": 1},
+              {"text": "形成总体实施方案。", "fill": "#FFFFFF", "color": "#1F2A28", "align": "l", "valign": "middle", "font_size": 19, "border_color": "#D6E2DF", "border_width": 1}
+            ],
+            [
+              {"text": "2", "fill": "#F3F8F6", "color": "#1F2A28", "align": "ctr", "valign": "middle", "font_size": 19, "border_color": "#D6E2DF", "border_width": 1},
+              {"text": "2026.07—2026.12", "fill": "#F3F8F6", "color": "#1F2A28", "align": "ctr", "valign": "middle", "font_size": 19, "border_color": "#D6E2DF", "border_width": 1},
+              {"text": "开展关键技术研究，形成阶段性成果。", "fill": "#F3F8F6", "color": "#1F2A28", "align": "l", "valign": "middle", "font_size": 19, "border_color": "#D6E2DF", "border_width": 1},
+              {"text": "形成阶段研究报告。", "fill": "#F3F8F6", "color": "#1F2A28", "align": "l", "valign": "middle", "font_size": 19, "border_color": "#D6E2DF", "border_width": 1}
+            ],
+            [
+              {"text": "3", "fill": "#FFFFFF", "color": "#1F2A28", "align": "ctr", "valign": "middle", "font_size": 19, "border_color": "#D6E2DF", "border_width": 1},
+              {"text": "2027.01—2027.06", "fill": "#FFFFFF", "color": "#1F2A28", "align": "ctr", "valign": "middle", "font_size": 19, "border_color": "#D6E2DF", "border_width": 1},
+              {"text": "完成技术验证与成果凝练。", "fill": "#FFFFFF", "color": "#1F2A28", "align": "l", "valign": "middle", "font_size": 19, "border_color": "#D6E2DF", "border_width": 1},
+              {"text": "形成验收材料。", "fill": "#FFFFFF", "color": "#1F2A28", "align": "l", "valign": "middle", "font_size": 19, "border_color": "#D6E2DF", "border_width": 1}
+            ]
+          ]
+        }
+      </metadata>
+      <rect x="68" y="174" width="1144" height="56" fill="#00746F"/>
+      <rect x="68" y="230" width="1144" height="133" fill="#FFFFFF"/>
+      <rect x="68" y="363" width="1144" height="133" fill="#F3F8F6"/>
+      <rect x="68" y="496" width="1144" height="134" fill="#FFFFFF"/>
+      <text x="123" y="208" text-anchor="middle" xml:space="preserve"
+        font-size="19" fill="#FFFFFF" font-weight="bold">序号</text>
+      <text x="273" y="208" text-anchor="middle" xml:space="preserve"
+        font-size="19" fill="#FFFFFF" font-weight="bold">时间节点</text>
+      <text x="388" y="208" text-anchor="start" xml:space="preserve"
+        font-size="19" fill="#FFFFFF" font-weight="bold">工作内容</text>
+      <text x="948" y="208" text-anchor="start" xml:space="preserve"
+        font-size="19" fill="#FFFFFF" font-weight="bold">成果指标</text>
+      <text x="123" y="306" text-anchor="middle" xml:space="preserve"
+        font-size="19" fill="#1F2A28" font-weight="normal">1</text>
+      <text x="273" y="306" text-anchor="middle" xml:space="preserve"
+        font-size="19" fill="#1F2A28" font-weight="normal">2026.03—2026.06</text>
+      <text x="388" y="306" text-anchor="start" xml:space="preserve"
+        font-size="19" fill="#1F2A28" font-weight="normal">完成总体实施方案，明确任务分工与进度计划。</text>
+      <text x="948" y="306" text-anchor="start" xml:space="preserve"
+        font-size="19" fill="#1F2A28" font-weight="normal">形成总体实施方案。</text>
+      <text x="123" y="439" text-anchor="middle" xml:space="preserve"
+        font-size="19" fill="#1F2A28" font-weight="normal">2</text>
+      <text x="273" y="439" text-anchor="middle" xml:space="preserve"
+        font-size="19" fill="#1F2A28" font-weight="normal">2026.07—2026.12</text>
+      <text x="388" y="439" text-anchor="start" xml:space="preserve"
+        font-size="19" fill="#1F2A28" font-weight="normal">开展关键技术研究，形成阶段性成果。</text>
+      <text x="948" y="439" text-anchor="start" xml:space="preserve"
+        font-size="19" fill="#1F2A28" font-weight="normal">形成阶段研究报告。</text>
+      <text x="123" y="572" text-anchor="middle" xml:space="preserve"
+        font-size="19" fill="#1F2A28" font-weight="normal">3</text>
+      <text x="273" y="572" text-anchor="middle" xml:space="preserve"
+        font-size="19" fill="#1F2A28" font-weight="normal">2027.01—2027.06</text>
+      <text x="388" y="572" text-anchor="start" xml:space="preserve"
+        font-size="19" fill="#1F2A28" font-weight="normal">完成技术验证与成果凝练。</text>
+      <text x="948" y="572" text-anchor="start" xml:space="preserve"
+        font-size="19" fill="#1F2A28" font-weight="normal">形成验收材料。</text>
+      <line x1="178" y1="174" x2="178" y2="630" stroke="#D6E2DF" stroke-width="1"/>
+      <line x1="368" y1="174" x2="368" y2="630" stroke="#D6E2DF" stroke-width="1"/>
+      <line x1="928" y1="174" x2="928" y2="630" stroke="#D6E2DF" stroke-width="1"/>
+      <line x1="68" y1="230" x2="1212" y2="230" stroke="#FFFFFF" stroke-opacity="0.28" stroke-width="1"/>
+      <line x1="68" y1="363" x2="1212" y2="363" stroke="#D6E2DF" stroke-width="1"/>
+      <line x1="68" y1="496" x2="1212" y2="496" stroke="#D6E2DF" stroke-width="1"/>
+      <line x1="68" y1="630" x2="1212" y2="630" stroke="#D6E2DF" stroke-width="1"/>
+      <rect x="68" y="174" width="1144" height="456" fill="none" stroke="#D6E2DF" stroke-width="1"/>
+    </g>
+  </g>
+
+  <g id="content-page-slot" data-pptx-placeholder="slide-number"
+    data-pptx-bounds="1160 674 88 34">
+    <text id="content-page-carrier" data-pptx-carrier="true"
+      x="1232" y="700" text-anchor="end" xml:space="preserve"
+      font-size="18" fill="#00746F" font-weight="bold">{{PAGE_NUM}}</text>
+  </g>
+</svg>

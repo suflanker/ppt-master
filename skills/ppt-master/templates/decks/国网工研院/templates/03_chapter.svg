@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+  width="1280" height="720" viewBox="0 0 1280 720"
+  font-family="Microsoft YaHei, PingFang SC, sans-serif"
+  data-pptx-master="sgcc-institute" data-pptx-master-name="SGCC Institute"
+  data-pptx-layout="chapter" data-pptx-layout-name="Chapter">
+  <rect id="master-background" x="0" y="0" width="1280" height="720" fill="#FFFFFF"
+    data-pptx-layer="master" data-pptx-editable="false"/>
+  <rect id="chapter-background" x="0" y="0" width="1280" height="720" fill="#00746F"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <circle id="chapter-soft-circle" cx="150" cy="330" r="300" fill="#FFFFFF" opacity="0.06"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <circle id="chapter-ring" cx="150" cy="330" r="330" fill="none" stroke="#FFFFFF"
+    stroke-opacity="0.1" stroke-width="2"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <line id="chapter-divider" x1="380" y1="150" x2="380" y2="570"
+    stroke="#FFFFFF" stroke-opacity="0.22" stroke-width="2"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+  <line id="chapter-title-rule" x1="432" y1="360" x2="552" y2="360"
+    stroke="#FFFFFF" stroke-opacity="0.35" stroke-width="2"
+    data-pptx-layer="layout" data-pptx-editable="false"/>
+
+  <g id="chapter-number-slot" data-pptx-placeholder="body" data-pptx-idx="1"
+    data-pptx-bounds="80 220 260 190">
+    <text id="chapter-number-carrier" data-pptx-carrier="true"
+      x="150" y="360" text-anchor="middle" xml:space="preserve"
+      font-size="128" fill="#A9D3CC" font-weight="bold">{{CHAPTER_NUM}}</text>
+  </g>
+  <g id="chapter-title-slot" data-pptx-placeholder="body" data-pptx-idx="3"
+    data-pptx-bounds="430 270 760 90">
+    <text id="chapter-title-carrier" data-pptx-carrier="true"
+      x="432" y="334" text-anchor="start" xml:space="preserve"
+      font-size="60" fill="#FFFFFF" font-weight="bold">{{CHAPTER_TITLE}}</text>
+  </g>
+  <g id="chapter-desc-slot" data-pptx-placeholder="body" data-pptx-idx="2"
+    data-pptx-bounds="430 360 760 90">
+    <text id="chapter-desc-carrier" data-pptx-carrier="true"
+      x="432" y="402" text-anchor="start" xml:space="preserve"
+      font-size="22" fill="#FFFFFF" font-weight="normal">{{CHAPTER_DESC}}</text>
+  </g>
+</svg>
